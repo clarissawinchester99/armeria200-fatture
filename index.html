@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Armeria | Gestionale</title>
+<title>Armeria 200 | Gestionale</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -13,14 +13,13 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
 :root{
     --black:#070707;
     --dark:#101010;
     --panel:#171717;
-    --panel2:#202020;
     --red:#b20d1c;
     --red-dark:#710812;
     --gold:#d4af37;
@@ -28,16 +27,20 @@
     --white:#f5f5f5;
     --gray:#999;
     --border:rgba(212,175,55,.22);
-    --green:#3edb8b;
+    --green:#42d98b;
 }
 
 body{
     min-height:100vh;
     background:
-        radial-gradient(circle at top right,rgba(178,13,28,.15),transparent 35%),
+        radial-gradient(circle at top right,rgba(178,13,28,.17),transparent 35%),
         radial-gradient(circle at bottom left,rgba(212,175,55,.08),transparent 30%),
         var(--black);
-    color:white;
+    color:var(--white);
+}
+
+button,input{
+    font:inherit;
 }
 
 /* LOGIN */
@@ -45,8 +48,8 @@ body{
 #loginPage{
     min-height:100vh;
     display:flex;
-    justify-content:center;
     align-items:center;
+    justify-content:center;
     padding:20px;
 }
 
@@ -54,38 +57,38 @@ body{
     width:100%;
     max-width:420px;
     padding:42px;
-    background:linear-gradient(180deg,#191919,#0d0d0d);
-    border:1px solid var(--border);
     border-radius:22px;
+    background:linear-gradient(180deg,#191919,#0c0c0c);
+    border:1px solid var(--border);
     box-shadow:0 30px 80px rgba(0,0,0,.7);
 }
 
 .logo{
     width:86px;
     height:86px;
-    border:2px solid var(--gold);
-    border-radius:50%;
     margin:0 auto 18px;
+    border-radius:50%;
+    border:2px solid var(--gold);
     display:flex;
-    justify-content:center;
     align-items:center;
-    font-size:37px;
+    justify-content:center;
     color:var(--gold);
+    font-size:36px;
 }
 
 .login-title{
     text-align:center;
     color:var(--gold);
-    font-size:32px;
     letter-spacing:4px;
+    font-size:31px;
 }
 
 .login-subtitle{
     text-align:center;
-    color:var(--gray);
     margin:7px 0 30px;
-    font-size:12px;
+    color:var(--gray);
     letter-spacing:2px;
+    font-size:11px;
 }
 
 .input-group{
@@ -118,22 +121,27 @@ body{
 .main-btn{
     width:100%;
     padding:14px;
-    border:1px solid rgba(212,175,55,.3);
     border-radius:9px;
+    border:1px solid rgba(212,175,55,.3);
     background:linear-gradient(90deg,var(--red-dark),var(--red));
     color:white;
     font-weight:bold;
     cursor:pointer;
 }
 
+.main-btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
 .error-message{
     display:none;
     margin-top:14px;
     padding:11px;
-    background:rgba(178,13,28,.17);
     border-radius:8px;
-    color:#ff8d97;
     text-align:center;
+    background:rgba(178,13,28,.17);
+    color:#ff8994;
     font-size:13px;
 }
 
@@ -145,13 +153,13 @@ body{
 }
 
 .sidebar{
-    width:255px;
     position:fixed;
     top:0;
     left:0;
     bottom:0;
-    z-index:100;
+    width:255px;
     padding:23px 16px;
+    z-index:100;
     background:linear-gradient(180deg,#111,#070707);
     border-right:1px solid var(--border);
 }
@@ -166,12 +174,12 @@ body{
 .side-logo{
     width:55px;
     height:55px;
+    margin:0 auto 10px;
     border-radius:50%;
     border:1px solid var(--gold);
     display:flex;
-    justify-content:center;
     align-items:center;
-    margin:0 auto 10px;
+    justify-content:center;
     color:var(--gold);
     font-size:23px;
 }
@@ -191,10 +199,9 @@ body{
     padding:13px 14px;
     margin-bottom:7px;
     border-radius:9px;
+    border:1px solid transparent;
     color:#ddd;
     cursor:pointer;
-    border:1px solid transparent;
-    transition:.2s;
 }
 
 .menu-item:hover{
@@ -204,7 +211,11 @@ body{
 .menu-item.active{
     color:var(--gold-light);
     border-color:rgba(212,175,55,.25);
-    background:linear-gradient(90deg,rgba(178,13,28,.36),rgba(212,175,55,.05));
+    background:linear-gradient(
+        90deg,
+        rgba(178,13,28,.36),
+        rgba(212,175,55,.05)
+    );
 }
 
 #adminMenu{
@@ -220,11 +231,11 @@ body{
 
 .user-card{
     padding:12px;
-    background:#141414;
+    margin-bottom:10px;
     border:1px solid var(--border);
     border-radius:9px;
+    background:#141414;
     text-align:center;
-    margin-bottom:10px;
 }
 
 .user-card strong,
@@ -235,16 +246,16 @@ body{
 .user-card span{
     margin-top:4px;
     color:var(--gold);
-    text-transform:uppercase;
     font-size:10px;
+    text-transform:uppercase;
 }
 
 .logout-btn{
     width:100%;
     padding:10px;
-    background:#1c090c;
-    border:1px solid #5b131b;
     border-radius:8px;
+    border:1px solid #5b131b;
+    background:#1c090c;
     color:#ff7882;
     font-weight:bold;
     cursor:pointer;
@@ -277,7 +288,7 @@ body{
     color:var(--gray);
 }
 
-/* CARDS */
+/* DASHBOARD */
 
 .cards{
     display:grid;
@@ -286,19 +297,19 @@ body{
 }
 
 .card{
+    position:relative;
+    overflow:hidden;
     padding:21px;
     border:1px solid var(--border);
     border-radius:14px;
     background:linear-gradient(180deg,#181818,#101010);
-    position:relative;
-    overflow:hidden;
 }
 
 .card::before{
     content:"";
     position:absolute;
-    left:0;
     top:0;
+    left:0;
     bottom:0;
     width:4px;
     background:linear-gradient(var(--red),var(--gold));
@@ -328,13 +339,6 @@ body{
 .section h2{
     color:var(--gold);
     margin-bottom:18px;
-}
-
-.section-description{
-    color:var(--gray);
-    margin-top:-10px;
-    margin-bottom:20px;
-    font-size:13px;
 }
 
 /* PRODOTTI */
@@ -445,8 +449,8 @@ body{
 .invoice-amount{
     text-align:right;
     color:var(--gold-light);
-    font-weight:bold;
     font-size:19px;
+    font-weight:bold;
 }
 
 .delete-btn{
@@ -476,10 +480,6 @@ body{
     border-bottom:1px solid rgba(212,175,55,.12);
 }
 
-.ranking-row:last-child{
-    border-bottom:none;
-}
-
 .ranking-position{
     color:var(--gold);
     font-size:22px;
@@ -501,29 +501,11 @@ body{
 
 /* STATISTICHE */
 
-.stats-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:20px;
+.stats-row{
+    margin-bottom:17px;
 }
 
-.stat-box{
-    padding:20px;
-    border:1px solid var(--border);
-    border-radius:12px;
-    background:#131313;
-}
-
-.stat-box h3{
-    color:var(--gold);
-    margin-bottom:18px;
-}
-
-.stat-row{
-    margin-bottom:15px;
-}
-
-.stat-row-top{
+.stats-row-top{
     display:flex;
     justify-content:space-between;
     margin-bottom:7px;
@@ -532,32 +514,32 @@ body{
 
 .progress{
     height:10px;
-    background:#292929;
     border-radius:999px;
+    background:#292929;
     overflow:hidden;
 }
 
 .progress-fill{
     height:100%;
-    background:linear-gradient(90deg,var(--red),var(--gold));
     border-radius:999px;
+    background:linear-gradient(90deg,var(--red),var(--gold));
 }
 
 /* DRAWER */
 
 .invoice-drawer{
     position:fixed;
-    width:410px;
-    max-width:92vw;
     top:0;
     right:-430px;
     bottom:0;
+    width:410px;
+    max-width:92vw;
     z-index:1000;
+    display:flex;
+    flex-direction:column;
     background:linear-gradient(180deg,#161616,#090909);
     border-left:1px solid rgba(212,175,55,.35);
     box-shadow:-20px 0 50px rgba(0,0,0,.7);
-    display:flex;
-    flex-direction:column;
     transition:.3s;
 }
 
@@ -592,10 +574,10 @@ body{
 .drawer-close{
     width:38px;
     height:38px;
+    border-radius:8px;
+    border:1px solid var(--border);
     background:#111;
     color:white;
-    border:1px solid var(--border);
-    border-radius:8px;
     cursor:pointer;
     font-size:22px;
 }
@@ -707,22 +689,9 @@ body{
     .cards{
         grid-template-columns:repeat(2,1fr);
     }
-
-    .stats-grid{
-        grid-template-columns:1fr;
-    }
 }
 
 @media(max-width:760px){
-    .sidebar{
-        width:210px;
-    }
-
-    .main{
-        margin-left:210px;
-        padding:20px;
-    }
-
     .products-grid{
         grid-template-columns:1fr;
     }
@@ -736,47 +705,47 @@ body{
 
 <div id="loginPage">
 
-    <div class="login-box">
+<div class="login-box">
 
-        <div class="logo">♛</div>
+    <div class="logo">♛</div>
 
-        <h1 class="login-title">ARMERIA</h1>
-        <div class="login-subtitle">GESTIONALE AZIENDALE</div>
+    <h1 class="login-title">ARMERIA 200</h1>
+    <div class="login-subtitle">GESTIONALE FATTURE</div>
 
-        <div class="input-group">
-            <label>Username</label>
-            <input
-                id="username"
-                type="text"
-                placeholder="Inserisci username"
-                autocomplete="username"
-            >
-        </div>
-
-        <div class="input-group">
-            <label>Password</label>
-            <input
-                id="password"
-                type="password"
-                placeholder="Inserisci password"
-                autocomplete="current-password"
-            >
-        </div>
-
-        <button
-            id="loginButton"
-            class="main-btn"
-            onclick="login()"
+    <div class="input-group">
+        <label>Username</label>
+        <input
+            id="username"
+            type="text"
+            placeholder="Inserisci username"
+            autocomplete="username"
         >
-            ACCEDI
-        </button>
-
-        <div
-            id="loginError"
-            class="error-message"
-        ></div>
-
     </div>
+
+    <div class="input-group">
+        <label>Password</label>
+        <input
+            id="password"
+            type="password"
+            placeholder="Inserisci password"
+            autocomplete="current-password"
+        >
+    </div>
+
+    <button
+        id="loginButton"
+        class="main-btn"
+        onclick="login()"
+    >
+        ACCEDI
+    </button>
+
+    <div
+        id="loginError"
+        class="error-message"
+    ></div>
+
+</div>
 
 </div>
 
@@ -784,386 +753,404 @@ body{
 
 <div id="app">
 
-    <aside class="sidebar">
+<aside class="sidebar">
 
-        <div class="side-brand">
-            <div class="side-logo">♛</div>
-            <h2>ARMERIA</h2>
-            <p>Gestionale aziendale</p>
+    <div class="side-brand">
+        <div class="side-logo">♛</div>
+        <h2>ARMERIA 200</h2>
+        <p>Gestionale aziendale</p>
+    </div>
+
+    <div class="menu-item active" onclick="showPage('dashboard',this)">
+        🏠 Dashboard
+    </div>
+
+    <div class="menu-item" onclick="showPage('newInvoice',this)">
+        💰 Nuova fattura
+    </div>
+
+    <div class="menu-item" onclick="showPage('operations',this)">
+        🧾 Operazioni
+    </div>
+
+    <div class="menu-item" onclick="showPage('ranking',this)">
+        🏆 Classifica
+    </div>
+
+    <div class="menu-item" onclick="showPage('statistics',this)">
+        📊 Statistiche
+    </div>
+
+    <div id="adminMenu" class="menu-item" onclick="showPage('admin',this)">
+        👑 Pannello Admin
+    </div>
+
+    <div class="sidebar-bottom">
+
+        <div class="user-card">
+            <strong id="sidebarUsername">Utente</strong>
+            <span id="sidebarRole">Dipendente</span>
         </div>
 
-        <div class="menu-item active" onclick="showPage('dashboard',this)">
-            🏠 Dashboard
+        <button class="logout-btn" onclick="logout()">
+            ESCI
+        </button>
+
+    </div>
+
+</aside>
+
+<main class="main">
+
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="page active">
+
+    <div class="topbar">
+        <h1>Dashboard</h1>
+        <p>Panoramica del fatturato</p>
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <div class="card-label">Fatturato totale</div>
+            <div id="dashboardTotal" class="card-value">$0</div>
         </div>
 
-        <div class="menu-item" onclick="showPage('newInvoice',this)">
-            💰 Nuova fattura
+        <div class="card">
+            <div class="card-label">Fatturato oggi</div>
+            <div id="dashboardToday" class="card-value">$0</div>
         </div>
 
-        <div class="menu-item" onclick="showPage('operations',this)">
-            🧾 Operazioni
+        <div class="card">
+            <div class="card-label">Fatture</div>
+            <div id="dashboardCount" class="card-value">0</div>
         </div>
 
-        <div class="menu-item" onclick="showPage('ranking',this)">
-            🏆 Classifica
+        <div class="card">
+            <div class="card-label">Ultima fattura</div>
+            <div id="dashboardLast" class="card-value">$0</div>
         </div>
 
-        <div class="menu-item" onclick="showPage('statistics',this)">
-            📊 Statistiche
-        </div>
+    </div>
 
-        <div id="adminMenu" class="menu-item" onclick="showPage('admin',this)">
-            👑 Pannello Admin
-        </div>
+    <div class="section">
+        <h2>Ultime operazioni</h2>
+        <div id="dashboardOperations" class="invoice-list"></div>
+    </div>
 
-        <div class="sidebar-bottom">
+</section>
 
-            <div class="user-card">
-                <strong id="sidebarUsername">Utente</strong>
-                <span id="sidebarRole">Dipendente</span>
-            </div>
+<!-- NUOVA FATTURA -->
 
-            <button class="logout-btn" onclick="logout()">
-                ESCI
-            </button>
+<section id="newInvoice" class="page">
 
-        </div>
+    <div class="topbar">
+        <h1>Nuova fattura</h1>
+        <p>Seleziona prodotti e servizi venduti</p>
+    </div>
 
-    </aside>
+    <div class="section">
 
-    <main class="main">
+        <h2>⚔️ Armi bianche</h2>
 
-        <!-- DASHBOARD -->
+        <div class="products-grid">
 
-        <section id="dashboard" class="page active">
-
-            <div class="topbar">
-                <h1>Dashboard</h1>
-                <p>Panoramica del fatturato</p>
-            </div>
-
-            <div class="cards">
-
-                <div class="card">
-                    <div class="card-label">Fatturato totale</div>
-                    <div id="dashboardTotal" class="card-value">$0</div>
+            <div class="product-card">
+                <div class="product-top">
+                    <div class="product-name">Machete</div>
+                    <div class="product-price">$7.000</div>
                 </div>
 
-                <div class="card">
-                    <div class="card-label">Fatturato oggi</div>
-                    <div id="dashboardToday" class="card-value">$0</div>
-                </div>
-
-                <div class="card">
-                    <div class="card-label">Fatture</div>
-                    <div id="dashboardCount" class="card-value">0</div>
-                </div>
-
-                <div class="card">
-                    <div class="card-label">Ultima fattura</div>
-                    <div id="dashboardLast" class="card-value">$0</div>
-                </div>
-
-            </div>
-
-            <div class="section">
-                <h2>Ultime operazioni</h2>
-                <div id="dashboardOperations" class="invoice-list"></div>
-            </div>
-
-        </section>
-
-        <!-- NUOVA FATTURA -->
-
-        <section id="newInvoice" class="page">
-
-            <div class="topbar">
-                <h1>Nuova fattura</h1>
-                <p>Seleziona prodotti e servizi</p>
-            </div>
-
-            <div class="section">
-
-                <h2>⚔️ Armi bianche</h2>
-
-                <div class="products-grid">
-
-                    <div class="product-card">
-                        <div class="product-top">
-                            <div class="product-name">Machete</div>
-                            <div class="product-price">$7.000</div>
-                        </div>
-                        <div class="product-bottom">
-                            <div class="quantity-box">
-                                <button class="qty-btn" onclick="changeQuantity('machete',-1)">−</button>
-                                <div id="qty-machete" class="qty">0</div>
-                                <button class="qty-btn" onclick="changeQuantity('machete',1)">+</button>
-                            </div>
-                            <div class="subtotal">
-                                <small>Totale</small>
-                                <strong id="total-machete">$0</strong>
-                            </div>
-                        </div>
+                <div class="product-bottom">
+                    <div class="quantity-box">
+                        <button class="qty-btn" onclick="changeQuantity('machete',-1)">−</button>
+                        <div id="qty-machete" class="qty">0</div>
+                        <button class="qty-btn" onclick="changeQuantity('machete',1)">+</button>
                     </div>
 
-                    <div class="product-card">
-                        <div class="product-top">
-                            <div class="product-name">Mazza da baseball</div>
-                            <div class="product-price">$2.500</div>
-                        </div>
-                        <div class="product-bottom">
-                            <div class="quantity-box">
-                                <button class="qty-btn" onclick="changeQuantity('mazza',-1)">−</button>
-                                <div id="qty-mazza" class="qty">0</div>
-                                <button class="qty-btn" onclick="changeQuantity('mazza',1)">+</button>
-                            </div>
-                            <div class="subtotal">
-                                <small>Totale</small>
-                                <strong id="total-mazza">$0</strong>
-                            </div>
-                        </div>
+                    <div class="subtotal">
+                        <small>Totale</small>
+                        <strong id="total-machete">$0</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-top">
+                    <div class="product-name">Mazza da baseball</div>
+                    <div class="product-price">$2.500</div>
+                </div>
+
+                <div class="product-bottom">
+                    <div class="quantity-box">
+                        <button class="qty-btn" onclick="changeQuantity('mazza',-1)">−</button>
+                        <div id="qty-mazza" class="qty">0</div>
+                        <button class="qty-btn" onclick="changeQuantity('mazza',1)">+</button>
                     </div>
 
-                    <div class="product-card">
-                        <div class="product-top">
-                            <div class="product-name">Coltello</div>
-                            <div class="product-price">$4.500</div>
-                        </div>
-                        <div class="product-bottom">
-                            <div class="quantity-box">
-                                <button class="qty-btn" onclick="changeQuantity('coltello',-1)">−</button>
-                                <div id="qty-coltello" class="qty">0</div>
-                                <button class="qty-btn" onclick="changeQuantity('coltello',1)">+</button>
-                            </div>
-                            <div class="subtotal">
-                                <small>Totale</small>
-                                <strong id="total-coltello">$0</strong>
-                            </div>
-                        </div>
+                    <div class="subtotal">
+                        <small>Totale</small>
+                        <strong id="total-mazza">$0</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-top">
+                    <div class="product-name">Coltello</div>
+                    <div class="product-price">$4.500</div>
+                </div>
+
+                <div class="product-bottom">
+                    <div class="quantity-box">
+                        <button class="qty-btn" onclick="changeQuantity('coltello',-1)">−</button>
+                        <div id="qty-coltello" class="qty">0</div>
+                        <button class="qty-btn" onclick="changeQuantity('coltello',1)">+</button>
                     </div>
 
-                    <div class="product-card">
-                        <div class="product-top">
-                            <div class="product-name">Tirapugni</div>
-                            <div class="product-price">$2.000</div>
-                        </div>
-                        <div class="product-bottom">
-                            <div class="quantity-box">
-                                <button class="qty-btn" onclick="changeQuantity('tirapugni',-1)">−</button>
-                                <div id="qty-tirapugni" class="qty">0</div>
-                                <button class="qty-btn" onclick="changeQuantity('tirapugni',1)">+</button>
-                            </div>
-                            <div class="subtotal">
-                                <small>Totale</small>
-                                <strong id="total-tirapugni">$0</strong>
-                            </div>
-                        </div>
+                    <div class="subtotal">
+                        <small>Totale</small>
+                        <strong id="total-coltello">$0</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-top">
+                    <div class="product-name">Tirapugni</div>
+                    <div class="product-price">$2.000</div>
+                </div>
+
+                <div class="product-bottom">
+                    <div class="quantity-box">
+                        <button class="qty-btn" onclick="changeQuantity('tirapugni',-1)">−</button>
+                        <div id="qty-tirapugni" class="qty">0</div>
+                        <button class="qty-btn" onclick="changeQuantity('tirapugni',1)">+</button>
                     </div>
 
-                </div>
-
-            </div>
-
-            <div class="section">
-
-                <h2>📜 Porto d'armi</h2>
-
-                <div class="products-grid">
-
-                    <div class="product-card">
-                        <div class="product-top">
-                            <div class="product-name">Test balistico</div>
-                            <div class="product-price">$15.000</div>
-                        </div>
-                        <div class="product-bottom">
-                            <div class="quantity-box">
-                                <button class="qty-btn" onclick="changeQuantity('testBalistico',-1)">−</button>
-                                <div id="qty-testBalistico" class="qty">0</div>
-                                <button class="qty-btn" onclick="changeQuantity('testBalistico',1)">+</button>
-                            </div>
-                            <div class="subtotal">
-                                <small>Totale</small>
-                                <strong id="total-testBalistico">$0</strong>
-                            </div>
-                        </div>
+                    <div class="subtotal">
+                        <small>Totale</small>
+                        <strong id="total-tirapugni">$0</strong>
                     </div>
-
-                    <div class="product-card">
-                        <div class="product-top">
-                            <div class="product-name">Rinnovo porto d'armi</div>
-                            <div class="product-price">$7.500</div>
-                        </div>
-                        <div class="product-bottom">
-                            <div class="quantity-box">
-                                <button class="qty-btn" onclick="changeQuantity('rinnovoPorto',-1)">−</button>
-                                <div id="qty-rinnovoPorto" class="qty">0</div>
-                                <button class="qty-btn" onclick="changeQuantity('rinnovoPorto',1)">+</button>
-                            </div>
-                            <div class="subtotal">
-                                <small>Totale</small>
-                                <strong id="total-rinnovoPorto">$0</strong>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
-
-            </div>
-
-        </section>
-
-        <!-- OPERAZIONI -->
-
-        <section id="operations" class="page">
-
-            <div class="topbar">
-                <h1>Operazioni</h1>
-                <p id="operationsSubtitle">Storico fatture</p>
-            </div>
-
-            <div class="section">
-                <div id="operationsList" class="invoice-list"></div>
-            </div>
-
-        </section>
-
-        <!-- CLASSIFICA -->
-
-        <section id="ranking" class="page">
-
-            <div class="topbar">
-                <h1>Classifica</h1>
-                <p>Classifica dei dipendenti per fatturato</p>
-            </div>
-
-            <div class="section">
-                <div id="rankingList"></div>
-            </div>
-
-        </section>
-
-        <!-- STATISTICHE -->
-
-        <section id="statistics" class="page">
-
-            <div class="topbar">
-                <h1>Statistiche</h1>
-                <p>Analisi del fatturato e delle vendite</p>
-            </div>
-
-            <div class="cards">
-
-                <div class="card">
-                    <div class="card-label">Media fattura</div>
-                    <div id="averageInvoice" class="card-value">$0</div>
-                </div>
-
-                <div class="card">
-                    <div class="card-label">Miglior fattura</div>
-                    <div id="bestInvoice" class="card-value">$0</div>
-                </div>
-
-                <div class="card">
-                    <div class="card-label">Fatture oggi</div>
-                    <div id="todayInvoiceCount" class="card-value">0</div>
-                </div>
-
-                <div class="card">
-                    <div class="card-label">Articoli venduti</div>
-                    <div id="itemsSold" class="card-value">0</div>
-                </div>
-
-            </div>
-
-            <div class="section">
-
-                <h2>Prodotti più venduti</h2>
-
-                <div id="productStatistics"></div>
-
-            </div>
-
-        </section>
-
-        <!-- ADMIN -->
-
-        <section id="admin" class="page">
-
-            <div class="topbar">
-                <h1>Pannello Admin</h1>
-                <p>Controllo generale dell'Armeria</p>
-            </div>
-
-            <div class="cards">
-
-                <div class="card">
-                    <div class="card-label">Fatturato aziendale</div>
-                    <div id="adminTotal" class="card-value">$0</div>
-                </div>
-
-                <div class="card">
-                    <div class="card-label">Fatture totali</div>
-                    <div id="adminCount" class="card-value">0</div>
-                </div>
-
-                <div class="card">
-                    <div class="card-label">Dipendenti</div>
-                    <div id="adminEmployees" class="card-value">0</div>
-                </div>
-
-                <div class="card">
-                    <div class="card-label">Media fattura</div>
-                    <div id="adminAverage" class="card-value">$0</div>
-                </div>
-
-            </div>
-
-            <div class="section">
-                <h2>Tutte le fatture</h2>
-                <div id="adminInvoicesList" class="invoice-list"></div>
-            </div>
-
-        </section>
-
-    </main>
-
-    <button class="invoice-floating" onclick="openDrawer()">
-        🧾 Fattura
-        <span id="invoiceBadge" class="invoice-badge">0</span>
-    </button>
-
-    <div id="drawerOverlay" class="drawer-overlay" onclick="closeDrawer()"></div>
-
-    <aside id="invoiceDrawer" class="invoice-drawer">
-
-        <div class="drawer-header">
-            <h2>🧾 Fattura</h2>
-            <button class="drawer-close" onclick="closeDrawer()">×</button>
-        </div>
-
-        <div id="drawerContent" class="drawer-content"></div>
-
-        <div class="drawer-footer">
-
-            <div class="drawer-total-label">Totale fattura</div>
-            <div id="drawerTotal" class="drawer-total">$0</div>
-
-            <button
-                id="saveInvoiceButton"
-                class="save-btn"
-                onclick="saveInvoice()"
-                disabled
-            >
-                SALVA FATTURA
-            </button>
-
-            <div id="saveMessage" class="message">
-                Fattura salvata correttamente.
             </div>
 
         </div>
+    </div>
 
-    </aside>
+    <div class="section">
+
+        <h2>📜 Porto d'armi</h2>
+
+        <div class="products-grid">
+
+            <div class="product-card">
+                <div class="product-top">
+                    <div class="product-name">Test balistico</div>
+                    <div class="product-price">$15.000</div>
+                </div>
+
+                <div class="product-bottom">
+                    <div class="quantity-box">
+                        <button class="qty-btn" onclick="changeQuantity('testBalistico',-1)">−</button>
+                        <div id="qty-testBalistico" class="qty">0</div>
+                        <button class="qty-btn" onclick="changeQuantity('testBalistico',1)">+</button>
+                    </div>
+
+                    <div class="subtotal">
+                        <small>Totale</small>
+                        <strong id="total-testBalistico">$0</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-top">
+                    <div class="product-name">Rinnovo porto d'armi</div>
+                    <div class="product-price">$7.500</div>
+                </div>
+
+                <div class="product-bottom">
+                    <div class="quantity-box">
+                        <button class="qty-btn" onclick="changeQuantity('rinnovoPorto',-1)">−</button>
+                        <div id="qty-rinnovoPorto" class="qty">0</div>
+                        <button class="qty-btn" onclick="changeQuantity('rinnovoPorto',1)">+</button>
+                    </div>
+
+                    <div class="subtotal">
+                        <small>Totale</small>
+                        <strong id="total-rinnovoPorto">$0</strong>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+<!-- OPERAZIONI -->
+
+<section id="operations" class="page">
+
+    <div class="topbar">
+        <h1>Operazioni</h1>
+        <p id="operationsSubtitle">Storico delle fatture</p>
+    </div>
+
+    <div class="section">
+        <div id="operationsList" class="invoice-list"></div>
+    </div>
+
+</section>
+
+<!-- CLASSIFICA -->
+
+<section id="ranking" class="page">
+
+    <div class="topbar">
+        <h1>Classifica</h1>
+        <p>Classifica del fatturato</p>
+    </div>
+
+    <div class="section">
+        <div id="rankingList"></div>
+    </div>
+
+</section>
+
+<!-- STATISTICHE -->
+
+<section id="statistics" class="page">
+
+    <div class="topbar">
+        <h1>Statistiche</h1>
+        <p>Statistiche delle vendite</p>
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <div class="card-label">Media fattura</div>
+            <div id="averageInvoice" class="card-value">$0</div>
+        </div>
+
+        <div class="card">
+            <div class="card-label">Fattura più alta</div>
+            <div id="bestInvoice" class="card-value">$0</div>
+        </div>
+
+        <div class="card">
+            <div class="card-label">Fatture oggi</div>
+            <div id="todayCount" class="card-value">0</div>
+        </div>
+
+        <div class="card">
+            <div class="card-label">Articoli venduti</div>
+            <div id="itemsSold" class="card-value">0</div>
+        </div>
+
+    </div>
+
+    <div class="section">
+        <h2>Prodotti più venduti</h2>
+        <div id="productStatistics"></div>
+    </div>
+
+</section>
+
+<!-- ADMIN -->
+
+<section id="admin" class="page">
+
+    <div class="topbar">
+        <h1>Pannello Admin</h1>
+        <p>Controllo generale Armeria 200</p>
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <div class="card-label">Fatturato aziendale</div>
+            <div id="adminTotal" class="card-value">$0</div>
+        </div>
+
+        <div class="card">
+            <div class="card-label">Fatture totali</div>
+            <div id="adminCount" class="card-value">0</div>
+        </div>
+
+        <div class="card">
+            <div class="card-label">Dipendenti</div>
+            <div id="adminEmployees" class="card-value">0</div>
+        </div>
+
+        <div class="card">
+            <div class="card-label">Media fattura</div>
+            <div id="adminAverage" class="card-value">$0</div>
+        </div>
+
+    </div>
+
+    <div class="section">
+        <h2>Tutte le fatture</h2>
+        <div id="adminInvoicesList" class="invoice-list"></div>
+    </div>
+
+</section>
+
+</main>
+
+<!-- PULSANTE FATTURA -->
+
+<button class="invoice-floating" onclick="openDrawer()">
+    🧾 Fattura
+    <span id="invoiceBadge" class="invoice-badge">0</span>
+</button>
+
+<div
+    id="drawerOverlay"
+    class="drawer-overlay"
+    onclick="closeDrawer()"
+></div>
+
+<aside id="invoiceDrawer" class="invoice-drawer">
+
+    <div class="drawer-header">
+        <h2>🧾 Fattura</h2>
+        <button class="drawer-close" onclick="closeDrawer()">×</button>
+    </div>
+
+    <div id="drawerContent" class="drawer-content"></div>
+
+    <div class="drawer-footer">
+
+        <div class="drawer-total-label">
+            Totale fattura
+        </div>
+
+        <div id="drawerTotal" class="drawer-total">
+            $0
+        </div>
+
+        <button
+            id="saveInvoiceButton"
+            class="save-btn"
+            onclick="saveInvoice()"
+            disabled
+        >
+            SALVA FATTURA
+        </button>
+
+        <div id="saveMessage" class="message">
+            Fattura salvata correttamente.
+        </div>
+
+    </div>
+
+</aside>
 
 </div>
 
@@ -1180,14 +1167,14 @@ const SUPABASE_KEY =
 "sb_publishable_aZ8POe8frINtsfpJrW1OYw_UPiKWFuG";
 
 const supabaseClient =
-supabase.createClient(
+window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
 );
 
 
 /* =====================================================
-   VARIABILI
+   UTENTE
 ===================================================== */
 
 let currentUser = null;
@@ -1205,72 +1192,63 @@ const products = {
     machete:{
         name:"Machete",
         price:7000,
-        quantity:0,
-        category:"Armi bianche"
+        quantity:0
     },
 
     mazza:{
         name:"Mazza da baseball",
         price:2500,
-        quantity:0,
-        category:"Armi bianche"
+        quantity:0
     },
 
     coltello:{
         name:"Coltello",
         price:4500,
-        quantity:0,
-        category:"Armi bianche"
+        quantity:0
     },
 
     tirapugni:{
         name:"Tirapugni",
         price:2000,
-        quantity:0,
-        category:"Armi bianche"
+        quantity:0
     },
 
     testBalistico:{
         name:"Test balistico",
         price:15000,
-        quantity:0,
-        category:"Porto d'armi"
+        quantity:0
     },
 
     rinnovoPorto:{
         name:"Rinnovo porto d'armi",
         price:7500,
-        quantity:0,
-        category:"Porto d'armi"
+        quantity:0
     }
 
 };
 
 
 /* =====================================================
-   LOGIN SOLO USERNAME + PASSWORD
+   LOGIN
 ===================================================== */
 
 async function login(){
 
     const username =
-    document
-    .getElementById("username")
+    document.getElementById("username")
     .value
     .trim()
     .toLowerCase();
 
     const password =
-    document
-    .getElementById("password")
+    document.getElementById("password")
     .value;
-
-    const loginButton =
-    document.getElementById("loginButton");
 
     const errorBox =
     document.getElementById("loginError");
 
+    const button =
+    document.getElementById("loginButton");
 
     errorBox.style.display = "none";
 
@@ -1286,36 +1264,33 @@ async function login(){
 
 
     /*
-        L'utente scrive solamente:
+        CORREZIONE IMPORTANTE
 
+        Se scrivi:
         admin
-        bianca
-        luca
 
-        Il sito usa internamente:
-
-        admin@armeria.local
-        bianca@armeria.local
-        luca@armeria.local
+        il sito usa internamente:
+        admin@armeria200.local
     */
 
     const email =
-    username + "@armeria.local";
+    username + "@armeria200.local";
 
 
-    loginButton.disabled = true;
-    loginButton.textContent = "ACCESSO...";
+    button.disabled = true;
+    button.textContent = "ACCESSO...";
 
 
     const {data,error} =
-    await supabaseClient.auth.signInWithPassword({
+    await supabaseClient.auth
+    .signInWithPassword({
         email:email,
         password:password
     });
 
 
-    loginButton.disabled = false;
-    loginButton.textContent = "ACCEDI";
+    button.disabled = false;
+    button.textContent = "ACCEDI";
 
 
     if(error){
@@ -1330,7 +1305,9 @@ async function login(){
     }
 
 
-    currentUser = data.user;
+    currentUser =
+    data.user;
+
 
     await startApp();
 
@@ -1342,14 +1319,17 @@ function showLoginError(message){
     const box =
     document.getElementById("loginError");
 
-    box.textContent = message;
-    box.style.display = "block";
+    box.textContent =
+    message;
+
+    box.style.display =
+    "block";
 
 }
 
 
 /* =====================================================
-   AVVIO APP
+   AVVIA APP
 ===================================================== */
 
 async function startApp(){
@@ -1359,7 +1339,7 @@ async function startApp(){
     }
 
 
-    const {data:profile,error} =
+    const {data,error} =
     await supabaseClient
     .from("profiles")
     .select("id,username,role")
@@ -1367,7 +1347,7 @@ async function startApp(){
     .single();
 
 
-    if(error){
+    if(error || !data){
 
         console.error(
             "Errore profilo:",
@@ -1376,25 +1356,35 @@ async function startApp(){
 
         await supabaseClient.auth.signOut();
 
+        currentUser = null;
+
+        document.getElementById(
+            "app"
+        ).style.display = "none";
+
+        document.getElementById(
+            "loginPage"
+        ).style.display = "flex";
+
         showLoginError(
-            "Profilo utente non trovato."
+            "Account trovato, ma il profilo non è configurato."
         );
 
         return;
     }
 
 
-    currentProfile = profile;
+    currentProfile = data;
+
+
+    const isAdmin =
+    currentProfile.role === "admin";
 
 
     document.getElementById(
         "sidebarUsername"
     ).textContent =
     currentProfile.username;
-
-
-    const isAdmin =
-    currentProfile.role === "admin";
 
 
     document.getElementById(
@@ -1446,9 +1436,6 @@ async function startApp(){
 
 async function loadProfiles(){
 
-    profiles = [];
-
-
     if(!currentProfile){
         return;
     }
@@ -1456,9 +1443,7 @@ async function loadProfiles(){
 
     if(currentProfile.role !== "admin"){
 
-        profiles = [
-            currentProfile
-        ];
+        profiles = [currentProfile];
 
         return;
     }
@@ -1472,20 +1457,17 @@ async function loadProfiles(){
 
     if(error){
 
-        console.warn(
-            "Impossibile caricare tutti i profili:",
-            error
-        );
+        console.warn(error);
 
-        profiles = [
-            currentProfile
-        ];
+        profiles =
+        [currentProfile];
 
         return;
     }
 
 
-    profiles = data || [];
+    profiles =
+    data || [];
 
 }
 
@@ -1504,23 +1486,25 @@ async function logout(){
     profiles = [];
 
     resetInvoice();
-
     closeDrawer();
 
 
     document.getElementById(
         "app"
-    ).style.display = "none";
+    ).style.display =
+    "none";
 
 
     document.getElementById(
         "loginPage"
-    ).style.display = "flex";
+    ).style.display =
+    "flex";
 
 
     document.getElementById(
         "password"
-    ).value = "";
+    ).value =
+    "";
 
 }
 
@@ -1529,7 +1513,7 @@ async function logout(){
    MENU
 ===================================================== */
 
-function showPage(pageId,menu){
+function showPage(id,menu){
 
     document.querySelectorAll(
         ".page"
@@ -1543,7 +1527,7 @@ function showPage(pageId,menu){
 
 
     document.getElementById(
-        pageId
+        id
     ).classList.add(
         "active"
     );
@@ -1565,13 +1549,7 @@ function showPage(pageId,menu){
     );
 
 
-    if(
-        pageId === "dashboard" ||
-        pageId === "operations" ||
-        pageId === "ranking" ||
-        pageId === "statistics" ||
-        pageId === "admin"
-    ){
+    if(id !== "newInvoice"){
 
         loadInvoices();
 
@@ -1586,16 +1564,14 @@ function showPage(pageId,menu){
 
 function changeQuantity(id,change){
 
-    const product =
-    products[id];
+    products[id].quantity +=
+    change;
 
 
-    product.quantity += change;
+    if(products[id].quantity < 0){
 
-
-    if(product.quantity < 0){
-
-        product.quantity = 0;
+        products[id].quantity =
+        0;
 
     }
 
@@ -1623,11 +1599,8 @@ function updateInvoice(){
     let html = "";
 
 
-    Object.keys(products)
-    .forEach(id=>{
-
-        const product =
-        products[id];
+    Object.entries(products)
+    .forEach(([id,product])=>{
 
         const subtotal =
         product.quantity *
@@ -1659,7 +1632,7 @@ function updateInvoice(){
                 <div class="drawer-item-top">
 
                     <strong>
-                        ${product.name}
+                        ${escapeHtml(product.name)}
                     </strong>
 
                     <strong>
@@ -1671,7 +1644,7 @@ function updateInvoice(){
                 <div class="drawer-item-bottom">
 
                     <span>
-                        ${product.category}
+                        ${product.quantity} pezzi
                     </span>
 
                     <span>
@@ -1693,10 +1666,11 @@ function updateInvoice(){
 
     if(quantity === 0){
 
-        html =
-        `<div class="empty">
+        html = `
+        <div class="empty">
             Nessun prodotto selezionato.
-        </div>`;
+        </div>
+        `;
 
     }
 
@@ -1722,7 +1696,7 @@ function updateInvoice(){
     document.getElementById(
         "saveInvoiceButton"
     ).disabled =
-    total === 0;
+    total <= 0;
 
 }
 
@@ -1739,8 +1713,7 @@ async function saveInvoice(){
 
 
     let total = 0;
-
-    const lines = [];
+    const items = [];
 
 
     Object.values(products)
@@ -1753,7 +1726,7 @@ async function saveInvoice(){
             product.price;
 
 
-            lines.push(
+            items.push(
                 product.quantity +
                 "x " +
                 product.name
@@ -1776,6 +1749,7 @@ async function saveInvoice(){
 
 
     button.disabled = true;
+
     button.textContent =
     "SALVATAGGIO...";
 
@@ -1788,7 +1762,7 @@ async function saveInvoice(){
         amount:total,
 
         category:
-        lines.join(", "),
+        items.join(", "),
 
         user_id:
         currentUser.id
@@ -1801,12 +1775,13 @@ async function saveInvoice(){
         console.error(error);
 
         alert(
-            "Errore nel salvataggio della fattura:\n" +
+            "Errore durante il salvataggio:\n" +
             error.message
         );
 
 
         button.disabled = false;
+
         button.textContent =
         "SALVA FATTURA";
 
@@ -1816,6 +1791,7 @@ async function saveInvoice(){
 
 
     resetInvoice();
+
 
     button.textContent =
     "SALVA FATTURA";
@@ -1838,7 +1814,7 @@ async function saveInvoice(){
 
         closeDrawer();
 
-    },1500);
+    },1300);
 
 
     await loadInvoices();
@@ -1847,7 +1823,7 @@ async function saveInvoice(){
 
 
 /* =====================================================
-   RESET FATTURA
+   RESET
 ===================================================== */
 
 function resetInvoice(){
@@ -1855,7 +1831,8 @@ function resetInvoice(){
     Object.values(products)
     .forEach(product=>{
 
-        product.quantity = 0;
+        product.quantity =
+        0;
 
     });
 
@@ -1882,7 +1859,9 @@ async function loadInvoices(){
     .select("*")
     .order(
         "created_at",
-        {ascending:false}
+        {
+            ascending:false
+        }
     );
 
 
@@ -1894,6 +1873,7 @@ async function loadInvoices(){
         );
 
         return;
+
     }
 
 
@@ -1901,10 +1881,14 @@ async function loadInvoices(){
     data || [];
 
 
-    updateDashboard();
+    renderDashboard();
+
     renderOperations();
+
     renderRanking();
+
     renderStatistics();
+
     renderAdmin();
 
 }
@@ -1914,12 +1898,12 @@ async function loadInvoices(){
    DASHBOARD
 ===================================================== */
 
-function updateDashboard(){
+function renderDashboard(){
 
     const total =
     invoices.reduce(
-        (sum,item)=>
-        sum + Number(item.amount),
+        (sum,invoice)=>
+        sum + Number(invoice.amount),
         0
     );
 
@@ -1929,17 +1913,17 @@ function updateDashboard(){
 
 
     const todayInvoices =
-    invoices.filter(item=>
+    invoices.filter(invoice=>
         new Date(
-            item.created_at
+            invoice.created_at
         ).toDateString() === today
     );
 
 
     const todayTotal =
     todayInvoices.reduce(
-        (sum,item)=>
-        sum + Number(item.amount),
+        (sum,invoice)=>
+        sum + Number(invoice.amount),
         0
     );
 
@@ -1970,17 +1954,17 @@ function updateDashboard(){
     : "$0";
 
 
-    const latest =
-    invoices.slice(0,5);
-
-
     const container =
     document.getElementById(
         "dashboardOperations"
     );
 
 
-    if(latest.length === 0){
+    const latest =
+    invoices.slice(0,5);
+
+
+    if(!latest.length){
 
         container.innerHTML =
         `<div class="empty">
@@ -2015,7 +1999,7 @@ function renderOperations(){
     );
 
 
-    if(invoices.length === 0){
+    if(!invoices.length){
 
         container.innerHTML =
         `<div class="empty">
@@ -2039,10 +2023,22 @@ function renderOperations(){
 
 
 /* =====================================================
-   HTML FATTURA
+   SINGOLA FATTURA
 ===================================================== */
 
-function invoiceHTML(invoice,showDelete){
+function invoiceHTML(invoice,deleteAllowed){
+
+    const admin =
+    currentProfile &&
+    currentProfile.role ===
+    "admin";
+
+
+    const username =
+    getUsername(
+        invoice.user_id
+    );
+
 
     const date =
     new Date(
@@ -2052,31 +2048,6 @@ function invoiceHTML(invoice,showDelete){
     );
 
 
-    const username =
-    getUsername(
-        invoice.user_id
-    );
-
-
-    const admin =
-    currentProfile &&
-    currentProfile.role ===
-    "admin";
-
-
-    const deleteButton =
-    admin && showDelete
-    ? `
-        <button
-            class="delete-btn"
-            onclick="deleteInvoice(${invoice.id})"
-        >
-            Elimina
-        </button>
-    `
-    : "";
-
-
     return `
 
     <div class="invoice-row">
@@ -2084,9 +2055,7 @@ function invoiceHTML(invoice,showDelete){
         <div>
 
             <div class="invoice-title">
-                ${escapeHtml(
-                    invoice.category
-                )}
+                ${escapeHtml(invoice.category)}
             </div>
 
             <div class="invoice-meta">
@@ -2109,7 +2078,18 @@ function invoiceHTML(invoice,showDelete){
                 ${money(invoice.amount)}
             </div>
 
-            ${deleteButton}
+            ${
+                admin && deleteAllowed
+                ? `
+                <button
+                    class="delete-btn"
+                    onclick="deleteInvoice(${invoice.id})"
+                >
+                    Elimina
+                </button>
+                `
+                : ""
+            }
 
         </div>
 
@@ -2121,14 +2101,15 @@ function invoiceHTML(invoice,showDelete){
 
 
 /* =====================================================
-   CANCELLA FATTURA SOLO ADMIN
+   ELIMINA SOLO ADMIN
 ===================================================== */
 
 async function deleteInvoice(id){
 
     if(
         !currentProfile ||
-        currentProfile.role !== "admin"
+        currentProfile.role !==
+        "admin"
     ){
         return;
     }
@@ -2153,11 +2134,12 @@ async function deleteInvoice(id){
     if(error){
 
         alert(
-            "Errore durante l'eliminazione:\n" +
+            "Errore eliminazione:\n" +
             error.message
         );
 
         return;
+
     }
 
 
@@ -2176,24 +2158,6 @@ function renderRanking(){
     document.getElementById(
         "rankingList"
     );
-
-
-    if(
-        !currentProfile ||
-        currentProfile.role !== "admin"
-    ){
-
-        container.innerHTML =
-        `
-        <div class="empty">
-            La classifica completa è visibile
-            all'amministratore.
-        </div>
-        `;
-
-        return;
-
-    }
 
 
     const ranking = {};
@@ -2220,7 +2184,8 @@ function renderRanking(){
         Number(invoice.amount);
 
 
-        ranking[id].count += 1;
+        ranking[id].count +=
+        1;
 
     });
 
@@ -2229,11 +2194,11 @@ function renderRanking(){
     Object.values(ranking)
     .sort(
         (a,b)=>
-        b.total - a.total
+        b.total-a.total
     );
 
 
-    if(sorted.length === 0){
+    if(!sorted.length){
 
         container.innerHTML =
         `<div class="empty">
@@ -2247,7 +2212,7 @@ function renderRanking(){
 
     container.innerHTML =
     sorted.map(
-        (item,index)=>`
+        (person,index)=>`
 
         <div class="ranking-row">
 
@@ -2256,15 +2221,15 @@ function renderRanking(){
             </div>
 
             <div class="ranking-name">
-                ${escapeHtml(item.name)}
+                ${escapeHtml(person.name)}
             </div>
 
             <div class="ranking-count">
-                ${item.count} fatture
+                ${person.count} fatture
             </div>
 
             <div class="ranking-money">
-                ${money(item.total)}
+                ${money(person.total)}
             </div>
 
         </div>
@@ -2283,8 +2248,8 @@ function renderStatistics(){
 
     const total =
     invoices.reduce(
-        (sum,item)=>
-        sum + Number(item.amount),
+        (sum,invoice)=>
+        sum + Number(invoice.amount),
         0
     );
 
@@ -2299,7 +2264,8 @@ function renderStatistics(){
     invoices.length
     ? Math.max(
         ...invoices.map(
-            item=>Number(item.amount)
+            invoice=>
+            Number(invoice.amount)
         )
     )
     : 0;
@@ -2309,17 +2275,15 @@ function renderStatistics(){
     new Date().toDateString();
 
 
-    const todayCount =
-    invoices.filter(
-        item=>
+    const todayInvoices =
+    invoices.filter(invoice=>
         new Date(
-            item.created_at
-        ).toDateString()
-        === today
-    ).length;
+            invoice.created_at
+        ).toDateString() === today
+    );
 
 
-    const productCount = {
+    const counts = {
 
         "Machete":0,
         "Mazza da baseball":0,
@@ -2331,14 +2295,13 @@ function renderStatistics(){
     };
 
 
-    let totalItems = 0;
+    let itemsSold = 0;
 
 
     invoices.forEach(invoice=>{
 
-        Object.keys(
-            productCount
-        ).forEach(name=>{
+        Object.keys(counts)
+        .forEach(name=>{
 
             const escaped =
             name.replace(
@@ -2356,7 +2319,7 @@ function renderStatistics(){
 
             const match =
             String(
-                invoice.category
+                invoice.category || ""
             ).match(regex);
 
 
@@ -2365,10 +2328,10 @@ function renderStatistics(){
                 const quantity =
                 Number(match[1]);
 
-                productCount[name] +=
+                counts[name] +=
                 quantity;
 
-                totalItems +=
+                itemsSold +=
                 quantity;
 
             }
@@ -2391,65 +2354,59 @@ function renderStatistics(){
 
 
     document.getElementById(
-        "todayInvoiceCount"
+        "todayCount"
     ).textContent =
-    todayCount;
+    todayInvoices.length;
 
 
     document.getElementById(
         "itemsSold"
     ).textContent =
-    totalItems;
+    itemsSold;
 
 
-    const max =
+    const maximum =
     Math.max(
-        ...Object.values(
-            productCount
-        ),
+        ...Object.values(counts),
         1
     );
 
 
-    const container =
     document.getElementById(
         "productStatistics"
-    );
-
-
-    container.innerHTML =
-    Object.entries(
-        productCount
-    )
+    ).innerHTML =
+    Object.entries(counts)
     .sort(
         (a,b)=>b[1]-a[1]
     )
-    .map(([name,count])=>{
+    .map(([name,count])=>`
 
-        const percent =
-        (count/max)*100;
+        <div class="stats-row">
 
-        return `
+            <div class="stats-row-top">
 
-        <div class="stat-row">
+                <span>
+                    ${escapeHtml(name)}
+                </span>
 
-            <div class="stat-row-top">
-                <span>${name}</span>
-                <strong>${count}</strong>
+                <strong>
+                    ${count}
+                </strong>
+
             </div>
 
             <div class="progress">
+
                 <div
                     class="progress-fill"
-                    style="width:${percent}%"
+                    style="width:${(count/maximum)*100}%"
                 ></div>
+
             </div>
 
         </div>
 
-        `;
-
-    })
+    `)
     .join("");
 
 }
@@ -2463,7 +2420,8 @@ function renderAdmin(){
 
     if(
         !currentProfile ||
-        currentProfile.role !== "admin"
+        currentProfile.role !==
+        "admin"
     ){
         return;
     }
@@ -2471,8 +2429,8 @@ function renderAdmin(){
 
     const total =
     invoices.reduce(
-        (sum,item)=>
-        sum + Number(item.amount),
+        (sum,invoice)=>
+        sum + Number(invoice.amount),
         0
     );
 
@@ -2483,10 +2441,11 @@ function renderAdmin(){
     : 0;
 
 
-    const employeeProfiles =
+    const employees =
     profiles.filter(
         profile=>
-        profile.role === "employee"
+        profile.role ===
+        "employee"
     );
 
 
@@ -2505,7 +2464,7 @@ function renderAdmin(){
     document.getElementById(
         "adminEmployees"
     ).textContent =
-    employeeProfiles.length;
+    employees.length;
 
 
     document.getElementById(
@@ -2520,7 +2479,7 @@ function renderAdmin(){
     );
 
 
-    if(invoices.length === 0){
+    if(!invoices.length){
 
         container.innerHTML =
         `<div class="empty">
@@ -2533,8 +2492,7 @@ function renderAdmin(){
 
 
     container.innerHTML =
-    invoices.map(
-        invoice=>
+    invoices.map(invoice=>
         invoiceHTML(
             invoice,
             true
@@ -2545,15 +2503,14 @@ function renderAdmin(){
 
 
 /* =====================================================
-   USERNAME DA ID
+   TROVA USERNAME
 ===================================================== */
 
-function getUsername(userId){
+function getUsername(id){
 
     const profile =
     profiles.find(
-        profile=>
-        profile.id === userId
+        item=>item.id === id
     );
 
 
@@ -2566,7 +2523,7 @@ function getUsername(userId){
 
     if(
         currentProfile &&
-        currentProfile.id === userId
+        currentProfile.id === id
     ){
 
         return currentProfile.username;
@@ -2587,16 +2544,12 @@ function openDrawer(){
 
     document.getElementById(
         "invoiceDrawer"
-    ).classList.add(
-        "open"
-    );
+    ).classList.add("open");
 
 
     document.getElementById(
         "drawerOverlay"
-    ).classList.add(
-        "show"
-    );
+    ).classList.add("show");
 
 }
 
@@ -2605,22 +2558,18 @@ function closeDrawer(){
 
     document.getElementById(
         "invoiceDrawer"
-    ).classList.remove(
-        "open"
-    );
+    ).classList.remove("open");
 
 
     document.getElementById(
         "drawerOverlay"
-    ).classList.remove(
-        "show"
-    );
+    ).classList.remove("show");
 
 }
 
 
 /* =====================================================
-   SOLDI
+   FORMATTA SOLDI
 ===================================================== */
 
 function money(value){
@@ -2646,32 +2595,17 @@ function escapeHtml(value){
     return String(
         value ?? ""
     )
-    .replaceAll(
-        "&",
-        "&amp;"
-    )
-    .replaceAll(
-        "<",
-        "&lt;"
-    )
-    .replaceAll(
-        ">",
-        "&gt;"
-    )
-    .replaceAll(
-        '"',
-        "&quot;"
-    )
-    .replaceAll(
-        "'",
-        "&#039;"
-    );
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 
 }
 
 
 /* =====================================================
-   ENTER PER LOGIN
+   ENTER
 ===================================================== */
 
 document.getElementById(
@@ -2682,7 +2616,9 @@ document.getElementById(
     event=>{
 
         if(event.key === "Enter"){
+
             login();
+
         }
 
     }
@@ -2695,19 +2631,15 @@ document.getElementById(
 
 async function checkSession(){
 
-    const {
-        data:{
-            session
-        }
-    } =
+    const {data} =
     await supabaseClient.auth
     .getSession();
 
 
-    if(session){
+    if(data.session){
 
         currentUser =
-        session.user;
+        data.session.user;
 
         await startApp();
 
@@ -2719,6 +2651,7 @@ async function checkSession(){
 /* AVVIO */
 
 updateInvoice();
+
 checkSession();
 
 </script>
