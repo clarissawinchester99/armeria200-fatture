@@ -1400,7 +1400,16 @@ async function deleteImportOrder(id){
 }
 
 function showPage(page){
- if(["admin","employees","salary","import"].includes(page)&&currentProfile?.role!=="admin")page="dashboard";
+ // Le pagine amministrative restano riservate all'admin.
+ if(["admin","employees","salary"].includes(page) && currentProfile?.role!=="admin"){
+   page="dashboard";
+ }
+
+ // La pagina Import è disponibile anche a vice-direttore, direttore e proprietario.
+ if(page==="import" && !canManageImport()){
+   page="dashboard";
+ }
+
  ["dashboard","invoice","history","admin","employees","salary","import"].forEach(x=>document.getElementById("page-"+x)?.classList.add("hidden"));
  document.getElementById("page-"+page)?.classList.remove("hidden");
  document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));
