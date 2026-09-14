@@ -2,2094 +2,1202 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Armeria 200 | Gestionale</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Armeria 200</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,Helvetica,sans-serif;
-}
-
 :root{
-    --black:#070707;
-    --dark:#101010;
-    --panel:#171717;
-    --red:#b20d1c;
-    --red-dark:#710812;
-    --gold:#d4af37;
-    --gold-light:#f0d77a;
-    --white:#f5f5f5;
-    --gray:#999;
-    --border:rgba(212,175,55,.22);
-    --green:#42d98b;
+  --bg:#050505;
+  --panel:#0b0b0b;
+  --panel2:#111111;
+  --panel3:#161616;
+  --gold:#c99b36;
+  --gold2:#f0d08a;
+  --red:#8f0f15;
+  --red2:#c11c25;
+  --red3:#e23a42;
+  --txt:#f3eee5;
+  --muted:#8f857a;
+  --line:rgba(201,155,54,.22);
+  --line2:rgba(255,255,255,.06);
+  --ok:#72c996;
+  --danger:#ff747c;
+  --shadow:0 20px 60px rgba(0,0,0,.45);
 }
-
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
 body{
-    min-height:100vh;
-    background:
-        radial-gradient(circle at top right,rgba(178,13,28,.17),transparent 35%),
-        radial-gradient(circle at bottom left,rgba(212,175,55,.08),transparent 30%),
-        var(--black);
-    color:var(--white);
-}
-
-button,input{
-    font:inherit;
-}
-
-#loginPage{
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-}
-
-.login-box{
-    width:100%;
-    max-width:420px;
-    padding:42px;
-    border-radius:22px;
-    background:linear-gradient(180deg,#191919,#0c0c0c);
-    border:1px solid var(--border);
-    box-shadow:0 30px 80px rgba(0,0,0,.7);
-}
-
-.logo{
-    width:86px;
-    height:86px;
-    margin:0 auto 18px;
-    border-radius:50%;
-    border:2px solid var(--gold);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:var(--gold);
-    font-size:36px;
-}
-
-.login-title{
-    text-align:center;
-    color:var(--gold);
-    letter-spacing:4px;
-    font-size:31px;
-}
-
-.login-subtitle{
-    text-align:center;
-    margin:7px 0 30px;
-    color:var(--gray);
-    letter-spacing:2px;
-    font-size:11px;
-}
-
-.input-group{
-    margin-bottom:18px;
-}
-
-.input-group label{
-    display:block;
-    margin-bottom:7px;
-    color:var(--gold-light);
-    font-size:11px;
-    font-weight:bold;
-}
-
-.input-group input{
-    width:100%;
-    padding:14px;
-    border-radius:9px;
-    border:1px solid #333;
-    background:#090909;
-    color:white;
-    outline:none;
-}
-
-.input-group input:focus{
-    border-color:var(--gold);
-}
-
-.main-btn{
-    width:100%;
-    padding:14px;
-    border-radius:9px;
-    border:1px solid rgba(212,175,55,.3);
-    background:linear-gradient(90deg,var(--red-dark),var(--red));
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.error-message{
-    display:none;
-    margin-top:14px;
-    padding:11px;
-    border-radius:8px;
-    text-align:center;
-    background:rgba(178,13,28,.17);
-    color:#ff8994;
-}
-
-#app{
-    display:none;
-}
-
-.sidebar{
-    position:fixed;
-    top:0;
-    left:0;
-    bottom:0;
-    width:255px;
-    padding:23px 16px;
-    background:linear-gradient(180deg,#111,#070707);
-    border-right:1px solid var(--border);
-}
-
-.side-brand{
-    text-align:center;
-    padding-bottom:22px;
-    margin-bottom:21px;
-    border-bottom:1px solid var(--border);
-}
-
-.side-logo{
-    width:55px;
-    height:55px;
-    margin:0 auto 10px;
-    border-radius:50%;
-    border:1px solid var(--gold);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:var(--gold);
-    font-size:23px;
-}
-
-.side-brand h2{
-    color:var(--gold);
-}
-
-.side-brand p{
-    color:var(--gray);
-    font-size:11px;
-}
-
-.menu-item{
-    padding:13px 14px;
-    margin-bottom:7px;
-    border-radius:9px;
-    color:#ddd;
-    cursor:pointer;
-}
-
-.menu-item:hover,
-.menu-item.active{
-    background:rgba(178,13,28,.20);
-    color:var(--gold-light);
-}
-
-#adminMenu{
-    display:none;
-}
-
-.sidebar-bottom{
-    position:absolute;
-    left:16px;
-    right:16px;
-    bottom:22px;
-}
-
-.user-card{
-    padding:12px;
-    margin-bottom:10px;
-    border:1px solid var(--border);
-    border-radius:9px;
-    text-align:center;
-}
-
-.user-card strong,
-.user-card span{
-    display:block;
-}
-
-.user-card span{
-    margin-top:4px;
-    color:var(--gold);
-    font-size:10px;
-}
-
-.logout-btn{
-    width:100%;
-    padding:10px;
-    border-radius:8px;
-    border:1px solid #5b131b;
-    background:#1c090c;
-    color:#ff7882;
-    cursor:pointer;
-}
-
-.main{
-    margin-left:255px;
-    padding:32px;
-}
-
-.page{
-    display:none;
-}
-
-.page.active{
-    display:block;
-}
-
-.topbar{
-    margin-bottom:26px;
-}
-
-.topbar h1{
-    color:var(--gold);
-    font-size:30px;
-}
-
-.topbar p{
-    color:var(--gray);
-    margin-top:5px;
-}
-
-.cards{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:17px;
-}
-
-.card{
-    padding:21px;
-    border-radius:14px;
-    border:1px solid var(--border);
-    background:linear-gradient(180deg,#181818,#101010);
-}
-
-.card-label{
-    color:var(--gray);
-    font-size:11px;
-    text-transform:uppercase;
-}
-
-.card-value{
-    margin-top:10px;
-    color:var(--gold-light);
-    font-size:28px;
-    font-weight:bold;
-}
-
-.section{
-    margin-top:24px;
-    padding:24px;
-    border-radius:14px;
-    border:1px solid var(--border);
-    background:linear-gradient(180deg,#181818,#101010);
-}
-
-.section h2{
-    color:var(--gold);
-    margin-bottom:18px;
-}
-
-.products-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:17px;
-}
-
-.product-card{
-    padding:20px;
-    border-radius:13px;
-    border:1px solid rgba(212,175,55,.2);
-    background:#151515;
-}
-
-.product-top,
-.product-bottom{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.product-top{
-    margin-bottom:20px;
-}
-
-.product-price{
-    color:var(--gold-light);
-    font-weight:bold;
-}
-
-.quantity-box{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.qty-btn{
-    width:40px;
-    height:40px;
-    border-radius:8px;
-    border:1px solid var(--border);
-    background:#0d0d0d;
-    color:var(--gold);
-    cursor:pointer;
-}
-
-.subtotal small{
-    display:block;
-    color:var(--gray);
-}
-
-.subtotal strong{
-    color:var(--gold);
-}
-
-.invoice-list{
-    display:grid;
-    gap:12px;
-}
-
-.invoice-row{
-    padding:17px;
-    border-radius:11px;
-    border:1px solid rgba(212,175,55,.15);
-    background:#111;
-    display:grid;
-    grid-template-columns:1fr auto;
-    gap:15px;
-}
-
-.invoice-title{
-    font-weight:bold;
-}
-
-.invoice-meta{
-    color:var(--gray);
-    font-size:13px;
-    margin-top:7px;
-    line-height:1.6;
-}
-
-.invoice-amount{
-    color:var(--gold-light);
-    font-size:19px;
-    font-weight:bold;
-}
-
-.delete-btn{
-    margin-top:9px;
-    padding:7px 11px;
-    background:#250b0e;
-    color:#ff7782;
-    border:1px solid #67141c;
-    border-radius:7px;
-    cursor:pointer;
-}
-
-.employee-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:15px;
-}
-
-.employee-card{
-    padding:20px;
-    border-radius:13px;
-    border:1px solid rgba(212,175,55,.2);
-    background:linear-gradient(180deg,#191919,#0e0e0e);
-}
-
-.employee-position{
-    color:var(--gold);
-    font-size:13px;
-    margin-bottom:8px;
-}
-
-.employee-name{
-    font-size:21px;
-    font-weight:bold;
-    text-transform:capitalize;
-}
-
-.employee-grade{
-    margin-top:6px;
-    color:var(--gold);
-    font-size:13px;
-    text-transform:capitalize;
-}
-
-.employee-details{
-    margin-top:15px;
-    color:var(--gray);
-    line-height:1.8;
-}
-
-.employee-total{
-    margin-top:10px;
-    color:var(--gold-light);
-    font-size:25px;
-    font-weight:bold;
-}
-
-.salary-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:15px;
-}
-
-.salary-card{
-    padding:20px;
-    border-radius:13px;
-    border:1px solid rgba(212,175,55,.22);
-    background:linear-gradient(180deg,#191919,#0d0d0d);
-}
-
-.salary-header{
-    display:flex;
-    justify-content:space-between;
-    gap:15px;
-    align-items:center;
-}
-
-.salary-name{
-    font-size:20px;
-    font-weight:bold;
-    text-transform:capitalize;
-}
-
-.salary-grade{
-    color:var(--gold);
-    font-size:12px;
-    text-transform:capitalize;
-}
-
-.salary-info{
-    margin-top:16px;
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-}
-
-.salary-box{
-    padding:12px;
-    background:#101010;
-    border-radius:8px;
-    border:1px solid rgba(212,175,55,.12);
-}
-
-.salary-box small{
-    display:block;
-    color:var(--gray);
-    margin-bottom:5px;
-}
-
-.salary-box strong{
-    color:var(--gold-light);
-}
-
-.salary-result{
-    margin-top:17px;
-    padding-top:15px;
-    border-top:1px solid rgba(212,175,55,.15);
-}
-
-.salary-result small{
-    display:block;
-    color:var(--gray);
-}
-
-.salary-result strong{
-    display:block;
-    margin-top:5px;
-    color:#42d98b;
-    font-size:27px;
-}
-
-.ranking-row{
-    display:grid;
-    grid-template-columns:70px 1fr auto auto;
-    gap:15px;
-    padding:16px;
-    border-bottom:1px solid rgba(212,175,55,.12);
-}
-
-.ranking-position{
-    color:var(--gold);
-    font-weight:bold;
-}
-
-.invoice-drawer{
-    position:fixed;
-    top:0;
-    right:-430px;
-    bottom:0;
-    width:410px;
-    z-index:1000;
-    background:#111;
-    border-left:1px solid var(--border);
-    transition:.3s;
-    display:flex;
-    flex-direction:column;
-}
-
-.invoice-drawer.open{
-    right:0;
-}
-
-.drawer-overlay{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.6);
-    z-index:950;
-}
-
-.drawer-overlay.show{
-    display:block;
-}
-
-.drawer-header{
-    padding:20px;
-    display:flex;
-    justify-content:space-between;
-    border-bottom:1px solid var(--border);
-}
-
-.drawer-content{
-    flex:1;
-    overflow:auto;
-    padding:20px;
-}
-
-.drawer-footer{
-    padding:20px;
-    border-top:1px solid var(--border);
-}
-
-.drawer-item{
-    padding:14px;
-    border:1px solid var(--border);
-    border-radius:9px;
-    margin-bottom:10px;
-}
-
-.drawer-total{
-    color:var(--gold-light);
-    font-size:30px;
-    font-weight:bold;
-}
-
-.save-btn{
-    width:100%;
-    margin-top:15px;
-    padding:14px;
-    background:var(--red);
-    color:white;
-    border:0;
-    border-radius:8px;
-    cursor:pointer;
-}
-
-.invoice-floating{
-    position:fixed;
-    right:22px;
-    bottom:22px;
-    padding:14px 18px;
-    border-radius:30px;
-    background:var(--red);
-    color:white;
-    border:1px solid var(--gold);
-    cursor:pointer;
-}
-
-.invoice-badge{
-    background:var(--gold);
-    color:black;
-    border-radius:50%;
-    padding:4px 8px;
-    margin-left:5px;
-}
-
-.empty{
-    color:var(--gray);
-    text-align:center;
-    padding:25px;
-}
-
-@media(max-width:1000px){
-    .cards,
-    .employee-grid,
-    .salary-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-}
-</style>
-</head>
-
-<body>
-
-<div id="loginPage">
-<div class="login-box">
-
-<div class="logo">♛</div>
-
-<h1 class="login-title">ARMERIA 200</h1>
-<div class="login-subtitle">GESTIONALE FATTURE</div>
-
-<div class="input-group">
-<label>Username</label>
-<input id="username" type="text">
-</div>
-
-<div class="input-group">
-<label>Password</label>
-<input id="password" type="password">
-</div>
-
-<button id="loginButton" class="main-btn" onclick="login()">
-ACCEDI
-</button>
-
-<div id="loginError" class="error-message"></div>
-
-</div>
-</div>
-
-<div id="app">
-
-<aside class="sidebar">
-
-<div class="side-brand">
-<div class="side-logo">♛</div>
-<h2>ARMERIA 200</h2>
-<p>Gestionale aziendale</p>
-</div>
-
-<div class="menu-item active" onclick="showPage('dashboard',this)">
-🏠 Dashboard
-</div>
-
-<div class="menu-item" onclick="showPage('newInvoice',this)">
-💰 Nuova fattura
-</div>
-
-<div class="menu-item" onclick="showPage('operations',this)">
-🧾 Operazioni
-</div>
-
-<div class="menu-item" onclick="showPage('ranking',this)">
-🏆 Classifica
-</div>
-
-<div class="menu-item" onclick="showPage('statistics',this)">
-📊 Statistiche
-</div>
-
-<div id="adminMenu" class="menu-item" onclick="showPage('admin',this)">
-👑 Pannello Admin
-</div>
-
-<div class="sidebar-bottom">
-
-<div class="user-card">
-<strong id="sidebarUsername"></strong>
-<span id="sidebarRole"></span>
-</div>
-
-<button class="logout-btn" onclick="logout()">ESCI</button>
-
-</div>
-
-</aside>
-
-
-<main class="main">
-
-<section id="dashboard" class="page active">
-
-<div class="topbar">
-<h1>Dashboard</h1>
-<p>Panoramica generale</p>
-</div>
-
-<div class="cards">
-
-<div class="card">
-<div class="card-label">Fatturato totale</div>
-<div id="dashboardTotal" class="card-value">$0</div>
-</div>
-
-<div class="card">
-<div class="card-label">Fatturato oggi</div>
-<div id="dashboardToday" class="card-value">$0</div>
-</div>
-
-<div class="card">
-<div class="card-label">Fatture</div>
-<div id="dashboardCount" class="card-value">0</div>
-</div>
-
-<div class="card">
-<div class="card-label">Ultima fattura</div>
-<div id="dashboardLast" class="card-value">$0</div>
-</div>
-
-</div>
-
-<div class="section">
-<h2>Ultime operazioni</h2>
-<div id="dashboardOperations"></div>
-</div>
-
-</section>
-
-
-<section id="newInvoice" class="page">
-
-<div class="topbar">
-<h1>Nuova fattura</h1>
-<p>Seleziona prodotti e servizi</p>
-</div>
-
-<div class="section">
-<h2>⚔️ Armi bianche</h2>
-<div id="weaponsProducts" class="products-grid"></div>
-</div>
-
-<div class="section">
-<h2>📜 Porto d'armi</h2>
-<div id="licenseProducts" class="products-grid"></div>
-</div>
-
-</section>
-
-
-<section id="operations" class="page">
-
-<div class="topbar">
-<h1>Operazioni</h1>
-<p>Storico fatture</p>
-</div>
-
-<div class="section">
-<div id="operationsList"></div>
-</div>
-
-</section>
-
-
-<section id="ranking" class="page">
-
-<div class="topbar">
-<h1>Classifica</h1>
-<p>Classifica fatturato</p>
-</div>
-
-<div class="section">
-<div id="rankingList"></div>
-</div>
-
-</section>
-
-
-<section id="statistics" class="page">
-
-<div class="topbar">
-<h1>Statistiche</h1>
-<p>Statistiche vendite</p>
-</div>
-
-<div class="cards">
-
-<div class="card">
-<div class="card-label">Media fattura</div>
-<div id="averageInvoice" class="card-value">$0</div>
-</div>
-
-<div class="card">
-<div class="card-label">Fattura più alta</div>
-<div id="bestInvoice" class="card-value">$0</div>
-</div>
-
-<div class="card">
-<div class="card-label">Fatture oggi</div>
-<div id="todayCount" class="card-value">0</div>
-</div>
-
-<div class="card">
-<div class="card-label">Articoli venduti</div>
-<div id="itemsSold" class="card-value">0</div>
-</div>
-
-</div>
-
-</section>
-
-
-<section id="admin" class="page">
-
-<div class="topbar">
-<h1>Pannello Admin</h1>
-<p>Gestione completa Armeria 200</p>
-</div>
-
-<div class="cards">
-
-<div class="card">
-<div class="card-label">Fatturato aziendale</div>
-<div id="adminTotal" class="card-value">$0</div>
-</div>
-
-<div class="card">
-<div class="card-label">Fatture totali</div>
-<div id="adminCount" class="card-value">0</div>
-</div>
-
-<div class="card">
-<div class="card-label">Dipendenti</div>
-<div id="adminEmployees" class="card-value">0</div>
-</div>
-
-<div class="card">
-<div class="card-label">Media fattura</div>
-<div id="adminAverage" class="card-value">$0</div>
-</div>
-
-</div>
-
-
-<div class="section">
-
-<h2>💰 Fatturato per dipendente</h2>
-
-<div id="employeeRevenue" class="employee-grid"></div>
-
-</div>
-
-
-<div class="section">
-
-<h2>💵 Stipendi</h2>
-
-<div id="salaryList" class="salary-grid"></div>
-
-</div>
-
-
-<div class="section">
-
-<h2>🧾 Tutte le fatture</h2>
-
-<div id="adminInvoicesList"></div>
-
-</div>
-
-</section>
-
-</main>
-
-
-<button class="invoice-floating" onclick="openDrawer()">
-🧾 Fattura
-<span id="invoiceBadge" class="invoice-badge">0</span>
-</button>
-
-
-<div id="drawerOverlay" class="drawer-overlay" onclick="closeDrawer()"></div>
-
-
-<div id="invoiceDrawer" class="invoice-drawer">
-
-<div class="drawer-header">
-
-<h2>Fattura</h2>
-
-<button onclick="closeDrawer()">×</button>
-
-</div>
-
-<div id="drawerContent" class="drawer-content"></div>
-
-<div class="drawer-footer">
-
-<div>Totale</div>
-
-<div id="drawerTotal" class="drawer-total">$0</div>
-
-<button id="saveInvoiceButton" class="save-btn" onclick="saveInvoice()">
-SALVA FATTURA
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
-<script>
-
-const SUPABASE_URL =
-"https://qtkwurpjlefnuewbhgng.supabase.co";
-
-const SUPABASE_KEY =
-"sb_publishable_aZ8POe8frINtsfpJrW1OYw_UPiKWFuG";
-
-const supabaseClient =
-supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
-);
-
-
-let currentUser = null;
-let currentProfile = null;
-let invoices = [];
-let profiles = [];
-
-
-/* PERCENTUALI STIPENDI */
-
-const salaryPercentages = {
-
-"dipendente":20,
-
-"armaiolo":25,
-
-"vice-direttore":30,
-
-"direttore":40,
-
-"proprietario":45
-
-};
-
-
-/* PRODOTTI */
-
-const products = {
-
-machete:{
-name:"Machete",
-price:7000,
-quantity:0,
-group:"weapons"
-},
-
-mazza:{
-name:"Mazza da baseball",
-price:2500,
-quantity:0,
-group:"weapons"
-},
-
-coltello:{
-name:"Coltello",
-price:4500,
-quantity:0,
-group:"weapons"
-},
-
-tirapugni:{
-name:"Tirapugni",
-price:2000,
-quantity:0,
-group:"weapons"
-},
-
-testBalistico:{
-name:"Test balistico",
-price:15000,
-quantity:0,
-group:"license"
-},
-
-rinnovoPorto:{
-name:"Rinnovo porto d'armi",
-price:7500,
-quantity:0,
-group:"license"
-}
-
-};
-
+  min-height:100vh;
+  font-family:Georgia,"Times New Roman",serif;
+  color:var(--txt);
+  background:
+    linear-gradient(rgba(0,0,0,.52),rgba(0,0,0,.74)),
+    radial-gradient(circle at 14% 10%,rgba(158,12,20,.22),transparent 24%),
+    radial-gradient(circle at 88% 14%,rgba(201,155,54,.10),transparent 22%),
+    linear-gradient(145deg,#050505 0%,#090909 55%,#120708 100%);
+  overflow-x:hidden;
+}
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(90deg,transparent 0,rgba(255,255,255,.015) 50%,transparent 100%);
+  opacity:.3;
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
 
 /* LOGIN */
+#loginPage{
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  padding:24px;
+  background:
+    linear-gradient(rgba(0,0,0,.42),rgba(0,0,0,.62)),
+    radial-gradient(circle at 22% 18%,rgba(155,14,20,.25),transparent 24%);
+}
+.login{
+  width:min(460px,100%);
+  border:1px solid rgba(201,155,54,.52);
+  border-radius:8px;
+  padding:42px 38px 36px;
+  background:
+    linear-gradient(145deg,rgba(201,155,54,.04),transparent 42%),
+    rgba(7,7,7,.96);
+  box-shadow:0 28px 90px rgba(0,0,0,.62);
+  position:relative;
+}
+.login::before,.login::after{
+  content:"";
+  position:absolute;
+  width:70px;
+  height:70px;
+  pointer-events:none;
+}
+.login::before{left:12px;top:12px;border-left:1px solid var(--gold);border-top:1px solid var(--gold)}
+.login::after{right:12px;bottom:12px;border-right:1px solid var(--gold);border-bottom:1px solid var(--gold)}
+.logo{
+  width:82px;height:82px;border-radius:50%;
+  display:grid;place-items:center;
+  margin:0 auto 18px;
+  background:
+    radial-gradient(circle at 35% 30%,#fff1b3 0%,#d3a842 42%,#75500d 100%);
+  color:#120d03;
+  border:1px solid #e7ca77;
+  font-weight:900;
+  box-shadow:0 0 0 6px rgba(201,155,54,.05),0 18px 44px rgba(0,0,0,.55);
+}
+.login h1{
+  text-align:center;
+  color:var(--gold2);
+  font-size:32px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+}
+.sub{
+  text-align:center;
+  color:#a3947d;
+  letter-spacing:4px;
+  font-size:9px;
+  margin:8px 0 26px;
+  text-transform:uppercase;
+}
+.field{margin:15px 0}
+.field label{
+  display:block;
+  color:#d2c19a;
+  font-size:10px;
+  margin-bottom:7px;
+  letter-spacing:.9px;
+}
+.field input,.field select{
+  width:100%;
+  height:48px;
+  padding:0 14px;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:6px;
+  background:linear-gradient(180deg,#111,#0b0b0b);
+  color:white;
+  outline:none;
+  transition:.18s ease;
+}
+.field input:focus,.field select:focus{
+  border-color:rgba(201,155,54,.7);
+  box-shadow:0 0 0 3px rgba(201,155,54,.07);
+}
+select option{color:#111;background:#fff}
+.primary,.save{
+  border:1px solid #e0572e;
+  color:white;
+  font-weight:800;
+  letter-spacing:.3px;
+  background:linear-gradient(180deg,#c51d27 0%,#8b0b11 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 10px 25px rgba(130,8,12,.28);
+}
+.primary{width:100%;height:49px;border-radius:6px}
+.primary:hover,.save:hover{filter:brightness(1.08)}
+.msg{margin-top:12px;font-size:12px;min-height:16px}
+.error{color:var(--danger)}.success{color:var(--ok)}
+
+/* LAYOUT */
+.sidebar{
+  position:fixed;left:0;top:0;bottom:0;
+  width:250px;
+  padding:0;
+  background:
+    linear-gradient(180deg,rgba(124,0,6,.12),transparent 24%),
+    #070707;
+  border-right:1px solid rgba(201,155,54,.22);
+  box-shadow:16px 0 50px rgba(0,0,0,.35);
+  z-index:30;
+}
+.brand{
+  min-height:122px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:18px 17px;
+  border-bottom:1px solid rgba(201,155,54,.22);
+  background:
+    linear-gradient(90deg,rgba(150,8,14,.12),transparent 70%),
+    #090909;
+}
+.mini{
+  width:52px;height:52px;border-radius:50%;
+  display:grid;place-items:center;
+  background:radial-gradient(circle at 35% 30%,#ffeeb2,#cb9f3b 45%,#6b470c);
+  color:#111;font-weight:900;
+  border:1px solid #d9b45e;
+}
+.brand h2{
+  color:var(--gold2);
+  font-size:18px;
+  letter-spacing:.7px;
+  text-transform:uppercase;
+}
+.brand span{
+  font-size:8px;
+  color:#817462;
+  letter-spacing:1.8px;
+}
+.nt{
+  margin:18px 14px 7px;
+  color:#6f655a;
+  font-size:9px;
+  letter-spacing:1.6px;
+  text-transform:uppercase;
+}
+.nav{
+  width:100%;
+  min-height:48px;
+  padding:0 18px;
+  border:0;
+  border-left:3px solid transparent;
+  background:transparent;
+  color:#c4b9aa;
+  text-align:left;
+  font-size:13px;
+  transition:.18s ease;
+}
+.nav:hover{
+  color:white;
+  background:rgba(255,255,255,.025);
+}
+.nav.active{
+  color:white;
+  background:
+    linear-gradient(90deg,rgba(159,9,16,.78),rgba(80,0,4,.3) 70%,transparent);
+  border-left-color:#e73e45;
+  box-shadow:inset 0 0 25px rgba(255,0,0,.06);
+}
+.logout{
+  position:absolute;
+  left:0;right:0;bottom:0;
+  height:54px;
+  border:0;
+  border-top:1px solid rgba(201,155,54,.12);
+  color:#d1c6b7;
+  background:#090909;
+}
+.main{
+  margin-left:250px;
+  padding:0 18px 28px;
+  min-height:100vh;
+}
+.top{
+  min-height:126px;
+  margin:0 -18px 18px;
+  padding:22px 26px;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:20px;
+  border-bottom:1px solid rgba(201,155,54,.24);
+  background:
+    linear-gradient(90deg,rgba(128,5,10,.24),rgba(0,0,0,.18) 44%,rgba(201,155,54,.06)),
+    #080808;
+  position:relative;
+}
+.top::after{
+  content:"ARMERIA 200";
+  position:absolute;
+  right:28px;top:15px;
+  color:rgba(201,155,54,.05);
+  font-size:56px;
+  letter-spacing:4px;
+  font-weight:900;
+  pointer-events:none;
+}
+.kicker{
+  color:var(--gold);
+  font-size:9px;
+  letter-spacing:2.4px;
+  text-transform:uppercase;
+}
+.top h1{
+  color:var(--gold2);
+  font-size:31px;
+  letter-spacing:.8px;
+}
+.top p{
+  color:#7f766d;
+  font-size:11px;
+  margin-top:5px;
+}
+.user{
+  position:relative;
+  z-index:2;
+  min-width:180px;
+  text-align:right;
+  border:1px solid rgba(201,155,54,.18);
+  border-radius:6px;
+  padding:10px 13px;
+  background:rgba(8,8,8,.82);
+}
+.user span{
+  display:block;
+  color:var(--gold);
+  font-size:10px;
+  margin-top:3px;
+  text-transform:capitalize;
+}
+
+/* CARDS */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+  margin-bottom:14px;
+}
+.card,.panel{
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(201,155,54,.34);
+  background:
+    linear-gradient(135deg,rgba(201,155,54,.03),transparent 52%),
+    linear-gradient(180deg,#111,#0b0b0b);
+  box-shadow:var(--shadow);
+}
+.card{padding:19px;border-radius:7px}
+.card::before,.panel::before{
+  content:"";
+  position:absolute;left:0;top:0;width:100%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:.6;
+}
+.cl{
+  color:#a59a8d;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.4px;
+  margin-bottom:9px;
+}
+.cv{
+  font-size:28px;
+  font-weight:800;
+  color:#fff4df;
+}
+.cs{
+  color:#a47f26;
+  font-size:9px;
+  margin-top:7px;
+}
+.panel{
+  padding:20px;
+  border-radius:7px;
+  margin-bottom:14px;
+}
+.panel h2{
+  color:#f0d8a2;
+  font-size:19px;
+}
+.ps{
+  font-size:10px;
+  color:#857b70;
+  margin:4px 0 15px;
+}
+.formgrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+.full{grid-column:1/-1}
+.box{
+  border:1px solid rgba(201,155,54,.28);
+  border-radius:6px;
+  padding:22px;
+  background:
+    linear-gradient(120deg,rgba(117,5,9,.12),transparent 50%),
+    linear-gradient(180deg,#0d0d0d,#090909);
+  position:relative;
+  overflow:hidden;
+}
+.box::after{
+  content:"PRECISIONE • CONTROLLO • QUALITÀ";
+  position:absolute;
+  right:18px;
+  bottom:10px;
+  color:rgba(201,155,54,.10);
+  font-size:12px;
+  letter-spacing:2px;
+}
+.boxhead{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding-bottom:14px;
+  margin-bottom:16px;
+  border-bottom:1px solid rgba(201,155,54,.16);
+}
+.boxhead h3{
+  color:var(--gold2);
+  font-size:18px;
+}
+.seal{
+  width:46px;height:46px;border-radius:50%;
+  display:grid;place-items:center;
+  background:radial-gradient(circle at 35% 30%,#fff0aa,#cc9d38 44%,#6d480b);
+  color:#111;font-weight:bold;
+  border:1px solid #d6b25a;
+}
+.save{
+  padding:11px 19px;
+  border-radius:5px;
+}
+
+/* TABLES */
+.tablewrap{
+  overflow:auto;
+  border:1px solid rgba(201,155,54,.10);
+  border-radius:5px;
+  background:#090909;
+}
+table{
+  width:100%;
+  min-width:700px;
+  border-collapse:collapse;
+}
+th{
+  padding:11px 12px;
+  text-align:left;
+  color:#aa8f54;
+  font-size:9px;
+  letter-spacing:.8px;
+  text-transform:uppercase;
+  border-bottom:1px solid rgba(201,155,54,.20);
+  background:#0e0e0e;
+}
+td{
+  padding:12px;
+  color:#d6cec2;
+  font-size:12px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+tbody tr:hover{background:rgba(201,155,54,.018)}
+.amount{color:#edc95d;font-weight:bold}
+.badge{
+  display:inline-block;
+  padding:5px 8px;
+  border:1px solid rgba(201,155,54,.18);
+  border-radius:999px;
+  color:#e1c269;
+  background:rgba(201,155,54,.05);
+  font-size:9px;
+}
+.del{
+  padding:6px 9px;
+  border:1px solid rgba(255,70,75,.28);
+  border-radius:4px;
+  background:linear-gradient(180deg,rgba(180,13,20,.28),rgba(95,5,8,.22));
+  color:#ff878d;
+}
+.empty{
+  text-align:center;
+  color:#746a60;
+  padding:24px;
+}
+
+/* EMPLOYEES / SALARY */
+.employeegrid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+.employee{
+  border:1px solid rgba(201,155,54,.18);
+  border-radius:5px;
+  padding:17px;
+  background:
+    linear-gradient(135deg,rgba(131,7,12,.10),transparent 60%),
+    #0c0c0c;
+}
+.employee h3{
+  color:#f0d9a5;
+  text-transform:capitalize;
+  font-size:15px;
+}
+.grade{
+  font-size:9px;
+  color:#b58d2f;
+  margin-top:4px;
+}
+.emoney{
+  font-size:22px;
+  color:#e9c55f;
+  font-weight:bold;
+  margin-top:12px;
+}
+.emeta{
+  font-size:9px;
+  color:#756b60;
+  margin-top:4px;
+}
+.salary{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:15px;
+  padding:14px 0;
+  border-bottom:1px solid rgba(201,155,54,.15);
+}
+.salary:last-child{border-bottom:none}
+.sname{
+  font-weight:bold;
+  text-transform:capitalize;
+  color:#efd8a4;
+}
+.sinfo{
+  font-size:9px;
+  color:#8f8579;
+  margin-top:4px;
+}
+.svalue{
+  font-size:21px;
+  color:#ebc75e;
+  font-weight:bold;
+}
+
+/* IMPORT */
+.prices{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+.price{
+  padding:12px;
+  border:1px solid rgba(201,155,54,.18);
+  border-radius:5px;
+  background:
+    linear-gradient(180deg,rgba(201,155,54,.03),transparent),
+    #0b0b0b;
+}
+.price b{
+  display:block;
+  font-size:9px;
+  color:#c9ad68;
+  margin-bottom:5px;
+  letter-spacing:.4px;
+}
+.price span{
+  color:#edc95d;
+  font-size:16px;
+  font-weight:bold;
+}
+.footer{
+  text-align:center;
+  color:#5d5347;
+  font-size:8px;
+  letter-spacing:1.8px;
+  margin-top:16px;
+  padding-top:14px;
+  border-top:1px solid rgba(201,155,54,.12);
+}
+
+@media(max-width:1050px){
+  .cards,.employeegrid,.prices{grid-template-columns:1fr 1fr}
+}
+@media(max-width:800px){
+  .sidebar{position:relative;width:100%}
+  .logout{position:static;width:100%}
+  .main{margin-left:0;padding:0 14px 20px}
+  .top{margin:0 -14px 16px;padding:18px}
+  .cards,.employeegrid,.prices,.formgrid{grid-template-columns:1fr}
+  .full{grid-column:auto}
+  .top{align-items:flex-start;flex-direction:column}
+  .user{width:100%;text-align:left}
+}
+
+/* LOGIN CINEMATIC PREMIUM */
+#loginPage{
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  padding:34px;
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(165,10,17,.22), transparent 26%),
+    radial-gradient(circle at 86% 74%, rgba(201,155,54,.11), transparent 27%),
+    linear-gradient(120deg,#030303 0%,#080808 48%,#110708 100%);
+}
+#loginPage::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(90deg,transparent 49.8%,rgba(201,155,54,.035) 50%,transparent 50.2%),
+    linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:100% 100%,100% 46px;
+  opacity:.45;
+}
+#loginPage::after{
+  content:"ARMERIA 200";
+  position:absolute;
+  right:-38px;
+  bottom:34px;
+  font-size:112px;
+  font-weight:900;
+  letter-spacing:8px;
+  color:rgba(201,155,54,.028);
+  pointer-events:none;
+  white-space:nowrap;
+}
+
+.cinema-login{
+  width:min(980px,100%);
+  position:relative;
+  z-index:2;
+  border:1px solid rgba(201,155,54,.48);
+  background:
+    linear-gradient(135deg,rgba(201,155,54,.025),transparent 42%),
+    rgba(6,6,6,.96);
+  box-shadow:0 35px 100px rgba(0,0,0,.72);
+  overflow:hidden;
+}
+.cinema-login::before,
+.cinema-login::after{
+  content:"";
+  position:absolute;
+  width:96px;
+  height:96px;
+  pointer-events:none;
+  z-index:3;
+}
+.cinema-login::before{
+  left:13px;top:13px;
+  border-left:1px solid rgba(201,155,54,.6);
+  border-top:1px solid rgba(201,155,54,.6);
+}
+.cinema-login::after{
+  right:13px;bottom:13px;
+  border-right:1px solid rgba(201,155,54,.6);
+  border-bottom:1px solid rgba(201,155,54,.6);
+}
+.cinema-topline{
+  height:5px;
+  background:linear-gradient(90deg,#5f0509,#d02028 50%,#7a080d);
+  box-shadow:0 0 24px rgba(190,19,27,.32);
+}
+.cinema-brand{
+  display:flex;
+  align-items:center;
+  gap:24px;
+  padding:34px 42px 24px;
+  background:
+    linear-gradient(90deg,rgba(117,5,10,.18),transparent 58%),
+    linear-gradient(180deg,rgba(255,255,255,.018),transparent);
+}
+.cinema-emblem{
+  width:88px;
+  height:88px;
+  border-radius:50%;
+  flex:0 0 88px;
+  display:grid;
+  place-items:center;
+  color:#100c03;
+  font-size:19px;
+  font-weight:900;
+  letter-spacing:.7px;
+  background:
+    radial-gradient(circle at 34% 28%,#fff3b2 0%,#d0a23e 43%,#6d490b 100%);
+  border:1px solid #e2c46e;
+  box-shadow:
+    0 0 0 7px rgba(201,155,54,.045),
+    0 15px 36px rgba(0,0,0,.45);
+}
+.cinema-kicker{
+  color:#9e8b64;
+  font-size:9px;
+  letter-spacing:3.4px;
+  margin-bottom:7px;
+}
+.cinema-brand h1{
+  margin:0;
+  color:var(--gold2);
+  font-size:42px;
+  line-height:1;
+  letter-spacing:2.2px;
+  text-transform:uppercase;
+  text-shadow:0 2px 22px rgba(201,155,54,.10);
+}
+.cinema-tagline{
+  margin-top:9px;
+  color:#9e9487;
+  font-size:11px;
+  font-style:italic;
+  letter-spacing:1.3px;
+}
+.cinema-divider{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:12px;
+  padding:0 42px;
+}
+.cinema-divider span{
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,155,54,.52));
+}
+.cinema-divider span:last-child{
+  background:linear-gradient(90deg,rgba(201,155,54,.52),transparent);
+}
+.cinema-divider b{
+  color:var(--gold);
+  font-size:8px;
+  font-weight:400;
+}
+.cinema-login-content{
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  gap:0;
+  min-height:360px;
+}
+.cinema-copy{
+  padding:42px;
+  border-right:1px solid rgba(201,155,54,.16);
+  background:
+    radial-gradient(circle at 20% 80%,rgba(152,9,15,.12),transparent 28%),
+    linear-gradient(145deg,rgba(255,255,255,.018),transparent 45%);
+  position:relative;
+}
+.cinema-copy::after{
+  content:"A200";
+  position:absolute;
+  left:28px;
+  bottom:-4px;
+  font-size:92px;
+  font-weight:900;
+  letter-spacing:5px;
+  color:rgba(201,155,54,.025);
+}
+.cinema-copy-label{
+  color:var(--red3);
+  font-size:9px;
+  letter-spacing:2.5px;
+  margin-bottom:10px;
+}
+.cinema-copy h2{
+  color:#f0d9a5;
+  font-size:29px;
+  margin-bottom:13px;
+}
+.cinema-copy p{
+  max-width:420px;
+  color:#8c8176;
+  line-height:1.65;
+  font-size:12px;
+}
+.cinema-statements{
+  display:flex;
+  gap:10px;
+  margin-top:28px;
+  flex-wrap:wrap;
+}
+.cinema-statements div{
+  min-width:112px;
+  padding:11px 12px;
+  border:1px solid rgba(201,155,54,.13);
+  background:rgba(255,255,255,.018);
+  color:#b4a898;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.6px;
+}
+.cinema-statements span{
+  display:block;
+  color:var(--gold);
+  font-size:8px;
+  margin-bottom:5px;
+}
+.cinema-form{
+  padding:42px;
+  align-self:center;
+}
+.cinema-form .field{
+  margin:0 0 18px;
+}
+.cinema-form .field label{
+  color:#d8c69e;
+  font-size:9px;
+  letter-spacing:1.3px;
+}
+.cinema-form .field input{
+  height:52px;
+  border-radius:4px;
+  border-color:rgba(201,155,54,.20);
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.025),transparent),
+    #0d0d0d;
+}
+.cinema-form .field input::placeholder{
+  color:#554e46;
+}
+.cinema-button{
+  height:52px;
+  border-radius:4px;
+  letter-spacing:1.2px;
+  margin-top:2px;
+}
+.cinema-form .msg{
+  text-align:left;
+}
+.cinema-footer{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:15px 42px 17px;
+  border-top:1px solid rgba(201,155,54,.12);
+  color:#675d52;
+  font-size:8px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  background:#070707;
+}
+.cinema-footer-line{
+  flex:1;
+  height:1px;
+  background:linear-gradient(90deg,rgba(201,155,54,.12),rgba(201,155,54,.42),rgba(201,155,54,.12));
+}
+
+@media(max-width:760px){
+  #loginPage{padding:16px}
+  .cinema-brand{padding:28px 24px 20px}
+  .cinema-emblem{width:68px;height:68px;flex-basis:68px;font-size:15px}
+  .cinema-brand h1{font-size:31px}
+  .cinema-divider{padding:0 24px}
+  .cinema-login-content{grid-template-columns:1fr}
+  .cinema-copy{
+    padding:28px 24px;
+    border-right:0;
+    border-bottom:1px solid rgba(201,155,54,.13);
+  }
+  .cinema-form{padding:28px 24px 32px}
+  .cinema-footer{padding:14px 24px}
+  .cinema-statements div{flex:1;min-width:90px}
+}
+
+
+/* REFINED ARMERIA MARK — no gold circle */
+.cinema-monogram{
+  width:92px;
+  flex:0 0 92px;
+  height:54px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  color:var(--gold);
+}
+.cinema-monogram .mono-line{
+  width:27px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold));
+}
+.cinema-monogram .mono-line:last-child{
+  background:linear-gradient(90deg,var(--gold),transparent);
+}
+.cinema-monogram .mono-diamond{
+  font-size:13px;
+  color:var(--gold2);
+  text-shadow:0 0 18px rgba(201,155,54,.25);
+}
+.mini-mark{
+  width:42px;
+  height:42px;
+  flex:0 0 42px;
+  display:grid;
+  place-items:center;
+  color:var(--gold2);
+  font-size:14px;
+  border:1px solid rgba(201,155,54,.45);
+  transform:rotate(45deg);
+  background:linear-gradient(145deg,rgba(201,155,54,.08),rgba(120,6,10,.12));
+}
+.mini-mark::first-letter{
+  transform:rotate(-45deg);
+}
+
+</style>
+</head>
+<body>
+
+<section id="loginPage">
+  <div class="cinema-login">
+    <div class="cinema-topline"></div>
+
+    <div class="cinema-brand">
+      <div class="cinema-monogram" aria-hidden="true">
+        <span class="mono-line"></span>
+        <span class="mono-diamond">◆</span>
+        <span class="mono-line"></span>
+      </div>
+      <div>
+        <div class="cinema-kicker">PRIVATE BUSINESS MANAGEMENT</div>
+        <h1>ARMERIA 200</h1>
+        <div class="cinema-tagline">Precisione · Controllo · Potere</div>
+      </div>
+    </div>
+
+    <div class="cinema-divider">
+      <span></span><b>◆</b><span></span>
+    </div>
+
+    <div class="cinema-login-content">
+      <div class="cinema-copy">
+        <div class="cinema-copy-label">ACCESSO RISERVATO</div>
+        <h2>Area Gestionale</h2>
+        <p>Accedi con le credenziali autorizzate per gestire fatture, dipendenti, stipendi e ordini Import.</p>
+
+        <div class="cinema-statements">
+          <div><span>01</span> Sicurezza</div>
+          <div><span>02</span> Gestione</div>
+          <div><span>03</span> Controllo</div>
+        </div>
+      </div>
+
+      <div class="cinema-form">
+        <div class="field">
+          <label>USERNAME</label>
+          <input id="loginUsername" autocomplete="username" placeholder="Inserisci username">
+        </div>
+
+        <div class="field">
+          <label>PASSWORD</label>
+          <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Inserisci password">
+        </div>
+
+        <button class="primary cinema-button" onclick="login()">ACCEDI AL GESTIONALE</button>
+        <div id="loginMessage" class="msg"></div>
+      </div>
+    </div>
+
+    <div class="cinema-footer">
+      <span>ARMERIA 200</span>
+      <span class="cinema-footer-line"></span>
+      <span>ACCESSO AUTORIZZATO</span>
+    </div>
+  </div>
+</section>
+
+<section id="app" class="hidden">
+<aside class="sidebar">
+  <div class="brand"><div class="mini-mark">◆</div><div><h2>Armeria 200</h2><span>PRIVATE MANAGEMENT</span></div></div>
+
+  <div class="nt">Gestionale</div>
+  <button id="navDashboard" class="nav active" onclick="showPage('dashboard')">◆ &nbsp; Dashboard</button>
+  <button id="navInvoice" class="nav" onclick="showPage('invoice')">◇ &nbsp; Nuova fattura</button>
+  <button id="navHistory" class="nav" onclick="showPage('history')">▤ &nbsp; Le mie fatture</button>
+
+  <div id="adminMenu" class="hidden">
+    <div class="nt">Amministrazione</div>
+    <button id="navAdmin" class="nav" onclick="showPage('admin')">♛ &nbsp; Pannello Admin</button>
+    <button id="navEmployees" class="nav" onclick="showPage('employees')">♢ &nbsp; Fatturato dipendenti</button>
+    <button id="navSalary" class="nav" onclick="showPage('salary')">$ &nbsp; Stipendi</button>
+    <button id="navImport" class="nav" onclick="showPage('import')">▣ &nbsp; Ordine Import</button>
+  </div>
+
+  <button class="logout" onclick="logout()">Esci</button>
+</aside>
+
+<main class="main">
+  <div class="top">
+    <div><div class="kicker">Armeria 200</div><h1 id="pageTitle">Dashboard</h1><p>Gestionale fatture e amministrazione</p></div>
+    <div class="user"><strong id="currentUsername">-</strong><span id="currentGrade">-</span></div>
+  </div>
+
+  <section id="page-dashboard">
+    <div class="cards">
+      <div class="card"><div class="cl">Mio fatturato totale</div><div id="myTotal" class="cv">$0</div><div class="cs">Fatture personali</div></div>
+      <div class="card"><div class="cl">Numero fatture</div><div id="myInvoiceCount" class="cv">0</div><div class="cs">Totale registrazioni</div></div>
+      <div class="card"><div class="cl">Il mio grado</div><div id="dashboardGrade" class="cv" style="font-size:20px;text-transform:capitalize">-</div><div id="dashboardPercentage" class="cs">Percentuale stipendio</div></div>
+    </div>
+    <div class="panel"><h2>Ultime fatture</h2><div class="ps">Le tue registrazioni più recenti</div>
+      <div class="tablewrap"><table><thead><tr><th>Data</th><th>Descrizione</th><th>Importo</th></tr></thead><tbody id="latestInvoices"></tbody></table></div>
+    </div>
+  </section>
+
+  <section id="page-invoice" class="hidden">
+    <div class="panel"><div class="box">
+      <div class="boxhead"><div style="display:flex;align-items:center;gap:13px"><div class="seal">A</div><div><h3>Nuova fattura</h3><div class="ps" style="margin:3px 0 0">Armeria 200 · Registro vendite</div></div></div></div>
+      <div class="formgrid">
+        <div class="field"><label>PRODOTTO / SERVIZIO</label>
+          <select id="invoiceProduct" onchange="updateInvoicePrice()">
+            <option value="">Seleziona</option>
+            <option value="Machete" data-price="7000">Machete — $7.000</option>
+            <option value="Mazza da baseball" data-price="2500">Mazza da baseball — $2.500</option>
+            <option value="Coltello" data-price="4500">Coltello — $4.500</option>
+            <option value="Tirapugni" data-price="2000">Tirapugni — $2.000</option>
+            <option value="Test balistico" data-price="15000">Test balistico — $15.000</option>
+            <option value="Rinnovo porto d'armi" data-price="7500">Rinnovo porto d'armi — $7.500</option>
+          </select>
+        </div>
+        <div class="field"><label>QUANTITÀ</label><input id="invoiceQuantity" type="number" min="1" step="1" value="1" oninput="updateInvoicePrice()"></div>
+        <div class="field"><label>TOTALE</label><input id="invoiceTotalPreview" value="$0" readonly></div>
+        <div class="full"><button class="save" onclick="saveInvoice()">Registra fattura</button><div id="invoiceMessage" class="msg"></div></div>
+      </div>
+    </div></div>
+  </section>
+
+  <section id="page-history" class="hidden">
+    <div class="panel"><h2>Le mie fatture</h2><div class="ps">Storico personale completo</div>
+      <div class="tablewrap"><table><thead><tr><th>Data</th><th>Descrizione</th><th>Importo</th></tr></thead><tbody id="myInvoicesTable"></tbody></table></div>
+    </div>
+  </section>
+
+  <section id="page-admin" class="hidden">
+    <div class="cards">
+      <div class="card"><div class="cl">Fatturato lordo</div><div id="businessTotal" class="cv">$0</div><div class="cs">Totale fatture</div></div>
+      <div class="card"><div class="cl">Spese Import</div><div id="importExpenseTotal" class="cv">$0</div><div class="cs">Totale materiali ordinati</div></div>
+      <div class="card"><div class="cl">Saldo aziendale</div><div id="companyBalance" class="cv">$0</div><div class="cs">Fatturato meno Import</div></div>
+      <div class="card"><div class="cl">Fatture totali</div><div id="businessInvoiceCount" class="cv">0</div><div class="cs">Registrazioni nel database</div></div>
+      <div class="card"><div class="cl">Utenti</div><div id="employeeCount" class="cv">0</div><div class="cs">Profili registrati</div></div>
+    </div>
+    <div class="panel"><h2>Tutte le fatture</h2><div class="ps">Gestione amministrativa</div>
+      <div class="tablewrap"><table><thead><tr><th>Dipendente</th><th>Data</th><th>Descrizione</th><th>Importo</th><th>Azione</th></tr></thead><tbody id="adminInvoicesTable"></tbody></table></div>
+    </div>
+  </section>
+
+  <section id="page-employees" class="hidden"><div class="panel"><h2>Fatturato dipendenti</h2><div class="ps">Classifica per fatturato totale</div><div id="employeeGrid" class="employeegrid"></div></div></section>
+
+  <section id="page-salary" class="hidden"><div class="panel"><h2>Stipendi</h2><div class="ps">Calcolo automatico in base al grado</div><div id="salaryList"></div></div></section>
+
+  <section id="page-import" class="hidden">
+    <div class="cards">
+      <div class="card"><div class="cl">Spese Import totali</div><div id="importPageTotal" class="cv">$0</div><div class="cs">Somma materiali ordinati</div></div>
+      <div class="card"><div class="cl">Saldo aziendale</div><div id="importPageBalance" class="cv">$0</div><div class="cs">Fatturato lordo meno Import</div></div>
+    </div>
+
+    <div class="panel"><h2>Listino Import</h2><div class="ps">Prezzi già impostati</div>
+      <div class="prices">
+        <div class="price"><b>MANICO</b><span>$350</span></div>
+        <div class="price"><b>LAMA</b><span>$1.050</span></div>
+        <div class="price"><b>ACCIAIO</b><span>$105</span></div>
+        <div class="price"><b>IMPUGNATURA</b><span>$700</span></div>
+        <div class="price"><b>CARICATORE</b><span>$630</span></div>
+        <div class="price"><b>PEZZO ARMA</b><span>$840</span></div>
+        <div class="price"><b>POLVERE DA SPARO</b><span>$560</span></div>
+      </div>
+    </div>
+
+    <div class="panel"><div class="box">
+      <div class="boxhead"><div style="display:flex;align-items:center;gap:13px"><div class="seal">▣</div><div><h3>Nuovo ordine Import</h3><div class="ps" style="margin:3px 0 0">Prezzo unitario automatico</div></div></div></div>
+      <div class="formgrid">
+        <div class="field"><label>MATERIALE</label>
+          <select id="importMaterial" onchange="updateImportPreview()">
+            <option value="">Seleziona materiale</option>
+            <option value="MANICO">MANICO — $350</option>
+            <option value="LAMA">LAMA — $1.050</option>
+            <option value="ACCIAIO">ACCIAIO — $105</option>
+            <option value="IMPUGNATURA">IMPUGNATURA — $700</option>
+            <option value="CARICATORE">CARICATORE — $630</option>
+            <option value="PEZZO ARMA">PEZZO ARMA — $840</option>
+            <option value="POLVERE DA SPARO">POLVERE DA SPARO — $560</option>
+          </select>
+        </div>
+        <div class="field"><label>QUANTITÀ</label><input id="importQuantity" type="number" min="1" step="1" value="1" oninput="updateImportPreview()"></div>
+        <div class="field"><label>PREZZO UNITARIO</label><input id="importUnitPricePreview" value="$0" readonly></div>
+        <div class="field"><label>TOTALE ORDINE</label><input id="importTotalPreview" value="$0" readonly></div>
+        <div class="full"><button class="save" onclick="saveImportOrder()">Registra ordine Import</button><div id="importMessage" class="msg"></div></div>
+      </div>
+    </div></div>
+
+    <div class="panel"><h2>Storico Import</h2><div class="ps">Ogni ordine viene sottratto automaticamente dal saldo aziendale</div>
+      <div class="tablewrap"><table><thead><tr><th>Data</th><th>Materiale</th><th>Quantità</th><th>Prezzo unitario</th><th>Totale</th><th>Registrato da</th><th>Azione</th></tr></thead><tbody id="importOrdersTable"></tbody></table></div>
+    </div>
+  </section>
+
+  <div class="footer">ARMERIA 200 · PRIVATE BUSINESS MANAGEMENT</div>
+</main>
+</section>
+
+<script>
+const SUPABASE_URL="https://qtkwurpjlefnuewbhgng.supabase.co";
+const SUPABASE_KEY="sb_publishable_aZ8POe8frINtsfpJrW1OYw_UPiKWFuG";
+const db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+let currentUser=null,currentProfile=null,myInvoices=[],allInvoices=[],allProfiles=[],importOrders=[];
+
+const salaryPercentages={dipendente:20,armaiolo:25,"vice-direttore":30,direttore:40,proprietario:45};
+const importPrices={"MANICO":350,"LAMA":1050,"ACCIAIO":105,"IMPUGNATURA":700,"CARICATORE":630,"PEZZO ARMA":840,"POLVERE DA SPARO":560};
+
+function money(v){return "$"+Number(v||0).toLocaleString("it-IT",{maximumFractionDigits:2})}
+function formatDate(d){return d?new Date(d).toLocaleString("it-IT",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"}):"-"}
+function prettyGrade(g){return String(g||"dipendente").replaceAll("-"," ")}
+function esc(t){const d=document.createElement("div");d.textContent=t??"";return d.innerHTML}
 
 async function login(){
-
-const username =
-document.getElementById("username")
-.value.trim().toLowerCase();
-
-const password =
-document.getElementById("password").value;
-
-const email =
-username + "@armeria200.local";
-
-const {data,error} =
-await supabaseClient.auth.signInWithPassword({
-email,
-password
-});
-
-if(error){
-
-document.getElementById("loginError").style.display="block";
-
-document.getElementById("loginError").textContent=
-"Username o password errati.";
-
-return;
-
+ const username=loginUsername.value.trim().toLowerCase(),password=loginPassword.value;
+ loginMessage.textContent="";loginMessage.className="msg";
+ if(!username||!password){loginMessage.textContent="Inserisci username e password.";loginMessage.className="msg error";return}
+ const {data,error}=await db.auth.signInWithPassword({email:username+"@armeria200.local",password});
+ if(error){loginMessage.textContent="Username o password errati.";loginMessage.className="msg error";return}
+ currentUser=data.user;await loadApplication()
 }
-
-currentUser=data.user;
-
-await startApp();
-
-}
-
-
-/* AVVIO */
-
-async function startApp(){
-
-const {data,error} =
-await supabaseClient
-.from("profiles")
-.select("id,username,role,grade")
-.eq("id",currentUser.id)
-.single();
-
-if(error){
-
-alert("Profilo non trovato.");
-
-return;
-
-}
-
-currentProfile=data;
-
-document.getElementById("sidebarUsername").textContent=
-currentProfile.username;
-
-document.getElementById("sidebarRole").textContent=
-currentProfile.grade || currentProfile.role;
-
-document.getElementById("adminMenu").style.display=
-currentProfile.role==="admin"
-?"block"
-:"none";
-
-document.getElementById("loginPage").style.display="none";
-document.getElementById("app").style.display="block";
-
-await loadProfiles();
-
-await loadInvoices();
-
-renderProducts();
-
-}
-
-
-/* PROFILI */
-
-async function loadProfiles(){
-
-if(currentProfile.role !== "admin"){
-
-profiles=[currentProfile];
-
-return;
-
-}
-
-const {data,error} =
-await supabaseClient
-.from("profiles")
-.select("id,username,role,grade");
-
-if(error){
-
-console.error(error);
-
-profiles=[currentProfile];
-
-return;
-
-}
-
-profiles=data || [];
-
-}
-
-
-/* FATTURE */
-
-async function loadInvoices(){
-
-const {data,error} =
-await supabaseClient
-.from("Invoices")
-.select("*")
-.order("created_at",{ascending:false});
-
-if(error){
-
-console.error(error);
-
-return;
-
-}
-
-invoices=data || [];
-
-renderEverything();
-
-}
-
-
-/* PRODOTTI */
-
-function renderProducts(){
-
-let weapons="";
-let licenses="";
-
-Object.entries(products).forEach(([id,p])=>{
-
-const html=`
-
-<div class="product-card">
-
-<div class="product-top">
-
-<strong>${p.name}</strong>
-
-<div class="product-price">
-${money(p.price)}
-</div>
-
-</div>
-
-<div class="product-bottom">
-
-<div class="quantity-box">
-
-<button class="qty-btn"
-onclick="changeQuantity('${id}',-1)">
-−
-</button>
-
-<strong id="qty-${id}">
-${p.quantity}
-</strong>
-
-<button class="qty-btn"
-onclick="changeQuantity('${id}',1)">
-+
-</button>
-
-</div>
-
-<div class="subtotal">
-
-<small>Totale</small>
-
-<strong id="total-${id}">
-${money(p.price*p.quantity)}
-</strong>
-
-</div>
-
-</div>
-
-</div>
-`;
-
-if(p.group==="weapons"){
-weapons+=html;
-}else{
-licenses+=html;
-}
-
-});
-
-document.getElementById("weaponsProducts").innerHTML=weapons;
-
-document.getElementById("licenseProducts").innerHTML=licenses;
-
-}
-
-
-/* QUANTITA */
-
-function changeQuantity(id,amount){
-
-products[id].quantity += amount;
-
-if(products[id].quantity < 0){
-products[id].quantity=0;
-}
-
-renderProducts();
-
-updateDrawer();
-
-}
-
-
-/* DRAWER */
-
-function updateDrawer(){
-
-let html="";
-let total=0;
-let quantity=0;
-
-Object.values(products).forEach(p=>{
-
-if(p.quantity>0){
-
-const subtotal=p.quantity*p.price;
-
-total+=subtotal;
-
-quantity+=p.quantity;
-
-html+=`
-
-<div class="drawer-item">
-
-<strong>
-${p.quantity}x ${p.name}
-</strong>
-
-<div style="color:#999;margin-top:5px">
-${money(subtotal)}
-</div>
-
-</div>
-
-`;
-
-}
-
-});
-
-if(!html){
-
-html=`
-<div class="empty">
-Nessun prodotto selezionato
-</div>
-`;
-
-}
-
-document.getElementById("drawerContent").innerHTML=html;
-
-document.getElementById("drawerTotal").textContent=money(total);
-
-document.getElementById("invoiceBadge").textContent=quantity;
-
-}
-
-
-/* SALVA FATTURA */
-
-async function saveInvoice(){
-
-let total=0;
-let lines=[];
-
-Object.values(products).forEach(p=>{
-
-if(p.quantity>0){
-
-total+=p.quantity*p.price;
-
-lines.push(
-p.quantity+"x "+p.name
-);
-
-}
-
-});
-
-if(total<=0){
-
-alert("Seleziona almeno un prodotto.");
-
-return;
-
-}
-
-const {error} =
-await supabaseClient
-.from("Invoices")
-.insert({
-
-amount:total,
-
-category:lines.join(", "),
-
-user_id:currentUser.id
-
-});
-
-if(error){
-
-alert(error.message);
-
-return;
-
-}
-
-Object.values(products).forEach(p=>{
-p.quantity=0;
-});
-
-renderProducts();
-
-updateDrawer();
-
-closeDrawer();
-
-await loadInvoices();
-
-}
-
-
-/* DASHBOARD */
-
-function renderDashboard(){
-
-const total =
-invoices.reduce(
-(sum,i)=>sum+Number(i.amount),
-0
-);
-
-const today =
-new Date().toDateString();
-
-const todayInvoices =
-invoices.filter(i=>
-new Date(i.created_at).toDateString()===today
-);
-
-const todayTotal =
-todayInvoices.reduce(
-(sum,i)=>sum+Number(i.amount),
-0
-);
-
-document.getElementById("dashboardTotal").textContent=
-money(total);
-
-document.getElementById("dashboardToday").textContent=
-money(todayTotal);
-
-document.getElementById("dashboardCount").textContent=
-invoices.length;
-
-document.getElementById("dashboardLast").textContent=
-invoices.length
-?money(invoices[0].amount)
-:"$0";
-
-document.getElementById("dashboardOperations").innerHTML=
-invoices.length
-?invoices.slice(0,5).map(i=>invoiceHTML(i,false)).join("")
-:`<div class="empty">Nessuna fattura</div>`;
-
-}
-
-
-/* OPERAZIONI */
-
-function renderOperations(){
-
-document.getElementById("operationsList").innerHTML=
-invoices.length
-?invoices.map(i=>invoiceHTML(i,true)).join("")
-:`<div class="empty">Nessuna fattura</div>`;
-
-}
-
-
-/* FATTURA */
-
-function invoiceHTML(invoice,allowDelete){
-
-const username=
-getUsername(invoice.user_id);
-
-return `
-
-<div class="invoice-row">
-
-<div>
-
-<div class="invoice-title">
-${invoice.category}
-</div>
-
-<div class="invoice-meta">
-
-${new Date(invoice.created_at).toLocaleString("it-IT")}
-
-${currentProfile.role==="admin"
-?`<br>Dipendente: <strong>${username}</strong>`
-:""}
-
-</div>
-
-</div>
-
-<div>
-
-<div class="invoice-amount">
-${money(invoice.amount)}
-</div>
-
-${currentProfile.role==="admin" && allowDelete
-?`
-<button
-class="delete-btn"
-onclick="deleteInvoice(${invoice.id})">
-Elimina
-</button>
-`
-:""}
-
-</div>
-
-</div>
-
-`;
-
-}
-
-
-/* USERNAME */
-
-function getUsername(userId){
-
-const profile=
-profiles.find(p=>p.id===userId);
-
-if(profile){
-return profile.username;
-}
-
-if(currentProfile && currentProfile.id===userId){
-return currentProfile.username;
-}
-
-return "Dipendente";
-
-}
-
-
-/* FATTURATO PER DIPENDENTE */
-
-function getEmployeeRevenueData(){
-
-const revenue={};
-
-profiles.forEach(profile=>{
-
-revenue[profile.id]={
-
-id:profile.id,
-
-username:profile.username,
-
-role:profile.role,
-
-grade:profile.grade || "dipendente",
-
-total:0,
-
-count:0
-
-};
-
-});
-
-
-invoices.forEach(invoice=>{
-
-const userId=invoice.user_id;
-
-if(!revenue[userId]){
-
-revenue[userId]={
-
-id:userId,
-
-username:getUsername(userId),
-
-role:"employee",
-
-grade:"dipendente",
-
-total:0,
-
-count:0
-
-};
-
-}
-
-revenue[userId].total +=
-Number(invoice.amount);
-
-revenue[userId].count += 1;
-
-});
-
-
-return Object.values(revenue)
-.sort((a,b)=>b.total-a.total);
-
-}
-
-
-function renderEmployeeRevenue(){
-
-if(currentProfile.role !== "admin"){
-return;
-}
-
-const employees=
-getEmployeeRevenueData();
-
-const container=
-document.getElementById("employeeRevenue");
-
-if(!employees.length){
-
-container.innerHTML=`
-<div class="empty">
-Nessun dipendente trovato.
-</div>
-`;
-
-return;
-
-}
-
-container.innerHTML=
-employees.map((employee,index)=>`
-
-<div class="employee-card">
-
-<div class="employee-position">
-#${index+1}
-</div>
-
-<div class="employee-name">
-${employee.username}
-</div>
-
-<div class="employee-grade">
-${formatGrade(employee.grade)}
-</div>
-
-<div class="employee-details">
-
-Fatture:
-<strong>
-${employee.count}
-</strong>
-
-</div>
-
-<div class="employee-total">
-
-${money(employee.total)}
-
-</div>
-
-</div>
-
-`).join("");
-
-}
-
-
-/* STIPENDI */
-
-function renderSalaries(){
-
-if(currentProfile.role !== "admin"){
-return;
-}
-
-const employees=
-getEmployeeRevenueData();
-
-const container=
-document.getElementById("salaryList");
-
-if(!employees.length){
-
-container.innerHTML=`
-<div class="empty">
-Nessun dipendente trovato.
-</div>
-`;
-
-return;
-
-}
-
-container.innerHTML=
-employees.map(employee=>{
-
-const grade =
-employee.grade || "dipendente";
-
-const percentage =
-salaryPercentages[grade] || 20;
-
-const salary =
-employee.total * percentage / 100;
-
-return `
-
-<div class="salary-card">
-
-<div class="salary-header">
-
-<div>
-
-<div class="salary-name">
-${employee.username}
-</div>
-
-<div class="salary-grade">
-${formatGrade(grade)}
-</div>
-
-</div>
-
-<div style="color:#d4af37;font-weight:bold">
-${percentage}%
-</div>
-
-</div>
-
-
-<div class="salary-info">
-
-<div class="salary-box">
-
-<small>Fatture</small>
-
-<strong>
-${employee.count}
-</strong>
-
-</div>
-
-
-<div class="salary-box">
-
-<small>Fatturato</small>
-
-<strong>
-${money(employee.total)}
-</strong>
-
-</div>
-
-
-<div class="salary-box">
-
-<small>Percentuale</small>
-
-<strong>
-${percentage}%
-</strong>
-
-</div>
-
-</div>
-
-
-<div class="salary-result">
-
-<small>STIPENDIO DA PAGARE</small>
-
-<strong>
-${money(salary)}
-</strong>
-
-</div>
-
-</div>
-
-`;
-
-}).join("");
-
-}
-
-
-/* CLASSIFICA */
-
-function renderRanking(){
-
-const ranking={};
-
-invoices.forEach(i=>{
-
-const id=i.user_id;
-
-if(!ranking[id]){
-
-ranking[id]={
-name:getUsername(id),
-total:0,
-count:0
-};
-
-}
-
-ranking[id].total+=Number(i.amount);
-
-ranking[id].count++;
-
-});
-
-const sorted=
-Object.values(ranking)
-.sort((a,b)=>b.total-a.total);
-
-document.getElementById("rankingList").innerHTML=
-sorted.length
-?sorted.map((p,index)=>`
-
-<div class="ranking-row">
-
-<div class="ranking-position">
-#${index+1}
-</div>
-
-<div>
-<strong>${p.name}</strong>
-</div>
-
-<div>
-${p.count} fatture
-</div>
-
-<div style="color:#f0d77a;font-weight:bold">
-${money(p.total)}
-</div>
-
-</div>
-
-`).join("")
-:`<div class="empty">Nessun dato</div>`;
-
-}
-
-
-/* STATISTICHE */
-
-function renderStatistics(){
-
-const total=
-invoices.reduce(
-(sum,i)=>sum+Number(i.amount),
-0
-);
-
-const average=
-invoices.length
-?total/invoices.length
-:0;
-
-const highest=
-invoices.length
-?Math.max(...invoices.map(i=>Number(i.amount)))
-:0;
-
-const today=
-new Date().toDateString();
-
-const todayCount=
-invoices.filter(i=>
-new Date(i.created_at).toDateString()===today
-).length;
-
-let items=0;
-
-invoices.forEach(invoice=>{
-
-const matches=
-String(invoice.category).matchAll(/(\d+)x/g);
-
-for(const match of matches){
-
-items+=Number(match[1]);
-
-}
-
-});
-
-document.getElementById("averageInvoice").textContent=
-money(average);
-
-document.getElementById("bestInvoice").textContent=
-money(highest);
-
-document.getElementById("todayCount").textContent=
-todayCount;
-
-document.getElementById("itemsSold").textContent=
-items;
-
-}
-
-
-/* ADMIN */
-
-function renderAdmin(){
-
-if(currentProfile.role !== "admin"){
-return;
-}
-
-const total=
-invoices.reduce(
-(sum,i)=>sum+Number(i.amount),
-0
-);
-
-const employees=
-profiles.filter(
-p=>p.role==="employee"
-);
-
-document.getElementById("adminTotal").textContent=
-money(total);
-
-document.getElementById("adminCount").textContent=
-invoices.length;
-
-document.getElementById("adminEmployees").textContent=
-employees.length;
-
-document.getElementById("adminAverage").textContent=
-money(
-invoices.length
-?total/invoices.length
-:0
-);
-
-document.getElementById("adminInvoicesList").innerHTML=
-invoices.length
-?invoices.map(i=>invoiceHTML(i,true)).join("")
-:`<div class="empty">Nessuna fattura</div>`;
-
-renderEmployeeRevenue();
-
-renderSalaries();
-
-}
-
-
-/* ELIMINA */
-
-async function deleteInvoice(id){
-
-if(currentProfile.role!=="admin"){
-return;
-}
-
-if(!confirm("Eliminare questa fattura?")){
-return;
-}
-
-const {error}=
-await supabaseClient
-.from("Invoices")
-.delete()
-.eq("id",id);
-
-if(error){
-
-alert(error.message);
-
-return;
-
-}
-
-await loadInvoices();
-
-}
-
-
-/* FORMATTA GRADO */
-
-function formatGrade(grade){
-
-const names={
-
-"dipendente":"Dipendente",
-
-"armaiolo":"Armaiolo",
-
-"vice-direttore":"Vice-direttore",
-
-"direttore":"Direttore",
-
-"proprietario":"Proprietario"
-
-};
-
-return names[grade] || grade;
-
-}
-
-
-/* RENDER */
-
-function renderEverything(){
-
-renderDashboard();
-
-renderOperations();
-
-renderRanking();
-
-renderStatistics();
-
-renderAdmin();
-
-}
-
-
-/* MENU */
-
-function showPage(id,element){
-
-document.querySelectorAll(".page")
-.forEach(p=>p.classList.remove("active"));
-
-document.getElementById(id)
-.classList.add("active");
-
-document.querySelectorAll(".menu-item")
-.forEach(m=>m.classList.remove("active"));
-
-element.classList.add("active");
-
-}
-
-
-/* DRAWER */
-
-function openDrawer(){
-
-document.getElementById("invoiceDrawer")
-.classList.add("open");
-
-document.getElementById("drawerOverlay")
-.classList.add("show");
-
-updateDrawer();
-
-}
-
-
-function closeDrawer(){
-
-document.getElementById("invoiceDrawer")
-.classList.remove("open");
-
-document.getElementById("drawerOverlay")
-.classList.remove("show");
-
-}
-
-
-/* LOGOUT */
 
 async function logout(){
-
-await supabaseClient.auth.signOut();
-
-location.reload();
-
+ await db.auth.signOut();currentUser=currentProfile=null;myInvoices=[];allInvoices=[];allProfiles=[];importOrders=[];
+ app.classList.add("hidden");loginPage.classList.remove("hidden");loginPassword.value=""
 }
 
-
-/* SOLDI */
-
-function money(value){
-
-return "$"+
-Number(value||0)
-.toLocaleString("it-IT",{
-maximumFractionDigits:0
-});
-
+async function loadApplication(){
+ const {data,error}=await db.from("profiles").select("id,username,role,grade").eq("id",currentUser.id).single();
+ if(error||!data){alert("Profilo utente non trovato.");await db.auth.signOut();return}
+ currentProfile=data;loginPage.classList.add("hidden");app.classList.remove("hidden");
+ currentUsername.textContent=data.username;currentGrade.textContent=prettyGrade(data.grade);
+ adminMenu.classList.toggle("hidden",data.role!=="admin");
+ await refreshData();showPage("dashboard")
 }
 
+async function refreshData(){await loadMyInvoices();if(currentProfile?.role==="admin")await loadAdminData();renderDashboard();renderMyHistory()}
 
-/* ENTER */
-
-document.getElementById("password")
-.addEventListener("keydown",e=>{
-
-if(e.key==="Enter"){
-login();
+async function loadMyInvoices(){
+ const {data,error}=await db.from("Invoices").select("*").eq("user_id",currentUser.id).order("created_at",{ascending:false});
+ myInvoices=error?[]:(data||[]);if(error)console.error(error)
 }
 
-});
-
-
-/* SESSIONE */
-
-async function checkSession(){
-
-const {data}=
-await supabaseClient.auth.getSession();
-
-if(data.session){
-
-currentUser=data.session.user;
-
-await startApp();
-
+async function loadAdminData(){
+ const [a,b,c]=await Promise.all([
+  db.from("Invoices").select("*").order("created_at",{ascending:false}),
+  db.from("profiles").select("id,username,role,grade").order("username",{ascending:true}),
+  db.from("ImportOrders").select("*").order("created_at",{ascending:false})
+ ]);
+ allInvoices=a.error?[]:(a.data||[]);allProfiles=b.error?[]:(b.data||[]);importOrders=c.error?[]:(c.data||[]);
+ if(a.error)console.error(a.error);if(b.error)console.error(b.error);if(c.error)console.error(c.error);
+ renderAdmin();renderEmployees();renderSalaries();renderImportOrders()
 }
 
+function updateInvoicePrice(){
+ const o=invoiceProduct.options[invoiceProduct.selectedIndex],p=Number(o?.dataset?.price||0),q=Number(invoiceQuantity.value||1);
+ invoiceTotalPreview.value=money(p*q)
 }
 
-checkSession();
+async function saveInvoice(){
+ const o=invoiceProduct.options[invoiceProduct.selectedIndex],product=invoiceProduct.value,p=Number(o?.dataset?.price||0),q=Number(invoiceQuantity.value),total=p*q;
+ invoiceMessage.textContent="";invoiceMessage.className="msg";
+ if(!product){invoiceMessage.textContent="Seleziona un prodotto o servizio.";invoiceMessage.className="msg error";return}
+ if(!Number.isInteger(q)||q<=0){invoiceMessage.textContent="Inserisci una quantità valida.";invoiceMessage.className="msg error";return}
+ const {error}=await db.from("Invoices").insert({amount:total,category:`${q}x ${product}`,user_id:currentUser.id});
+ if(error){invoiceMessage.textContent="Errore durante il salvataggio.";invoiceMessage.className="msg error";console.error(error);return}
+ invoiceProduct.value="";invoiceQuantity.value="1";invoiceTotalPreview.value="$0";
+ invoiceMessage.textContent="Fattura registrata correttamente.";invoiceMessage.className="msg success";await refreshData()
+}
 
+function renderDashboard(){
+ const total=myInvoices.reduce((s,x)=>s+Number(x.amount||0),0),grade=currentProfile?.grade||"dipendente",pct=salaryPercentages[grade]||0;
+ myTotal.textContent=money(total);myInvoiceCount.textContent=myInvoices.length;dashboardGrade.textContent=prettyGrade(grade);dashboardPercentage.textContent=pct+"% sul fatturato";
+ const rows=myInvoices.slice(0,5);latestInvoices.innerHTML=rows.length?rows.map(x=>`<tr><td>${formatDate(x.created_at)}</td><td><span class="badge">${esc(x.category)}</span></td><td class="amount">${money(x.amount)}</td></tr>`).join(""):`<tr><td colspan="3" class="empty">Nessuna fattura registrata.</td></tr>`
+}
+
+function renderMyHistory(){
+ myInvoicesTable.innerHTML=myInvoices.length?myInvoices.map(x=>`<tr><td>${formatDate(x.created_at)}</td><td><span class="badge">${esc(x.category)}</span></td><td class="amount">${money(x.amount)}</td></tr>`).join(""):`<tr><td colspan="3" class="empty">Non hai ancora registrato fatture.</td></tr>`
+}
+
+function renderAdmin(){
+ const gross=allInvoices.reduce((s,x)=>s+Number(x.amount||0),0),imp=importOrders.reduce((s,x)=>s+Number(x.total_price||0),0),bal=gross-imp;
+ businessTotal.textContent=money(gross);importExpenseTotal.textContent=money(imp);companyBalance.textContent=money(bal);businessInvoiceCount.textContent=allInvoices.length;employeeCount.textContent=allProfiles.length;companyBalance.style.color=bal<0?"var(--danger)":"";
+ adminInvoicesTable.innerHTML=allInvoices.length?allInvoices.map(x=>{const p=allProfiles.find(y=>y.id===x.user_id);return `<tr><td><b>${esc(p?.username||"Utente")}</b></td><td>${formatDate(x.created_at)}</td><td><span class="badge">${esc(x.category)}</span></td><td class="amount">${money(x.amount)}</td><td><button class="del" onclick="deleteInvoice(${Number(x.id)})">Elimina</button></td></tr>`}).join(""):`<tr><td colspan="5" class="empty">Nessuna fattura presente.</td></tr>`
+}
+
+async function deleteInvoice(id){
+ if(currentProfile?.role!=="admin"||!confirm("Vuoi eliminare questa fattura?"))return;
+ const {error}=await db.from("Invoices").delete().eq("id",id);if(error){alert("Non è stato possibile eliminare la fattura.");return}await refreshData()
+}
+
+function employeeData(){return allProfiles.map(p=>{const inv=allInvoices.filter(x=>x.user_id===p.id),total=inv.reduce((s,x)=>s+Number(x.amount||0),0);return {...p,count:inv.length,total}}).sort((a,b)=>b.total-a.total)}
+
+function renderEmployees(){
+ const e=employeeData();employeeGrid.innerHTML=e.length?e.map((x,i)=>`<div class="employee"><h3>${i<3?["Ⅰ · ","Ⅱ · ","Ⅲ · "][i]:""}${esc(x.username)}</h3><div class="grade">${esc(prettyGrade(x.grade))}</div><div class="emoney">${money(x.total)}</div><div class="emeta">${x.count} fatture</div></div>`).join(""):`<div class="empty">Nessun dipendente trovato.</div>`
+}
+
+function renderSalaries(){
+ const e=employeeData();salaryList.innerHTML=e.length?e.map(x=>{const g=x.grade||"dipendente",p=salaryPercentages[g]||0,s=x.total*p/100;return `<div class="salary"><div><div class="sname">${esc(x.username)}</div><div class="sinfo">${esc(prettyGrade(g))} · ${p}% · Fatturato ${money(x.total)}</div></div><div class="svalue">${money(s)}</div></div>`}).join(""):`<div class="empty">Nessun dipendente trovato.</div>`
+}
+
+function updateImportPreview(){
+ const mat=importMaterial.value,q=Number(importQuantity.value||0),p=importPrices[mat]||0;
+ importUnitPricePreview.value=money(p);importTotalPreview.value=money(p*q)
+}
+
+async function saveImportOrder(){
+ if(currentProfile?.role!=="admin")return;
+ const mat=importMaterial.value,q=Number(importQuantity.value),p=importPrices[mat]||0,total=p*q;
+ importMessage.textContent="";importMessage.className="msg";
+ if(!mat){importMessage.textContent="Seleziona un materiale.";importMessage.className="msg error";return}
+ if(!Number.isInteger(q)||q<=0){importMessage.textContent="Inserisci una quantità valida.";importMessage.className="msg error";return}
+ const {error}=await db.from("ImportOrders").insert({kit_type:mat,quantity:q,unit_price:p,total_price:total,user_id:currentUser.id});
+ if(error){console.error(error);importMessage.textContent="Errore durante il salvataggio dell'ordine.";importMessage.className="msg error";return}
+ importMaterial.value="";importQuantity.value="1";importUnitPricePreview.value="$0";importTotalPreview.value="$0";importMessage.textContent="Ordine Import registrato correttamente.";importMessage.className="msg success";await refreshData()
+}
+
+function renderImportOrders(){
+ const gross=allInvoices.reduce((s,x)=>s+Number(x.amount||0),0),imp=importOrders.reduce((s,x)=>s+Number(x.total_price||0),0),bal=gross-imp;
+ importPageTotal.textContent=money(imp);importPageBalance.textContent=money(bal);importPageBalance.style.color=bal<0?"var(--danger)":"";
+ importOrdersTable.innerHTML=importOrders.length?importOrders.map(x=>{const p=allProfiles.find(y=>y.id===x.user_id);return `<tr><td>${formatDate(x.created_at)}</td><td><span class="badge">${esc(x.kit_type)}</span></td><td>${Number(x.quantity||0)}</td><td>${money(x.unit_price)}</td><td class="amount">${money(x.total_price)}</td><td>${esc(p?.username||"Admin")}</td><td><button class="del" onclick="deleteImportOrder(${Number(x.id)})">Elimina</button></td></tr>`}).join(""):`<tr><td colspan="7" class="empty">Nessun ordine Import registrato.</td></tr>`
+}
+
+async function deleteImportOrder(id){
+ if(currentProfile?.role!=="admin"||!confirm("Vuoi eliminare questo ordine Import?"))return;
+ const {error}=await db.from("ImportOrders").delete().eq("id",id);if(error){alert("Non è stato possibile eliminare l'ordine.");return}await refreshData()
+}
+
+function showPage(page){
+ if(["admin","employees","salary","import"].includes(page)&&currentProfile?.role!=="admin")page="dashboard";
+ ["dashboard","invoice","history","admin","employees","salary","import"].forEach(x=>document.getElementById("page-"+x)?.classList.add("hidden"));
+ document.getElementById("page-"+page)?.classList.remove("hidden");
+ document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));
+ const map={dashboard:"navDashboard",invoice:"navInvoice",history:"navHistory",admin:"navAdmin",employees:"navEmployees",salary:"navSalary",import:"navImport"};
+ document.getElementById(map[page])?.classList.add("active");
+ const titles={dashboard:"Dashboard",invoice:"Nuova fattura",history:"Le mie fatture",admin:"Pannello Admin",employees:"Fatturato dipendenti",salary:"Stipendi",import:"Ordine Import"};
+ pageTitle.textContent=titles[page]||"Armeria 200"
+}
+
+async function checkSession(){const {data:{session}}=await db.auth.getSession();if(session){currentUser=session.user;await loadApplication()}}
+loginPassword.addEventListener("keydown",e=>{if(e.key==="Enter")login()});
+updateInvoicePrice();updateImportPreview();checkSession();
 </script>
-
 </body>
 </html>
