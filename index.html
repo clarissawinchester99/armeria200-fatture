@@ -6,6 +6,9 @@
 
   <title>Armeria | Gestionale Fatture</title>
 
+  <!-- SUPABASE -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
     * {
       margin: 0;
@@ -19,33 +22,22 @@
       --dark: #101010;
       --panel: #171717;
       --panel-light: #202020;
-
       --red: #b20d1c;
       --red-dark: #710812;
-
       --gold: #d4af37;
       --gold-light: #f0d77a;
-
       --white: #f5f5f5;
-      --gray: #999999;
-
+      --gray: #999;
       --border: rgba(212, 175, 55, 0.22);
+      --green: #39c77f;
     }
 
     body {
       min-height: 100vh;
       color: var(--white);
       background:
-        radial-gradient(
-          circle at top right,
-          rgba(178, 13, 28, 0.16),
-          transparent 35%
-        ),
-        radial-gradient(
-          circle at bottom left,
-          rgba(212, 175, 55, 0.08),
-          transparent 35%
-        ),
+        radial-gradient(circle at top right, rgba(178,13,28,.16), transparent 35%),
+        radial-gradient(circle at bottom left, rgba(212,175,55,.08), transparent 35%),
         var(--black);
     }
 
@@ -54,9 +46,7 @@
       font: inherit;
     }
 
-    /* =========================
-       LOGIN
-    ========================= */
+    /* LOGIN */
 
     #loginPage {
       min-height: 100vh;
@@ -93,7 +83,6 @@
       color: var(--gold);
       font-size: 38px;
       background: #0b0b0b;
-      box-shadow: 0 0 30px rgba(212,175,55,.12);
     }
 
     .brand h1 {
@@ -120,7 +109,6 @@
       font-size: 12px;
       font-weight: bold;
       text-transform: uppercase;
-      letter-spacing: .8px;
     }
 
     .input-group input {
@@ -133,14 +121,8 @@
       color: white;
     }
 
-    .input-group input:focus {
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(212,175,55,.07);
-    }
-
     .login-btn {
       width: 100%;
-      margin-top: 5px;
       padding: 14px;
       border-radius: 9px;
       border: 1px solid rgba(212,175,55,.25);
@@ -148,12 +130,20 @@
       color: white;
       font-weight: bold;
       cursor: pointer;
-      letter-spacing: 1px;
     }
 
-    /* =========================
-       APP
-    ========================= */
+    .login-error {
+      display: none;
+      margin-top: 15px;
+      padding: 11px;
+      border-radius: 8px;
+      background: rgba(178,13,28,.15);
+      color: #ff8f98;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    /* APP */
 
     #app {
       display: none;
@@ -167,7 +157,7 @@
       top: 0;
       bottom: 0;
       padding: 24px 16px;
-      background: linear-gradient(180deg, #111111, #080808);
+      background: linear-gradient(180deg, #111, #080808);
       border-right: 1px solid var(--border);
       z-index: 10;
     }
@@ -202,7 +192,6 @@
       margin-top: 5px;
       color: var(--gray);
       font-size: 10px;
-      letter-spacing: 1px;
       text-transform: uppercase;
     }
 
@@ -210,14 +199,13 @@
       padding: 13px 14px;
       margin-bottom: 8px;
       border-radius: 9px;
-      border: 1px solid transparent;
-      color: #dddddd;
+      color: #ddd;
       cursor: pointer;
-      transition: .2s;
+      border: 1px solid transparent;
     }
 
     .menu-item:hover {
-      background: rgba(178, 13, 28, .15);
+      background: rgba(178,13,28,.15);
     }
 
     .menu-item.active {
@@ -228,6 +216,10 @@
         rgba(178,13,28,.35),
         rgba(212,175,55,.07)
       );
+    }
+
+    .admin-only {
+      display: none;
     }
 
     .sidebar-bottom {
@@ -246,16 +238,15 @@
       background: #151515;
     }
 
-    .user-box strong {
+    .user-box strong,
+    .user-box span {
       display: block;
     }
 
     .user-box span {
-      display: block;
       margin-top: 4px;
       color: var(--gold);
       font-size: 10px;
-      letter-spacing: .8px;
       text-transform: uppercase;
     }
 
@@ -290,7 +281,6 @@
     .topbar h1 {
       color: var(--gold);
       font-size: 30px;
-      letter-spacing: 1px;
     }
 
     .topbar p {
@@ -298,9 +288,7 @@
       color: var(--gray);
     }
 
-    /* =========================
-       DASHBOARD
-    ========================= */
+    /* DASHBOARD */
 
     .cards {
       display: grid;
@@ -331,7 +319,6 @@
       color: var(--gray);
       font-size: 12px;
       text-transform: uppercase;
-      letter-spacing: .7px;
     }
 
     .card-value {
@@ -352,7 +339,6 @@
     .section h2 {
       margin-bottom: 20px;
       color: var(--gold);
-      font-size: 20px;
     }
 
     .section-subtitle {
@@ -362,13 +348,11 @@
       font-size: 13px;
     }
 
-    /* =========================
-       PRODOTTI
-    ========================= */
+    /* PRODOTTI */
 
     .products-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2,1fr);
       gap: 18px;
     }
 
@@ -376,20 +360,18 @@
       padding: 20px;
       border-radius: 14px;
       border: 1px solid rgba(212,175,55,.2);
-      background: linear-gradient(180deg, #202020, #151515);
-      transition: .2s;
+      background: linear-gradient(180deg,#202020,#151515);
     }
 
-    .product-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(212,175,55,.55);
-    }
-
-    .product-top {
+    .product-top,
+    .quantity-area {
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 15px;
+    }
+
+    .product-top {
       margin-bottom: 20px;
     }
 
@@ -402,14 +384,6 @@
       color: var(--gold-light);
       font-size: 17px;
       font-weight: bold;
-      white-space: nowrap;
-    }
-
-    .quantity-area {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
     }
 
     .quantity-controls {
@@ -428,12 +402,6 @@
       font-size: 23px;
       font-weight: bold;
       cursor: pointer;
-      transition: .2s;
-    }
-
-    .qty-btn:hover {
-      background: var(--red-dark);
-      color: white;
     }
 
     .qty-number {
@@ -455,43 +423,78 @@
     }
 
     .product-subtotal strong {
-      display: block;
-      margin-top: 4px;
       color: var(--gold);
       font-size: 19px;
     }
 
-    /* =========================
-       CARRELLO LATERALE
-    ========================= */
+    /* OPERAZIONI */
+
+    .invoice-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .invoice-row {
+      padding: 17px;
+      border-radius: 11px;
+      border: 1px solid rgba(212,175,55,.15);
+      background: #131313;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .invoice-category {
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    .invoice-meta {
+      color: var(--gray);
+      font-size: 12px;
+    }
+
+    .invoice-right {
+      text-align: right;
+    }
+
+    .invoice-amount {
+      color: var(--gold-light);
+      font-size: 19px;
+      font-weight: bold;
+    }
+
+    .delete-btn {
+      margin-top: 8px;
+      padding: 7px 11px;
+      border-radius: 7px;
+      border: 1px solid #68121c;
+      background: #260c10;
+      color: #ff7a84;
+      cursor: pointer;
+    }
+
+    .empty {
+      padding: 40px;
+      text-align: center;
+      color: var(--gray);
+    }
+
+    /* DRAWER */
 
     .invoice-drawer {
       position: fixed;
       top: 0;
       right: -430px;
-
       width: 410px;
       max-width: 92vw;
       height: 100vh;
-
       z-index: 1000;
-
-      background:
-        linear-gradient(
-          180deg,
-          #161616,
-          #0a0a0a
-        );
-
-      border-left:
-        1px solid rgba(212,175,55,.35);
-
-      box-shadow:
-        -20px 0 50px rgba(0,0,0,.65);
-
-      transition:
-        right .3s ease;
-
+      background: linear-gradient(180deg,#161616,#0a0a0a);
+      border-left: 1px solid rgba(212,175,55,.35);
+      box-shadow: -20px 0 50px rgba(0,0,0,.65);
+      transition: right .3s ease;
       display: flex;
       flex-direction: column;
     }
@@ -502,147 +505,87 @@
 
     .drawer-header {
       padding: 22px;
-
       display: flex;
       justify-content: space-between;
       align-items: center;
-
-      border-bottom:
-        1px solid var(--border);
+      border-bottom: 1px solid var(--border);
     }
 
     .drawer-header h2 {
       color: var(--gold);
-      font-size: 21px;
     }
 
     .close-drawer {
       width: 38px;
       height: 38px;
-
       border-radius: 8px;
-
-      border:
-        1px solid rgba(212,175,55,.3);
-
+      border: 1px solid rgba(212,175,55,.3);
       background: #111;
-
       color: white;
-
       font-size: 24px;
-
       cursor: pointer;
     }
 
     .drawer-content {
       flex: 1;
-
       overflow-y: auto;
-
       padding: 20px;
-    }
-
-    .empty-cart {
-      padding: 50px 10px;
-
-      text-align: center;
-
-      color: var(--gray);
     }
 
     .drawer-item {
       margin-bottom: 12px;
-
       padding: 15px;
-
       border-radius: 10px;
-
-      border:
-        1px solid rgba(212,175,55,.15);
-
+      border: 1px solid rgba(212,175,55,.15);
       background: #141414;
     }
 
-    .drawer-item-top {
+    .drawer-item-top,
+    .drawer-item-bottom {
       display: flex;
-
       justify-content: space-between;
-
       gap: 15px;
-
-      margin-bottom: 7px;
-    }
-
-    .drawer-item-name {
-      font-weight: bold;
     }
 
     .drawer-item-total {
       color: var(--gold-light);
-
       font-weight: bold;
     }
 
     .drawer-item-bottom {
-      display: flex;
-
-      justify-content: space-between;
-
+      margin-top: 8px;
       color: var(--gray);
-
       font-size: 12px;
     }
 
     .drawer-footer {
       padding: 22px;
-
-      border-top:
-        1px solid var(--border);
-
+      border-top: 1px solid var(--border);
       background: #0d0d0d;
     }
 
     .drawer-total-label {
       color: var(--gray);
-
       font-size: 12px;
-
       text-transform: uppercase;
     }
 
     .drawer-total {
       margin-top: 5px;
-
       color: var(--gold-light);
-
       font-size: 34px;
-
       font-weight: bold;
     }
 
     .save-btn {
       width: 100%;
-
       margin-top: 18px;
-
       padding: 15px;
-
       border-radius: 9px;
-
-      border:
-        1px solid rgba(212,175,55,.35);
-
-      background:
-        linear-gradient(
-          90deg,
-          var(--red-dark),
-          var(--red)
-        );
-
+      border: 1px solid rgba(212,175,55,.35);
+      background: linear-gradient(90deg,var(--red-dark),var(--red));
       color: white;
-
       font-weight: bold;
-
       cursor: pointer;
     }
 
@@ -651,138 +594,66 @@
       cursor: not-allowed;
     }
 
-    /* =========================
-       BOTTONE FLOTTANTE
-    ========================= */
-
     .open-cart-btn {
       position: fixed;
-
       right: 22px;
       bottom: 22px;
-
       z-index: 900;
-
       padding: 15px 20px;
-
       border-radius: 999px;
-
-      border:
-        1px solid rgba(212,175,55,.45);
-
-      background:
-        linear-gradient(
-          90deg,
-          var(--red-dark),
-          var(--red)
-        );
-
+      border: 1px solid rgba(212,175,55,.45);
+      background: linear-gradient(90deg,var(--red-dark),var(--red));
       color: white;
-
       font-weight: bold;
-
       cursor: pointer;
-
-      box-shadow:
-        0 10px 30px rgba(0,0,0,.5);
     }
 
     .cart-count {
       display: inline-flex;
-
       justify-content: center;
       align-items: center;
-
       min-width: 24px;
       height: 24px;
-
       margin-left: 8px;
-
       padding: 0 6px;
-
       border-radius: 50%;
-
       background: var(--gold);
-
       color: black;
-
       font-size: 12px;
-
-      font-weight: bold;
     }
-
-    /* =========================
-       OVERLAY
-    ========================= */
 
     .drawer-overlay {
       display: none;
-
       position: fixed;
       inset: 0;
-
       z-index: 950;
-
-      background:
-        rgba(0,0,0,.55);
+      background: rgba(0,0,0,.55);
     }
 
     .drawer-overlay.show {
       display: block;
     }
 
-    /* =========================
-       GENERIC
-    ========================= */
-
-    .coming {
-      padding: 50px 20px;
+    .success-message {
+      display: none;
+      margin-top: 14px;
+      padding: 10px;
+      border-radius: 8px;
+      background: rgba(57,199,127,.12);
+      color: var(--green);
       text-align: center;
-      color: var(--gray);
+      font-size: 13px;
     }
 
-    /* =========================
-       RESPONSIVE
-    ========================= */
-
-    @media(max-width: 1000px) {
+    @media(max-width:900px) {
       .cards {
         grid-template-columns: repeat(2,1fr);
       }
     }
 
-    @media(max-width: 800px) {
+    @media(max-width:750px) {
       .products-grid {
         grid-template-columns: 1fr;
-      }
-    }
-
-    @media(max-width: 700px) {
-      .sidebar {
-        width: 100%;
-        position: relative;
-      }
-
-      .sidebar-bottom {
-        position: relative;
-        left: auto;
-        right: auto;
-        bottom: auto;
-        margin-top: 25px;
-      }
-
-      .main {
-        margin-left: 0;
-        padding: 18px;
-      }
-
-      .cards {
-        grid-template-columns: 1fr;
-      }
-
-      .open-cart-btn {
-        right: 14px;
-        bottom: 14px;
       }
     }
   </style>
@@ -790,91 +661,59 @@
 
 <body>
 
-<!-- =========================
-     LOGIN
-========================= -->
-
 <div id="loginPage">
 
   <div class="login-box">
 
     <div class="brand">
-
-      <div class="brand-icon">
-        ♛
-      </div>
-
-      <h1>
-        ARMERIA
-      </h1>
-
-      <p>
-        GESTIONALE FATTURE
-      </p>
-
+      <div class="brand-icon">♛</div>
+      <h1>ARMERIA</h1>
+      <p>GESTIONALE FATTURE</p>
     </div>
 
     <div class="input-group">
-
-      <label>
-        Username
-      </label>
-
+      <label>Email o username</label>
       <input
         id="username"
         type="text"
-        placeholder="Inserisci username"
+        placeholder="Inserisci email o username"
       >
-
     </div>
 
     <div class="input-group">
-
-      <label>
-        Password
-      </label>
-
+      <label>Password</label>
       <input
         id="password"
         type="password"
         placeholder="Inserisci password"
       >
-
     </div>
 
     <button
+      id="loginBtn"
       class="login-btn"
-      onclick="fakeLogin()"
+      onclick="login()"
     >
       ACCEDI
     </button>
 
+    <div
+      id="loginError"
+      class="login-error"
+    ></div>
+
   </div>
 
 </div>
-
-<!-- =========================
-     APP
-========================= -->
 
 <div id="app">
 
   <aside class="sidebar">
 
     <div class="sidebar-brand">
-
-      <div class="sidebar-icon">
-        ♛
-      </div>
-
-      <h2>
-        ARMERIA
-      </h2>
-
-      <p>
-        Gestionale aziendale
-      </p>
-
+      <div class="sidebar-icon">♛</div>
+      <h2>ARMERIA</h2>
+      <p>Gestionale aziendale</p>
     </div>
 
     <div
@@ -899,21 +738,8 @@
     </div>
 
     <div
-      class="menu-item"
-      onclick="showPage('classifica', this)"
-    >
-      🏆 Classifica
-    </div>
-
-    <div
-      class="menu-item"
-      onclick="showPage('statistiche', this)"
-    >
-      📊 Statistiche
-    </div>
-
-    <div
-      class="menu-item"
+      id="adminMenu"
+      class="menu-item admin-only"
       onclick="showPage('admin', this)"
     >
       👑 Pannello Admin
@@ -922,15 +748,8 @@
     <div class="sidebar-bottom">
 
       <div class="user-box">
-
-        <strong>
-          Admin
-        </strong>
-
-        <span>
-          Amministratore
-        </span>
-
+        <strong id="currentUsername">Utente</strong>
+        <span id="currentRole">Dipendente</span>
       </div>
 
       <button
@@ -954,86 +773,68 @@
     >
 
       <div class="topbar">
-
-        <h1>
-          Dashboard
-        </h1>
-
-        <p>
-          Panoramica generale dell'Armeria
-        </p>
-
+        <h1>Dashboard</h1>
+        <p>Panoramica del fatturato</p>
       </div>
 
       <div class="cards">
 
         <div class="card">
-
-          <div class="card-title">
-            Fatturato totale
-          </div>
-
-          <div class="card-value">
+          <div class="card-title">Fatturato totale</div>
+          <div
+            id="dashboardTotal"
+            class="card-value"
+          >
             $0
           </div>
-
         </div>
 
         <div class="card">
-
-          <div class="card-title">
-            Fatturato oggi
-          </div>
-
-          <div class="card-value">
+          <div class="card-title">Fatturato oggi</div>
+          <div
+            id="dashboardToday"
+            class="card-value"
+          >
             $0
           </div>
-
         </div>
 
         <div class="card">
-
-          <div class="card-title">
-            Fatture
-          </div>
-
-          <div class="card-value">
+          <div class="card-title">Fatture</div>
+          <div
+            id="dashboardInvoices"
+            class="card-value"
+          >
             0
           </div>
-
         </div>
 
         <div class="card">
-
-          <div class="card-title">
-            Articoli venduti
+          <div class="card-title">Ultima fattura</div>
+          <div
+            id="dashboardLast"
+            class="card-value"
+          >
+            $0
           </div>
-
-          <div class="card-value">
-            0
-          </div>
-
         </div>
 
       </div>
 
       <div class="section">
 
-        <h2>
-          Ultime operazioni
-        </h2>
+        <h2>Ultime operazioni</h2>
 
-        <div class="coming">
-          Le operazioni verranno collegate a Supabase.
-        </div>
+        <div
+          id="latestInvoices"
+          class="invoice-list"
+        ></div>
 
       </div>
 
     </section>
 
-    <!-- =========================
-         NUOVA FATTURA
-    ========================= -->
+    <!-- NUOVA FATTURA -->
 
     <section
       id="fatture"
@@ -1041,45 +842,24 @@
     >
 
       <div class="topbar">
-
-        <h1>
-          Nuova fattura
-        </h1>
-
-        <p>
-          Seleziona prodotti e servizi venduti
-        </p>
-
+        <h1>Nuova fattura</h1>
+        <p>Seleziona prodotti e servizi venduti</p>
       </div>
-
-      <!-- ARMI BIANCHE -->
 
       <div class="section">
 
-        <h2>
-          ⚔️ Armi bianche
-        </h2>
+        <h2>⚔️ Armi bianche</h2>
 
         <div class="section-subtitle">
-          Seleziona la quantità venduta.
+          Seleziona la quantità venduta
         </div>
 
         <div class="products-grid">
 
-          <!-- MACHETE -->
-
           <div class="product-card">
-
             <div class="product-top">
-
-              <div class="product-name">
-                Machete
-              </div>
-
-              <div class="product-price">
-                $7.000
-              </div>
-
+              <div class="product-name">Machete</div>
+              <div class="product-price">$7.000</div>
             </div>
 
             <div class="quantity-area">
@@ -1088,7 +868,7 @@
 
                 <button
                   class="qty-btn"
-                  onclick="changeQuantity('machete', -1)"
+                  onclick="changeQuantity('machete',-1)"
                 >
                   −
                 </button>
@@ -1102,7 +882,7 @@
 
                 <button
                   class="qty-btn"
-                  onclick="changeQuantity('machete', 1)"
+                  onclick="changeQuantity('machete',1)"
                 >
                   +
                 </button>
@@ -1110,35 +890,18 @@
               </div>
 
               <div class="product-subtotal">
-
-                <span>
-                  Totale
-                </span>
-
-                <strong id="total-machete">
-                  $0
-                </strong>
-
+                <span>Totale</span>
+                <strong id="total-machete">$0</strong>
               </div>
 
             </div>
-
           </div>
-
-          <!-- MAZZA -->
 
           <div class="product-card">
 
             <div class="product-top">
-
-              <div class="product-name">
-                Mazza da baseball
-              </div>
-
-              <div class="product-price">
-                $2.500
-              </div>
-
+              <div class="product-name">Mazza da baseball</div>
+              <div class="product-price">$2.500</div>
             </div>
 
             <div class="quantity-area">
@@ -1147,7 +910,7 @@
 
                 <button
                   class="qty-btn"
-                  onclick="changeQuantity('mazza', -1)"
+                  onclick="changeQuantity('mazza',-1)"
                 >
                   −
                 </button>
@@ -1161,7 +924,7 @@
 
                 <button
                   class="qty-btn"
-                  onclick="changeQuantity('mazza', 1)"
+                  onclick="changeQuantity('mazza',1)"
                 >
                   +
                 </button>
@@ -1169,35 +932,18 @@
               </div>
 
               <div class="product-subtotal">
-
-                <span>
-                  Totale
-                </span>
-
-                <strong id="total-mazza">
-                  $0
-                </strong>
-
+                <span>Totale</span>
+                <strong id="total-mazza">$0</strong>
               </div>
 
             </div>
-
           </div>
-
-          <!-- COLTELLO -->
 
           <div class="product-card">
 
             <div class="product-top">
-
-              <div class="product-name">
-                Coltello
-              </div>
-
-              <div class="product-price">
-                $4.500
-              </div>
-
+              <div class="product-name">Coltello</div>
+              <div class="product-price">$4.500</div>
             </div>
 
             <div class="quantity-area">
@@ -1206,7 +952,7 @@
 
                 <button
                   class="qty-btn"
-                  onclick="changeQuantity('coltello', -1)"
+                  onclick="changeQuantity('coltello',-1)"
                 >
                   −
                 </button>
@@ -1220,7 +966,7 @@
 
                 <button
                   class="qty-btn"
-                  onclick="changeQuantity('coltello', 1)"
+                  onclick="changeQuantity('coltello',1)"
                 >
                   +
                 </button>
@@ -1228,35 +974,18 @@
               </div>
 
               <div class="product-subtotal">
-
-                <span>
-                  Totale
-                </span>
-
-                <strong id="total-coltello">
-                  $0
-                </strong>
-
+                <span>Totale</span>
+                <strong id="total-coltello">$0</strong>
               </div>
 
             </div>
-
           </div>
-
-          <!-- TIRAPUGNI -->
 
           <div class="product-card">
 
             <div class="product-top">
-
-              <div class="product-name">
-                Tirapugni
-              </div>
-
-              <div class="product-price">
-                $2.000
-              </div>
-
+              <div class="product-name">Tirapugni</div>
+              <div class="product-price">$2.000</div>
             </div>
 
             <div class="quantity-area">
@@ -1265,7 +994,7 @@
 
                 <button
                   class="qty-btn"
-                  onclick="changeQuantity('tirapugni', -1)"
+                  onclick="changeQuantity('tirapugni',-1)"
                 >
                   −
                 </button>
@@ -1279,7 +1008,7 @@
 
                 <button
                   class="qty-btn"
-                  onclick="changeQuantity('tirapugni', 1)"
+                  onclick="changeQuantity('tirapugni',1)"
                 >
                   +
                 </button>
@@ -1287,19 +1016,11 @@
               </div>
 
               <div class="product-subtotal">
-
-                <span>
-                  Totale
-                </span>
-
-                <strong id="total-tirapugni">
-                  $0
-                </strong>
-
+                <span>Totale</span>
+                <strong id="total-tirapugni">$0</strong>
               </div>
 
             </div>
-
           </div>
 
         </div>
@@ -1310,30 +1031,19 @@
 
       <div class="section">
 
-        <h2>
-          📜 Porto d'armi
-        </h2>
+        <h2>📜 Porto d'armi</h2>
 
         <div class="section-subtitle">
-          Servizi relativi al porto d'armi.
+          Test balistico e rinnovo
         </div>
 
         <div class="products-grid">
 
-          <!-- TEST BALISTICO -->
-
           <div class="product-card">
 
             <div class="product-top">
-
-              <div class="product-name">
-                Test balistico
-              </div>
-
-              <div class="product-price">
-                $15.000
-              </div>
-
+              <div class="product-name">Test balistico</div>
+              <div class="product-price">$15.000</div>
             </div>
 
             <div class="quantity-area">
@@ -1342,7 +1052,7 @@
 
                 <button
                   class="qty-btn"
-                  onclick="changeQuantity('testBalistico', -1)"
+                  onclick="changeQuantity('testBalistico',-1)"
                 >
                   −
                 </button>
@@ -1356,7 +1066,7 @@
 
                 <button
                   class="qty-btn"
-                  onclick="changeQuantity('testBalistico', 1)"
+                  onclick="changeQuantity('testBalistico',1)"
                 >
                   +
                 </button>
@@ -1364,35 +1074,18 @@
               </div>
 
               <div class="product-subtotal">
-
-                <span>
-                  Totale
-                </span>
-
-                <strong id="total-testBalistico">
-                  $0
-                </strong>
-
+                <span>Totale</span>
+                <strong id="total-testBalistico">$0</strong>
               </div>
 
             </div>
-
           </div>
-
-          <!-- RINNOVO -->
 
           <div class="product-card">
 
             <div class="product-top">
-
-              <div class="product-name">
-                Rinnovo porto d'armi
-              </div>
-
-              <div class="product-price">
-                $7.500
-              </div>
-
+              <div class="product-name">Rinnovo porto d'armi</div>
+              <div class="product-price">$7.500</div>
             </div>
 
             <div class="quantity-area">
@@ -1401,7 +1094,7 @@
 
                 <button
                   class="qty-btn"
-                  onclick="changeQuantity('rinnovoPorto', -1)"
+                  onclick="changeQuantity('rinnovoPorto',-1)"
                 >
                   −
                 </button>
@@ -1415,7 +1108,7 @@
 
                 <button
                   class="qty-btn"
-                  onclick="changeQuantity('rinnovoPorto', 1)"
+                  onclick="changeQuantity('rinnovoPorto',1)"
                 >
                   +
                 </button>
@@ -1423,19 +1116,11 @@
               </div>
 
               <div class="product-subtotal">
-
-                <span>
-                  Totale
-                </span>
-
-                <strong id="total-rinnovoPorto">
-                  $0
-                </strong>
-
+                <span>Totale</span>
+                <strong id="total-rinnovoPorto">$0</strong>
               </div>
 
             </div>
-
           </div>
 
         </div>
@@ -1453,58 +1138,15 @@
 
       <div class="topbar">
         <h1>Operazioni</h1>
-        <p>Storico completo delle fatture</p>
+        <p id="operationsSubtitle">Le tue fatture</p>
       </div>
 
       <div class="section">
 
-        <div class="coming">
-          Le operazioni verranno caricate dal database.
-        </div>
-
-      </div>
-
-    </section>
-
-    <!-- CLASSIFICA -->
-
-    <section
-      id="classifica"
-      class="page"
-    >
-
-      <div class="topbar">
-        <h1>Classifica</h1>
-        <p>Classifica dipendenti per fatturato</p>
-      </div>
-
-      <div class="section">
-
-        <div class="coming">
-          La classifica verrà collegata a Supabase.
-        </div>
-
-      </div>
-
-    </section>
-
-    <!-- STATISTICHE -->
-
-    <section
-      id="statistiche"
-      class="page"
-    >
-
-      <div class="topbar">
-        <h1>Statistiche</h1>
-        <p>Analisi delle vendite</p>
-      </div>
-
-      <div class="section">
-
-        <div class="coming">
-          I grafici verranno aggiunti successivamente.
-        </div>
+        <div
+          id="operationsList"
+          class="invoice-list"
+        ></div>
 
       </div>
 
@@ -1519,43 +1161,27 @@
 
       <div class="topbar">
         <h1>Pannello Admin</h1>
-        <p>Controllo generale dell'Armeria</p>
+        <p>Fatturato generale dell'Armeria</p>
       </div>
 
       <div class="cards">
 
         <div class="card">
-          <div class="card-title">
-            Fatturato aziendale
-          </div>
-          <div class="card-value">
+          <div class="card-title">Fatturato aziendale</div>
+          <div
+            id="adminTotal"
+            class="card-value"
+          >
             $0
           </div>
         </div>
 
         <div class="card">
-          <div class="card-title">
-            Fatture
-          </div>
-          <div class="card-value">
-            0
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">
-            Dipendenti
-          </div>
-          <div class="card-value">
-            0
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">
-            Articoli venduti
-          </div>
-          <div class="card-value">
+          <div class="card-title">Fatture totali</div>
+          <div
+            id="adminInvoices"
+            class="card-value"
+          >
             0
           </div>
         </div>
@@ -1566,37 +1192,28 @@
 
   </main>
 
-  <!-- =========================
-       BOTTONE FATTURA
-  ========================= -->
+  <!-- BOTTONE FATTURA -->
 
   <button
     class="open-cart-btn"
     onclick="openInvoiceDrawer()"
   >
     🧾 Fattura
-
     <span
       id="cartCount"
       class="cart-count"
     >
       0
     </span>
-
   </button>
-
-  <!-- OVERLAY -->
 
   <div
     id="drawerOverlay"
     class="drawer-overlay"
     onclick="closeInvoiceDrawer()"
-  >
-  </div>
+  ></div>
 
-  <!-- =========================
-       TENDINA FATTURA
-  ========================= -->
+  <!-- DRAWER -->
 
   <aside
     id="invoiceDrawer"
@@ -1605,9 +1222,7 @@
 
     <div class="drawer-header">
 
-      <h2>
-        🧾 Fattura
-      </h2>
+      <h2>🧾 Fattura</h2>
 
       <button
         class="close-drawer"
@@ -1621,13 +1236,7 @@
     <div
       id="drawerContent"
       class="drawer-content"
-    >
-
-      <div class="empty-cart">
-        Nessun articolo selezionato.
-      </div>
-
-    </div>
+    ></div>
 
     <div class="drawer-footer">
 
@@ -1651,6 +1260,13 @@
         SALVA FATTURA
       </button>
 
+      <div
+        id="saveSuccess"
+        class="success-message"
+      >
+        Fattura salvata correttamente.
+      </div>
+
     </div>
 
   </aside>
@@ -1659,9 +1275,35 @@
 
 <script>
 
-  /* =========================
+  /* ================================
+     SUPABASE
+  ================================= */
+
+  const SUPABASE_URL =
+    "https://qtkwurpjlefnuewbhgng.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_aZ8POe8frINtsfpJrW1OYw_UPiKWFuG";
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+  /* ================================
+     DATI UTENTE
+  ================================= */
+
+  let currentUser = null;
+  let currentProfile = null;
+  let invoices = [];
+
+
+  /* ================================
      PRODOTTI
-  ========================= */
+  ================================= */
 
   const products = {
 
@@ -1710,24 +1352,218 @@
   };
 
 
-  /* =========================
+  /* ================================
      LOGIN
-  ========================= */
+  ================================= */
 
-  function fakeLogin() {
+  async function login() {
 
-    document
-      .getElementById("loginPage")
-      .style.display = "none";
+    const usernameInput =
+      document
+        .getElementById("username")
+        .value
+        .trim();
 
-    document
-      .getElementById("app")
-      .style.display = "block";
+    const password =
+      document
+        .getElementById("password")
+        .value;
+
+    const errorBox =
+      document
+        .getElementById("loginError");
+
+    errorBox.style.display = "none";
+
+
+    if (!usernameInput || !password) {
+
+      showLoginError(
+        "Inserisci username/email e password."
+      );
+
+      return;
+
+    }
+
+
+    /*
+      Se viene inserita una email vera,
+      viene usata direttamente.
+
+      Se viene scritto solo lo username,
+      il sito prova username@armeria.local
+    */
+
+    const email =
+      usernameInput.includes("@")
+        ? usernameInput
+        : usernameInput.toLowerCase() +
+          "@armeria.local";
+
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.auth
+        .signInWithPassword({
+          email,
+          password
+        });
+
+
+    if (error) {
+
+      showLoginError(
+        "Accesso non riuscito. Controlla username/email e password."
+      );
+
+      return;
+
+    }
+
+
+    currentUser =
+      data.user;
+
+
+    await startApp();
 
   }
 
 
-  function logout() {
+  function showLoginError(message) {
+
+    const box =
+      document
+        .getElementById("loginError");
+
+    box.textContent =
+      message;
+
+    box.style.display =
+      "block";
+
+  }
+
+
+  /* ================================
+     AVVIA APP
+  ================================= */
+
+  async function startApp() {
+
+    if (!currentUser) {
+      return;
+    }
+
+
+    const {
+      data: profile,
+      error
+    } =
+      await supabaseClient
+        .from("profiles")
+        .select("*")
+        .eq("id", currentUser.id)
+        .single();
+
+
+    if (error) {
+
+      console.error(
+        "Errore profilo:",
+        error
+      );
+
+    }
+
+
+    currentProfile =
+      profile || {
+        username:
+          currentUser.email,
+        role:
+          "employee"
+      };
+
+
+    document
+      .getElementById(
+        "currentUsername"
+      )
+      .textContent =
+      currentProfile.username;
+
+
+    const isAdmin =
+      currentProfile.role ===
+      "admin";
+
+
+    document
+      .getElementById(
+        "currentRole"
+      )
+      .textContent =
+      isAdmin
+        ? "Amministratore"
+        : "Dipendente";
+
+
+    document
+      .getElementById(
+        "adminMenu"
+      )
+      .style.display =
+      isAdmin
+        ? "block"
+        : "none";
+
+
+    document
+      .getElementById(
+        "operationsSubtitle"
+      )
+      .textContent =
+      isAdmin
+        ? "Tutte le fatture dell'Armeria"
+        : "Le tue fatture";
+
+
+    document
+      .getElementById(
+        "loginPage"
+      )
+      .style.display =
+      "none";
+
+
+    document
+      .getElementById(
+        "app"
+      )
+      .style.display =
+      "block";
+
+
+    await loadInvoices();
+
+  }
+
+
+  /* ================================
+     LOGOUT
+  ================================= */
+
+  async function logout() {
+
+    await supabaseClient.auth.signOut();
+
+    currentUser = null;
+    currentProfile = null;
+    invoices = [];
 
     closeInvoiceDrawer();
 
@@ -1742,19 +1578,21 @@
   }
 
 
-  /* =========================
+  /* ================================
      MENU
-  ========================= */
+  ================================= */
 
-  function showPage(pageId, element) {
+  function showPage(
+    pageId,
+    element
+  ) {
 
     document
       .querySelectorAll(".page")
       .forEach(page => {
-
         page.classList.remove("active");
-
       });
+
 
     document
       .getElementById(pageId)
@@ -1764,19 +1602,29 @@
     document
       .querySelectorAll(".menu-item")
       .forEach(item => {
-
         item.classList.remove("active");
-
       });
 
+
     element.classList.add("active");
+
+
+    if (
+      pageId === "dashboard" ||
+      pageId === "operazioni" ||
+      pageId === "admin"
+    ) {
+
+      loadInvoices();
+
+    }
 
   }
 
 
-  /* =========================
+  /* ================================
      QUANTITÀ
-  ========================= */
+  ================================= */
 
   function changeQuantity(
     productId,
@@ -1786,13 +1634,13 @@
     const product =
       products[productId];
 
-    const oldQuantity =
-      product.quantity;
-
-    product.quantity += change;
+    product.quantity +=
+      change;
 
 
-    if (product.quantity < 0) {
+    if (
+      product.quantity < 0
+    ) {
 
       product.quantity = 0;
 
@@ -1802,14 +1650,8 @@
     updateInvoice();
 
 
-    /*
-      Se aggiungo un prodotto,
-      la tendina si apre automaticamente.
-    */
-
     if (
-      change > 0 &&
-      oldQuantity === 0
+      change > 0
     ) {
 
       openInvoiceDrawer();
@@ -1819,17 +1661,20 @@
   }
 
 
-  /* =========================
-     AGGIORNA FATTURA
-  ========================= */
+  /* ================================
+     RIEPILOGO FATTURA
+  ================================= */
 
   function updateInvoice() {
 
-    let invoiceTotal = 0;
+    let total =
+      0;
 
-    let totalQuantity = 0;
+    let totalQuantity =
+      0;
 
-    let drawerHtml = "";
+    let html =
+      "";
 
 
     Object
@@ -1844,7 +1689,9 @@
           product.quantity;
 
 
-        invoiceTotal += subtotal;
+        total +=
+          subtotal;
+
 
         totalQuantity +=
           product.quantity;
@@ -1852,7 +1699,8 @@
 
         document
           .getElementById(
-            "qty-" + productId
+            "qty-" +
+            productId
           )
           .textContent =
           product.quantity;
@@ -1860,27 +1708,32 @@
 
         document
           .getElementById(
-            "total-" + productId
+            "total-" +
+            productId
           )
           .textContent =
-          formatMoney(subtotal);
+          formatMoney(
+            subtotal
+          );
 
 
-        if (product.quantity > 0) {
+        if (
+          product.quantity > 0
+        ) {
 
-          drawerHtml += `
+          html += `
 
             <div class="drawer-item">
 
               <div class="drawer-item-top">
 
-                <div class="drawer-item-name">
+                <strong>
                   ${product.name}
-                </div>
+                </strong>
 
-                <div class="drawer-item-total">
+                <span class="drawer-item-total">
                   ${formatMoney(subtotal)}
-                </div>
+                </span>
 
               </div>
 
@@ -1891,7 +1744,8 @@
                 </span>
 
                 <span>
-                  ${product.quantity} x
+                  ${product.quantity}
+                  ×
                   ${formatMoney(product.price)}
                 </span>
 
@@ -1906,11 +1760,13 @@
       });
 
 
-    if (totalQuantity === 0) {
+    if (
+      totalQuantity === 0
+    ) {
 
-      drawerHtml = `
+      html = `
 
-        <div class="empty-cart">
+        <div class="empty">
           Nessun articolo selezionato.
         </div>
 
@@ -1924,7 +1780,7 @@
         "drawerContent"
       )
       .innerHTML =
-      drawerHtml;
+      html;
 
 
     document
@@ -1932,7 +1788,7 @@
         "drawerTotal"
       )
       .textContent =
-      formatMoney(invoiceTotal);
+      formatMoney(total);
 
 
     document
@@ -1948,14 +1804,578 @@
         "saveInvoiceBtn"
       )
       .disabled =
-      invoiceTotal === 0;
+      total === 0;
 
   }
 
 
-  /* =========================
-     APRI TENDINA
-  ========================= */
+  /* ================================
+     SALVA FATTURA SU SUPABASE
+  ================================= */
+
+  async function saveInvoice() {
+
+    if (!currentUser) {
+
+      alert(
+        "Devi effettuare l'accesso."
+      );
+
+      return;
+
+    }
+
+
+    let total =
+      0;
+
+    const selectedItems =
+      [];
+
+
+    Object
+      .values(products)
+      .forEach(product => {
+
+        if (
+          product.quantity > 0
+        ) {
+
+          total +=
+            product.price *
+            product.quantity;
+
+
+          selectedItems.push(
+
+            product.quantity +
+            "x " +
+            product.name
+
+          );
+
+        }
+
+      });
+
+
+    if (
+      total === 0
+    ) {
+
+      return;
+
+    }
+
+
+    const description =
+      selectedItems.join(", ");
+
+
+    const saveButton =
+      document
+        .getElementById(
+          "saveInvoiceBtn"
+        );
+
+
+    saveButton.disabled =
+      true;
+
+    saveButton.textContent =
+      "SALVATAGGIO...";
+
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("Invoices")
+        .insert({
+
+          amount:
+            total,
+
+          category:
+            description,
+
+          user_id:
+            currentUser.id
+
+        });
+
+
+    if (error) {
+
+      console.error(error);
+
+      alert(
+        "Errore durante il salvataggio:\n" +
+        error.message
+      );
+
+
+      saveButton.disabled =
+        false;
+
+      saveButton.textContent =
+        "SALVA FATTURA";
+
+      return;
+
+    }
+
+
+    Object
+      .values(products)
+      .forEach(product => {
+
+        product.quantity =
+          0;
+
+      });
+
+
+    updateInvoice();
+
+
+    saveButton.textContent =
+      "SALVA FATTURA";
+
+
+    const success =
+      document
+        .getElementById(
+          "saveSuccess"
+        );
+
+
+    success.style.display =
+      "block";
+
+
+    setTimeout(
+      () => {
+
+        success.style.display =
+          "none";
+
+      },
+      2500
+    );
+
+
+    await loadInvoices();
+
+  }
+
+
+  /* ================================
+     CARICA FATTURE
+  ================================= */
+
+  async function loadInvoices() {
+
+    if (!currentUser) {
+      return;
+    }
+
+
+    /*
+      La sicurezza è gestita da Supabase RLS.
+
+      Dipendente:
+      vede solo le proprie.
+
+      Admin:
+      grazie alla policy admin,
+      vede tutte.
+    */
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("Invoices")
+        .select("*")
+        .order(
+          "created_at",
+          {
+            ascending:
+              false
+          }
+        );
+
+
+    if (error) {
+
+      console.error(
+        "Errore fatture:",
+        error
+      );
+
+      return;
+
+    }
+
+
+    invoices =
+      data || [];
+
+
+    updateDashboard();
+
+    renderOperations();
+
+  }
+
+
+  /* ================================
+     DASHBOARD
+  ================================= */
+
+  function updateDashboard() {
+
+    const total =
+      invoices.reduce(
+        (sum, invoice) =>
+          sum +
+          Number(
+            invoice.amount
+          ),
+        0
+      );
+
+
+    const today =
+      new Date()
+        .toDateString();
+
+
+    const todayTotal =
+      invoices
+        .filter(invoice => {
+
+          return new Date(
+            invoice.created_at
+          )
+          .toDateString() ===
+          today;
+
+        })
+        .reduce(
+          (sum, invoice) =>
+            sum +
+            Number(
+              invoice.amount
+            ),
+          0
+        );
+
+
+    document
+      .getElementById(
+        "dashboardTotal"
+      )
+      .textContent =
+      formatMoney(total);
+
+
+    document
+      .getElementById(
+        "dashboardToday"
+      )
+      .textContent =
+      formatMoney(
+        todayTotal
+      );
+
+
+    document
+      .getElementById(
+        "dashboardInvoices"
+      )
+      .textContent =
+      invoices.length;
+
+
+    document
+      .getElementById(
+        "dashboardLast"
+      )
+      .textContent =
+      invoices.length > 0
+        ? formatMoney(
+            invoices[0].amount
+          )
+        : "$0";
+
+
+    if (
+      currentProfile &&
+      currentProfile.role ===
+      "admin"
+    ) {
+
+      document
+        .getElementById(
+          "adminTotal"
+        )
+        .textContent =
+        formatMoney(total);
+
+
+      document
+        .getElementById(
+          "adminInvoices"
+        )
+        .textContent =
+        invoices.length;
+
+    }
+
+
+    renderLatestInvoices();
+
+  }
+
+
+  /* ================================
+     ULTIME FATTURE
+  ================================= */
+
+  function renderLatestInvoices() {
+
+    const container =
+      document
+        .getElementById(
+          "latestInvoices"
+        );
+
+
+    const latest =
+      invoices.slice(
+        0,
+        5
+      );
+
+
+    if (
+      latest.length === 0
+    ) {
+
+      container.innerHTML =
+        `<div class="empty">
+          Nessuna fattura presente.
+        </div>`;
+
+      return;
+
+    }
+
+
+    container.innerHTML =
+      latest
+        .map(invoice =>
+          invoiceTemplate(
+            invoice,
+            false
+          )
+        )
+        .join("");
+
+  }
+
+
+  /* ================================
+     OPERAZIONI
+  ================================= */
+
+  function renderOperations() {
+
+    const container =
+      document
+        .getElementById(
+          "operationsList"
+        );
+
+
+    if (
+      invoices.length === 0
+    ) {
+
+      container.innerHTML =
+        `<div class="empty">
+          Nessuna fattura presente.
+        </div>`;
+
+      return;
+
+    }
+
+
+    container.innerHTML =
+      invoices
+        .map(invoice =>
+          invoiceTemplate(
+            invoice,
+            true
+          )
+        )
+        .join("");
+
+  }
+
+
+  function invoiceTemplate(
+    invoice,
+    allowDelete
+  ) {
+
+    const date =
+      new Date(
+        invoice.created_at
+      )
+      .toLocaleString(
+        "it-IT"
+      );
+
+
+    const isAdmin =
+      currentProfile &&
+      currentProfile.role ===
+      "admin";
+
+
+    const deleteButton =
+      allowDelete &&
+      isAdmin
+        ? `
+          <button
+            class="delete-btn"
+            onclick="deleteInvoice(${invoice.id})"
+          >
+            Elimina
+          </button>
+        `
+        : "";
+
+
+    return `
+
+      <div class="invoice-row">
+
+        <div>
+
+          <div class="invoice-category">
+            ${escapeHtml(
+              invoice.category
+            )}
+          </div>
+
+          <div class="invoice-meta">
+
+            ${date}
+
+            ${
+              isAdmin
+                ? " • ID dipendente: " +
+                  String(
+                    invoice.user_id
+                  )
+                  .substring(
+                    0,
+                    8
+                  )
+                : ""
+            }
+
+          </div>
+
+        </div>
+
+        <div class="invoice-right">
+
+          <div class="invoice-amount">
+            ${formatMoney(
+              invoice.amount
+            )}
+          </div>
+
+          ${deleteButton}
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  /* ================================
+     ELIMINA - SOLO ADMIN
+  ================================= */
+
+  async function deleteInvoice(
+    invoiceId
+  ) {
+
+    if (
+      !currentProfile ||
+      currentProfile.role !==
+      "admin"
+    ) {
+
+      return;
+
+    }
+
+
+    const confirmed =
+      confirm(
+        "Vuoi davvero eliminare questa fattura?"
+      );
+
+
+    if (!confirmed) {
+      return;
+    }
+
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("Invoices")
+        .delete()
+        .eq(
+          "id",
+          invoiceId
+        );
+
+
+    if (error) {
+
+      alert(
+        "Errore durante l'eliminazione:\n" +
+        error.message
+      );
+
+      return;
+
+    }
+
+
+    await loadInvoices();
+
+  }
+
+
+  /* ================================
+     DRAWER
+  ================================= */
 
   function openInvoiceDrawer() {
 
@@ -1977,10 +2397,6 @@
   }
 
 
-  /* =========================
-     CHIUDI TENDINA
-  ========================= */
-
   function closeInvoiceDrawer() {
 
     document
@@ -2001,97 +2417,63 @@
   }
 
 
-  /* =========================
-     SALVA FATTURA DEMO
-  ========================= */
+  /* ================================
+     FORMATTA SOLDI
+  ================================= */
 
-  function saveInvoice() {
-
-    let invoiceTotal = 0;
-
-    let invoiceItems = [];
-
-
-    Object
-      .values(products)
-      .forEach(product => {
-
-        if (
-          product.quantity > 0
-        ) {
-
-          const subtotal =
-            product.price *
-            product.quantity;
-
-
-          invoiceTotal +=
-            subtotal;
-
-
-          invoiceItems.push(
-
-            product.quantity +
-            "x " +
-            product.name +
-            " - " +
-            formatMoney(subtotal)
-
-          );
-
-        }
-
-      });
-
-
-    if (
-      invoiceTotal === 0
-    ) {
-
-      return;
-
-    }
-
-
-    alert(
-
-      "FATTURA\n\n" +
-
-      invoiceItems.join("\n") +
-
-      "\n\nTOTALE: " +
-
-      formatMoney(
-        invoiceTotal
-      )
-
-    );
-
-  }
-
-
-  /* =========================
-     FORMATO SOLDI
-  ========================= */
-
-  function formatMoney(value) {
+  function formatMoney(
+    value
+  ) {
 
     return "$" +
-
       Number(value)
         .toLocaleString(
           "it-IT",
           {
-            maximumFractionDigits: 0
+            maximumFractionDigits:
+              0
           }
         );
 
   }
 
 
-  /* =========================
-     LOGIN CON INVIO
-  ========================= */
+  /* ================================
+     SICUREZZA TESTO
+  ================================= */
+
+  function escapeHtml(
+    value
+  ) {
+
+    return String(value)
+      .replaceAll(
+        "&",
+        "&amp;"
+      )
+      .replaceAll(
+        "<",
+        "&lt;"
+      )
+      .replaceAll(
+        ">",
+        "&gt;"
+      )
+      .replaceAll(
+        '"',
+        "&quot;"
+      )
+      .replaceAll(
+        "'",
+        "&#039;"
+      );
+
+  }
+
+
+  /* ================================
+     ENTER LOGIN
+  ================================= */
 
   document
     .getElementById(
@@ -2102,10 +2484,11 @@
       event => {
 
         if (
-          event.key === "Enter"
+          event.key ===
+          "Enter"
         ) {
 
-          fakeLogin();
+          login();
 
         }
 
@@ -2113,11 +2496,36 @@
     );
 
 
-  /* =========================
-     AVVIO
-  ========================= */
+  /* ================================
+     SESSIONE GIÀ APERTA
+  ================================= */
+
+  async function checkSession() {
+
+    const {
+      data
+    } =
+      await supabaseClient.auth
+        .getSession();
+
+
+    if (
+      data.session
+    ) {
+
+      currentUser =
+        data.session.user;
+
+      await startApp();
+
+    }
+
+  }
+
 
   updateInvoice();
+
+  checkSession();
 
 </script>
 
