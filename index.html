@@ -1,54 +1,808 @@
 <!DOCTYPE html>
 <html lang="it">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Armeria - Gestionale Fatture</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Armeria | Gestionale Fatture</title>
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #111827;
-            color: white;
-        }
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-        .container {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    :root {
+      --black: #0a0a0a;
+      --dark: #141414;
+      --panel: #1b1b1b;
+      --panel-2: #232323;
+      --red: #b80f1f;
+      --red-dark: #7c0914;
+      --gold: #d4af37;
+      --gold-soft: #f0d77a;
+      --text: #f5f5f5;
+      --muted: #9d9d9d;
+      --line: rgba(212, 175, 55, 0.2);
+    }
 
-        .box {
-            background: #1f2937;
-            padding: 40px;
-            border-radius: 18px;
-            width: 100%;
-            max-width: 420px;
-            text-align: center;
-        }
+    body {
+      background:
+        radial-gradient(circle at top right, rgba(184, 15, 31, 0.15), transparent 35%),
+        radial-gradient(circle at bottom left, rgba(212, 175, 55, 0.07), transparent 30%),
+        var(--black);
+      color: var(--text);
+      min-height: 100vh;
+    }
 
-        h1 {
-            margin-bottom: 10px;
-        }
+    button,
+    input,
+    select {
+      font: inherit;
+    }
 
-        p {
-            color: #9ca3af;
-        }
-    </style>
+    /* LOGIN */
+
+    #loginPage {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 430px;
+      background: linear-gradient(180deg, #191919, #101010);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 42px;
+      box-shadow:
+        0 25px 80px rgba(0, 0, 0, 0.55),
+        0 0 40px rgba(184, 15, 31, 0.08);
+    }
+
+    .brand {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .brand-mark {
+      width: 88px;
+      height: 88px;
+      margin: 0 auto 18px;
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 38px;
+      color: var(--gold);
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.15);
+      background: #0d0d0d;
+    }
+
+    .brand h1 {
+      font-size: 32px;
+      letter-spacing: 2px;
+      color: var(--gold);
+    }
+
+    .brand p {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    .input-group {
+      margin-bottom: 18px;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      color: var(--gold-soft);
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .input-group input,
+    .input-group select {
+      width: 100%;
+      background: #0d0d0d;
+      border: 1px solid #343434;
+      color: white;
+      padding: 14px 15px;
+      border-radius: 10px;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    .input-group input:focus,
+    .input-group select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.08);
+    }
+
+    .login-btn,
+    .primary-btn {
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 10px;
+      transition: 0.2s;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 15px;
+      margin-top: 8px;
+      background: linear-gradient(90deg, var(--red-dark), var(--red));
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border: 1px solid rgba(212, 175, 55, 0.25);
+    }
+
+    .login-btn:hover,
+    .primary-btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.08);
+    }
+
+    /* APP */
+
+    #app {
+      display: none;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 255px;
+      background:
+        linear-gradient(180deg, #111111 0%, #0b0b0b 100%);
+      border-right: 1px solid var(--line);
+      padding: 24px 16px;
+      z-index: 10;
+    }
+
+    .sidebar-brand {
+      text-align: center;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 24px;
+    }
+
+    .sidebar-brand .small-mark {
+      width: 58px;
+      height: 58px;
+      margin: 0 auto 10px;
+      border-radius: 50%;
+      border: 1px solid var(--gold);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--gold);
+      font-size: 25px;
+    }
+
+    .sidebar-brand h2 {
+      color: var(--gold);
+      font-size: 21px;
+      letter-spacing: 1px;
+    }
+
+    .sidebar-brand p {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .menu-item {
+      padding: 13px 14px;
+      border-radius: 9px;
+      margin-bottom: 8px;
+      color: #d8d8d8;
+      cursor: pointer;
+      transition: 0.2s;
+      border: 1px solid transparent;
+    }
+
+    .menu-item:hover {
+      background: rgba(184, 15, 31, 0.15);
+      border-color: rgba(184, 15, 31, 0.25);
+      color: white;
+    }
+
+    .menu-item.active {
+      background: linear-gradient(90deg, rgba(184, 15, 31, 0.35), rgba(212, 175, 55, 0.08));
+      border-color: rgba(212, 175, 55, 0.3);
+      color: var(--gold-soft);
+    }
+
+    .sidebar-bottom {
+      position: absolute;
+      bottom: 24px;
+      left: 16px;
+      right: 16px;
+    }
+
+    .user-box {
+      background: #161616;
+      border: 1px solid var(--line);
+      padding: 13px;
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .user-name {
+      color: white;
+      font-weight: bold;
+    }
+
+    .user-role {
+      color: var(--gold);
+      font-size: 11px;
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .logout-btn {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #4a1218;
+      background: #1a0c0e;
+      color: #ff7580;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .main {
+      margin-left: 255px;
+      padding: 32px;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .topbar {
+      margin-bottom: 28px;
+    }
+
+    .topbar h1 {
+      font-size: 30px;
+      color: var(--gold);
+      letter-spacing: 1px;
+    }
+
+    .topbar p {
+      color: var(--muted);
+      margin-top: 7px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, var(--panel), #121212);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(var(--red), var(--gold));
+    }
+
+    .card-title {
+      color: var(--muted);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+    }
+
+    .card-value {
+      color: var(--gold-soft);
+      font-size: 28px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .section {
+      margin-top: 24px;
+      background: linear-gradient(180deg, #181818, #111111);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+    }
+
+    .section h2 {
+      color: var(--gold);
+      margin-bottom: 18px;
+      font-size: 20px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 15px;
+      align-items: end;
+    }
+
+    .primary-btn {
+      height: 46px;
+      padding: 0 24px;
+      background: linear-gradient(90deg, var(--red-dark), var(--red));
+      color: white;
+      border: 1px solid rgba(212, 175, 55, 0.25);
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      background: #121212;
+      color: var(--gold-soft);
+      text-align: left;
+      padding: 13px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    td {
+      padding: 13px;
+      border-bottom: 1px solid #272727;
+      color: #e3e3e3;
+    }
+
+    tr:hover td {
+      background: rgba(184, 15, 31, 0.04);
+    }
+
+    .rank {
+      color: var(--gold);
+      font-weight: bold;
+    }
+
+    .delete-btn {
+      background: rgba(184, 15, 31, 0.15);
+      color: #ff6c78;
+      border: 1px solid rgba(184, 15, 31, 0.4);
+      border-radius: 7px;
+      padding: 7px 10px;
+      cursor: pointer;
+    }
+
+    .coming {
+      text-align: center;
+      padding: 55px 20px;
+      color: var(--muted);
+    }
+
+    .coming h2 {
+      font-size: 28px;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 1000px) {
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .sidebar {
+        position: relative;
+        width: 100%;
+        min-height: auto;
+      }
+
+      .sidebar-bottom {
+        position: relative;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        margin-top: 25px;
+      }
+
+      .main {
+        margin-left: 0;
+        padding: 18px;
+      }
+
+      .cards,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-    <div class="container">
-        <div class="box">
-            <h1>Armeria</h1>
-            <p>Gestionale Fatture</p>
-        </div>
+  <!-- LOGIN -->
+  <div id="loginPage">
+    <div class="login-box">
+      <div class="brand">
+        <div class="brand-mark">♛</div>
+        <h1>ARMERIA</h1>
+        <p>GESTIONALE FATTURE</p>
+      </div>
+
+      <div class="input-group">
+        <label>Username</label>
+        <input type="text" id="username" placeholder="Inserisci username">
+      </div>
+
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Inserisci password">
+      </div>
+
+      <button class="login-btn" onclick="fakeLogin()">
+        Accedi
+      </button>
     </div>
+  </div>
+
+  <!-- APP -->
+  <div id="app">
+
+    <aside class="sidebar">
+
+      <div class="sidebar-brand">
+        <div class="small-mark">♛</div>
+        <h2>ARMERIA</h2>
+        <p>Gestionale aziendale</p>
+      </div>
+
+      <div class="menu-item active" onclick="showPage('dashboard', this)">
+        🏠 Dashboard
+      </div>
+
+      <div class="menu-item" onclick="showPage('fatture', this)">
+        💰 Nuova fattura
+      </div>
+
+      <div class="menu-item" onclick="showPage('operazioni', this)">
+        🧾 Operazioni
+      </div>
+
+      <div class="menu-item" onclick="showPage('classifica', this)">
+        🏆 Classifica
+      </div>
+
+      <div class="menu-item" onclick="showPage('statistiche', this)">
+        📊 Statistiche
+      </div>
+
+      <div class="menu-item" onclick="showPage('admin', this)">
+        👑 Pannello Admin
+      </div>
+
+      <div class="sidebar-bottom">
+        <div class="user-box">
+          <div class="user-name">Admin</div>
+          <div class="user-role">Amministratore</div>
+        </div>
+
+        <button class="logout-btn" onclick="logout()">
+          Esci
+        </button>
+      </div>
+
+    </aside>
+
+    <main class="main">
+
+      <!-- DASHBOARD -->
+      <section id="dashboard" class="page active">
+
+        <div class="topbar">
+          <h1>Dashboard</h1>
+          <p>Panoramica generale delle fatture dell'Armeria</p>
+        </div>
+
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-title">Fatturato totale</div>
+            <div class="card-value">$24,850</div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Fatturato oggi</div>
+            <div class="card-value">$1,750</div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Fatturato mensile</div>
+            <div class="card-value">$12,400</div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Fatture inserite</div>
+            <div class="card-value">48</div>
+          </div>
+
+        </div>
+
+        <div class="section">
+          <h2>Ultime operazioni</h2>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Dipendente</th>
+                  <th>Categoria</th>
+                  <th>Importo</th>
+                  <th>Data</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>Bianca</td>
+                  <td>Vendita armi</td>
+                  <td>$850</td>
+                  <td>14/09/2026</td>
+                </tr>
+
+                <tr>
+                  <td>Luca</td>
+                  <td>Munizioni</td>
+                  <td>$420</td>
+                  <td>14/09/2026</td>
+                </tr>
+
+                <tr>
+                  <td>Marco</td>
+                  <td>Accessori</td>
+                  <td>$260</td>
+                  <td>13/09/2026</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- NUOVA FATTURA -->
+      <section id="fatture" class="page">
+
+        <div class="topbar">
+          <h1>Nuova fattura</h1>
+          <p>Inserisci una nuova operazione</p>
+        </div>
+
+        <div class="section">
+
+          <div class="form-grid">
+
+            <div class="input-group">
+              <label>Importo ($)</label>
+              <input type="number" placeholder="Es. 500">
+            </div>
+
+            <div class="input-group">
+              <label>Categoria</label>
+
+              <select>
+                <option>Vendita armi</option>
+                <option>Munizioni</option>
+                <option>Accessori</option>
+                <option>Riparazioni</option>
+                <option>Altro</option>
+              </select>
+            </div>
+
+            <button class="primary-btn">
+              + Aggiungi
+            </button>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- OPERAZIONI -->
+      <section id="operazioni" class="page">
+
+        <div class="topbar">
+          <h1>Operazioni</h1>
+          <p>Storico completo delle fatture</p>
+        </div>
+
+        <div class="section">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Dipendente</th>
+                  <th>Categoria</th>
+                  <th>Importo</th>
+                  <th>Data</th>
+                  <th>Azioni</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>Bianca</td>
+                  <td>Vendita armi</td>
+                  <td>$850</td>
+                  <td>14/09/2026</td>
+                  <td><button class="delete-btn">Elimina</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- CLASSIFICA -->
+      <section id="classifica" class="page">
+
+        <div class="topbar">
+          <h1>Classifica</h1>
+          <p>Dipendenti con il fatturato più alto</p>
+        </div>
+
+        <div class="section">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Posizione</th>
+                  <th>Dipendente</th>
+                  <th>Fatture</th>
+                  <th>Fatturato</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td class="rank">🥇 1°</td>
+                  <td>Bianca</td>
+                  <td>22</td>
+                  <td>$9,200</td>
+                </tr>
+
+                <tr>
+                  <td class="rank">🥈 2°</td>
+                  <td>Luca</td>
+                  <td>17</td>
+                  <td>$7,500</td>
+                </tr>
+
+                <tr>
+                  <td class="rank">🥉 3°</td>
+                  <td>Marco</td>
+                  <td>9</td>
+                  <td>$4,100</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- STATISTICHE -->
+      <section id="statistiche" class="page">
+        <div class="section coming">
+          <h2>📊 Statistiche</h2>
+          <p>I grafici verranno collegati ai dati di Supabase.</p>
+        </div>
+      </section>
+
+      <!-- ADMIN -->
+      <section id="admin" class="page">
+
+        <div class="topbar">
+          <h1>Pannello Admin</h1>
+          <p>Controllo generale dell'Armeria</p>
+        </div>
+
+        <div class="cards">
+
+          <div class="card">
+            <div class="card-title">Fatturato aziendale</div>
+            <div class="card-value">$24,850</div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Operazioni</div>
+            <div class="card-value">48</div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Dipendenti</div>
+            <div class="card-value">6</div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Media fattura</div>
+            <div class="card-value">$517</div>
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    function fakeLogin() {
+      document.getElementById("loginPage").style.display = "none";
+      document.getElementById("app").style.display = "block";
+    }
+
+    function logout() {
+      document.getElementById("app").style.display = "none";
+      document.getElementById("loginPage").style.display = "flex";
+    }
+
+    function showPage(pageId, element) {
+      document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+      });
+
+      document.getElementById(pageId).classList.add("active");
+
+      document.querySelectorAll(".menu-item").forEach(item => {
+        item.classList.remove("active");
+      });
+
+      element.classList.add("active");
+    }
+  </script>
 
 </body>
-
 </html>
