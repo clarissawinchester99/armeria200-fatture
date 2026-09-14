@@ -1,1648 +1,1601 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Armeria | Gestionale Fatture</title>
+<title>Armeria | Gestionale</title>
 
-  <!-- SUPABASE -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, Helvetica, sans-serif;
-    }
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
 
-    :root {
-      --black: #070707;
-      --dark: #101010;
-      --panel: #171717;
-      --panel-light: #202020;
-      --red: #b20d1c;
-      --red-dark: #710812;
-      --gold: #d4af37;
-      --gold-light: #f0d77a;
-      --white: #f5f5f5;
-      --gray: #999;
-      --border: rgba(212, 175, 55, 0.22);
-      --green: #39c77f;
-    }
+:root{
+    --black:#070707;
+    --dark:#101010;
+    --panel:#171717;
+    --panel2:#202020;
+    --red:#b20d1c;
+    --red-dark:#710812;
+    --gold:#d4af37;
+    --gold-light:#f0d77a;
+    --white:#f5f5f5;
+    --gray:#999;
+    --border:rgba(212,175,55,.22);
+    --green:#3edb8b;
+}
 
-    body {
-      min-height: 100vh;
-      color: var(--white);
-      background:
-        radial-gradient(circle at top right, rgba(178,13,28,.16), transparent 35%),
-        radial-gradient(circle at bottom left, rgba(212,175,55,.08), transparent 35%),
+body{
+    min-height:100vh;
+    background:
+        radial-gradient(circle at top right,rgba(178,13,28,.15),transparent 35%),
+        radial-gradient(circle at bottom left,rgba(212,175,55,.08),transparent 30%),
         var(--black);
-    }
-
-    button,
-    input {
-      font: inherit;
-    }
-
-    /* LOGIN */
-
-    #loginPage {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .login-box {
-      width: 100%;
-      max-width: 430px;
-      padding: 42px;
-      border-radius: 22px;
-      background: linear-gradient(180deg, #191919, #0e0e0e);
-      border: 1px solid var(--border);
-      box-shadow: 0 25px 80px rgba(0,0,0,.6);
-    }
-
-    .brand {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .brand-icon {
-      width: 90px;
-      height: 90px;
-      margin: 0 auto 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      border: 2px solid var(--gold);
-      color: var(--gold);
-      font-size: 38px;
-      background: #0b0b0b;
-    }
-
-    .brand h1 {
-      color: var(--gold);
-      font-size: 32px;
-      letter-spacing: 3px;
-    }
-
-    .brand p {
-      margin-top: 8px;
-      color: var(--gray);
-      font-size: 13px;
-      letter-spacing: 1.5px;
-    }
-
-    .input-group {
-      margin-bottom: 18px;
-    }
-
-    .input-group label {
-      display: block;
-      margin-bottom: 7px;
-      color: var(--gold-light);
-      font-size: 12px;
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-
-    .input-group input {
-      width: 100%;
-      padding: 14px;
-      border-radius: 9px;
-      border: 1px solid #343434;
-      outline: none;
-      background: #0c0c0c;
-      color: white;
-    }
-
-    .login-btn {
-      width: 100%;
-      padding: 14px;
-      border-radius: 9px;
-      border: 1px solid rgba(212,175,55,.25);
-      background: linear-gradient(90deg, var(--red-dark), var(--red));
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .login-error {
-      display: none;
-      margin-top: 15px;
-      padding: 11px;
-      border-radius: 8px;
-      background: rgba(178,13,28,.15);
-      color: #ff8f98;
-      font-size: 13px;
-      text-align: center;
-    }
-
-    /* APP */
-
-    #app {
-      display: none;
-      min-height: 100vh;
-    }
-
-    .sidebar {
-      width: 255px;
-      position: fixed;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      padding: 24px 16px;
-      background: linear-gradient(180deg, #111, #080808);
-      border-right: 1px solid var(--border);
-      z-index: 10;
-    }
-
-    .sidebar-brand {
-      text-align: center;
-      padding-bottom: 22px;
-      margin-bottom: 22px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .sidebar-icon {
-      width: 58px;
-      height: 58px;
-      margin: 0 auto 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      border: 1px solid var(--gold);
-      color: var(--gold);
-      font-size: 24px;
-    }
-
-    .sidebar-brand h2 {
-      color: var(--gold);
-      font-size: 21px;
-      letter-spacing: 2px;
-    }
-
-    .sidebar-brand p {
-      margin-top: 5px;
-      color: var(--gray);
-      font-size: 10px;
-      text-transform: uppercase;
-    }
-
-    .menu-item {
-      padding: 13px 14px;
-      margin-bottom: 8px;
-      border-radius: 9px;
-      color: #ddd;
-      cursor: pointer;
-      border: 1px solid transparent;
-    }
-
-    .menu-item:hover {
-      background: rgba(178,13,28,.15);
-    }
-
-    .menu-item.active {
-      color: var(--gold-light);
-      border-color: rgba(212,175,55,.3);
-      background: linear-gradient(
-        90deg,
-        rgba(178,13,28,.35),
-        rgba(212,175,55,.07)
-      );
-    }
-
-    .admin-only {
-      display: none;
-    }
-
-    .sidebar-bottom {
-      position: absolute;
-      left: 16px;
-      right: 16px;
-      bottom: 24px;
-    }
-
-    .user-box {
-      padding: 12px;
-      margin-bottom: 10px;
-      text-align: center;
-      border: 1px solid var(--border);
-      border-radius: 9px;
-      background: #151515;
-    }
-
-    .user-box strong,
-    .user-box span {
-      display: block;
-    }
-
-    .user-box span {
-      margin-top: 4px;
-      color: var(--gold);
-      font-size: 10px;
-      text-transform: uppercase;
-    }
-
-    .logout-btn {
-      width: 100%;
-      padding: 11px;
-      border-radius: 8px;
-      border: 1px solid #4b1119;
-      background: #190b0e;
-      color: #ff7580;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .main {
-      margin-left: 255px;
-      padding: 32px;
-    }
-
-    .page {
-      display: none;
-    }
-
-    .page.active {
-      display: block;
-    }
-
-    .topbar {
-      margin-bottom: 28px;
-    }
-
-    .topbar h1 {
-      color: var(--gold);
-      font-size: 30px;
-    }
-
-    .topbar p {
-      margin-top: 6px;
-      color: var(--gray);
-    }
-
-    /* DASHBOARD */
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(4,1fr);
-      gap: 18px;
-    }
-
-    .card {
-      position: relative;
-      overflow: hidden;
-      padding: 22px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: linear-gradient(180deg, var(--panel), #101010);
-    }
-
-    .card::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      width: 4px;
-      background: linear-gradient(var(--red), var(--gold));
-    }
-
-    .card-title {
-      color: var(--gray);
-      font-size: 12px;
-      text-transform: uppercase;
-    }
-
-    .card-value {
-      margin-top: 10px;
-      color: var(--gold-light);
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .section {
-      margin-top: 24px;
-      padding: 24px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: linear-gradient(180deg, #181818, #101010);
-    }
-
-    .section h2 {
-      margin-bottom: 20px;
-      color: var(--gold);
-    }
-
-    .section-subtitle {
-      margin-top: -12px;
-      margin-bottom: 20px;
-      color: var(--gray);
-      font-size: 13px;
-    }
-
-    /* PRODOTTI */
-
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(2,1fr);
-      gap: 18px;
-    }
-
-    .product-card {
-      padding: 20px;
-      border-radius: 14px;
-      border: 1px solid rgba(212,175,55,.2);
-      background: linear-gradient(180deg,#202020,#151515);
-    }
-
-    .product-top,
-    .quantity-area {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .product-top {
-      margin-bottom: 20px;
-    }
-
-    .product-name {
-      font-size: 19px;
-      font-weight: bold;
-    }
-
-    .product-price {
-      color: var(--gold-light);
-      font-size: 17px;
-      font-weight: bold;
-    }
-
-    .quantity-controls {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .qty-btn {
-      width: 42px;
-      height: 42px;
-      border-radius: 9px;
-      border: 1px solid rgba(212,175,55,.35);
-      background: #0e0e0e;
-      color: var(--gold);
-      font-size: 23px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .qty-number {
-      min-width: 40px;
-      text-align: center;
-      font-size: 20px;
-      font-weight: bold;
-    }
-
-    .product-subtotal {
-      text-align: right;
-    }
-
-    .product-subtotal span {
-      display: block;
-      color: var(--gray);
-      font-size: 10px;
-      text-transform: uppercase;
-    }
-
-    .product-subtotal strong {
-      color: var(--gold);
-      font-size: 19px;
-    }
-
-    /* OPERAZIONI */
-
-    .invoice-list {
-      display: grid;
-      gap: 12px;
-    }
-
-    .invoice-row {
-      padding: 17px;
-      border-radius: 11px;
-      border: 1px solid rgba(212,175,55,.15);
-      background: #131313;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 15px;
-      align-items: center;
-    }
-
-    .invoice-category {
-      font-weight: bold;
-      margin-bottom: 6px;
-    }
-
-    .invoice-meta {
-      color: var(--gray);
-      font-size: 12px;
-    }
-
-    .invoice-right {
-      text-align: right;
-    }
-
-    .invoice-amount {
-      color: var(--gold-light);
-      font-size: 19px;
-      font-weight: bold;
-    }
-
-    .delete-btn {
-      margin-top: 8px;
-      padding: 7px 11px;
-      border-radius: 7px;
-      border: 1px solid #68121c;
-      background: #260c10;
-      color: #ff7a84;
-      cursor: pointer;
-    }
-
-    .empty {
-      padding: 40px;
-      text-align: center;
-      color: var(--gray);
-    }
-
-    /* DRAWER */
-
-    .invoice-drawer {
-      position: fixed;
-      top: 0;
-      right: -430px;
-      width: 410px;
-      max-width: 92vw;
-      height: 100vh;
-      z-index: 1000;
-      background: linear-gradient(180deg,#161616,#0a0a0a);
-      border-left: 1px solid rgba(212,175,55,.35);
-      box-shadow: -20px 0 50px rgba(0,0,0,.65);
-      transition: right .3s ease;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .invoice-drawer.open {
-      right: 0;
-    }
-
-    .drawer-header {
-      padding: 22px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .drawer-header h2 {
-      color: var(--gold);
-    }
-
-    .close-drawer {
-      width: 38px;
-      height: 38px;
-      border-radius: 8px;
-      border: 1px solid rgba(212,175,55,.3);
-      background: #111;
-      color: white;
-      font-size: 24px;
-      cursor: pointer;
-    }
-
-    .drawer-content {
-      flex: 1;
-      overflow-y: auto;
-      padding: 20px;
-    }
-
-    .drawer-item {
-      margin-bottom: 12px;
-      padding: 15px;
-      border-radius: 10px;
-      border: 1px solid rgba(212,175,55,.15);
-      background: #141414;
-    }
-
-    .drawer-item-top,
-    .drawer-item-bottom {
-      display: flex;
-      justify-content: space-between;
-      gap: 15px;
-    }
-
-    .drawer-item-total {
-      color: var(--gold-light);
-      font-weight: bold;
-    }
-
-    .drawer-item-bottom {
-      margin-top: 8px;
-      color: var(--gray);
-      font-size: 12px;
-    }
-
-    .drawer-footer {
-      padding: 22px;
-      border-top: 1px solid var(--border);
-      background: #0d0d0d;
-    }
-
-    .drawer-total-label {
-      color: var(--gray);
-      font-size: 12px;
-      text-transform: uppercase;
-    }
-
-    .drawer-total {
-      margin-top: 5px;
-      color: var(--gold-light);
-      font-size: 34px;
-      font-weight: bold;
-    }
-
-    .save-btn {
-      width: 100%;
-      margin-top: 18px;
-      padding: 15px;
-      border-radius: 9px;
-      border: 1px solid rgba(212,175,55,.35);
-      background: linear-gradient(90deg,var(--red-dark),var(--red));
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .save-btn:disabled {
-      opacity: .4;
-      cursor: not-allowed;
-    }
-
-    .open-cart-btn {
-      position: fixed;
-      right: 22px;
-      bottom: 22px;
-      z-index: 900;
-      padding: 15px 20px;
-      border-radius: 999px;
-      border: 1px solid rgba(212,175,55,.45);
-      background: linear-gradient(90deg,var(--red-dark),var(--red));
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .cart-count {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      min-width: 24px;
-      height: 24px;
-      margin-left: 8px;
-      padding: 0 6px;
-      border-radius: 50%;
-      background: var(--gold);
-      color: black;
-      font-size: 12px;
-    }
-
-    .drawer-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 950;
-      background: rgba(0,0,0,.55);
-    }
-
-    .drawer-overlay.show {
-      display: block;
-    }
-
-    .success-message {
-      display: none;
-      margin-top: 14px;
-      padding: 10px;
-      border-radius: 8px;
-      background: rgba(57,199,127,.12);
-      color: var(--green);
-      text-align: center;
-      font-size: 13px;
-    }
-
-    @media(max-width:900px) {
-      .cards {
-        grid-template-columns: repeat(2,1fr);
-      }
-    }
-
-    @media(max-width:750px) {
-      .products-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+    color:white;
+}
+
+/* LOGIN */
+
+#loginPage{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.login-box{
+    width:100%;
+    max-width:420px;
+    padding:42px;
+    background:linear-gradient(180deg,#191919,#0d0d0d);
+    border:1px solid var(--border);
+    border-radius:22px;
+    box-shadow:0 30px 80px rgba(0,0,0,.7);
+}
+
+.logo{
+    width:86px;
+    height:86px;
+    border:2px solid var(--gold);
+    border-radius:50%;
+    margin:0 auto 18px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:37px;
+    color:var(--gold);
+}
+
+.login-title{
+    text-align:center;
+    color:var(--gold);
+    font-size:32px;
+    letter-spacing:4px;
+}
+
+.login-subtitle{
+    text-align:center;
+    color:var(--gray);
+    margin:7px 0 30px;
+    font-size:12px;
+    letter-spacing:2px;
+}
+
+.input-group{
+    margin-bottom:18px;
+}
+
+.input-group label{
+    display:block;
+    margin-bottom:7px;
+    color:var(--gold-light);
+    font-size:11px;
+    font-weight:bold;
+    text-transform:uppercase;
+}
+
+.input-group input{
+    width:100%;
+    padding:14px;
+    border-radius:9px;
+    border:1px solid #333;
+    background:#090909;
+    color:white;
+    outline:none;
+}
+
+.input-group input:focus{
+    border-color:var(--gold);
+}
+
+.main-btn{
+    width:100%;
+    padding:14px;
+    border:1px solid rgba(212,175,55,.3);
+    border-radius:9px;
+    background:linear-gradient(90deg,var(--red-dark),var(--red));
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.error-message{
+    display:none;
+    margin-top:14px;
+    padding:11px;
+    background:rgba(178,13,28,.17);
+    border-radius:8px;
+    color:#ff8d97;
+    text-align:center;
+    font-size:13px;
+}
+
+/* APP */
+
+#app{
+    display:none;
+    min-height:100vh;
+}
+
+.sidebar{
+    width:255px;
+    position:fixed;
+    top:0;
+    left:0;
+    bottom:0;
+    z-index:100;
+    padding:23px 16px;
+    background:linear-gradient(180deg,#111,#070707);
+    border-right:1px solid var(--border);
+}
+
+.side-brand{
+    text-align:center;
+    padding-bottom:22px;
+    margin-bottom:21px;
+    border-bottom:1px solid var(--border);
+}
+
+.side-logo{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    border:1px solid var(--gold);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:0 auto 10px;
+    color:var(--gold);
+    font-size:23px;
+}
+
+.side-brand h2{
+    color:var(--gold);
+    letter-spacing:2px;
+}
+
+.side-brand p{
+    color:var(--gray);
+    font-size:10px;
+    margin-top:5px;
+}
+
+.menu-item{
+    padding:13px 14px;
+    margin-bottom:7px;
+    border-radius:9px;
+    color:#ddd;
+    cursor:pointer;
+    border:1px solid transparent;
+    transition:.2s;
+}
+
+.menu-item:hover{
+    background:rgba(178,13,28,.16);
+}
+
+.menu-item.active{
+    color:var(--gold-light);
+    border-color:rgba(212,175,55,.25);
+    background:linear-gradient(90deg,rgba(178,13,28,.36),rgba(212,175,55,.05));
+}
+
+#adminMenu{
+    display:none;
+}
+
+.sidebar-bottom{
+    position:absolute;
+    left:16px;
+    right:16px;
+    bottom:22px;
+}
+
+.user-card{
+    padding:12px;
+    background:#141414;
+    border:1px solid var(--border);
+    border-radius:9px;
+    text-align:center;
+    margin-bottom:10px;
+}
+
+.user-card strong,
+.user-card span{
+    display:block;
+}
+
+.user-card span{
+    margin-top:4px;
+    color:var(--gold);
+    text-transform:uppercase;
+    font-size:10px;
+}
+
+.logout-btn{
+    width:100%;
+    padding:10px;
+    background:#1c090c;
+    border:1px solid #5b131b;
+    border-radius:8px;
+    color:#ff7882;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.main{
+    margin-left:255px;
+    padding:32px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.topbar{
+    margin-bottom:26px;
+}
+
+.topbar h1{
+    color:var(--gold);
+    font-size:30px;
+}
+
+.topbar p{
+    margin-top:5px;
+    color:var(--gray);
+}
+
+/* CARDS */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:17px;
+}
+
+.card{
+    padding:21px;
+    border:1px solid var(--border);
+    border-radius:14px;
+    background:linear-gradient(180deg,#181818,#101010);
+    position:relative;
+    overflow:hidden;
+}
+
+.card::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    bottom:0;
+    width:4px;
+    background:linear-gradient(var(--red),var(--gold));
+}
+
+.card-label{
+    color:var(--gray);
+    font-size:11px;
+    text-transform:uppercase;
+}
+
+.card-value{
+    margin-top:10px;
+    color:var(--gold-light);
+    font-size:28px;
+    font-weight:bold;
+}
+
+.section{
+    margin-top:24px;
+    padding:24px;
+    border-radius:14px;
+    border:1px solid var(--border);
+    background:linear-gradient(180deg,#181818,#101010);
+}
+
+.section h2{
+    color:var(--gold);
+    margin-bottom:18px;
+}
+
+.section-description{
+    color:var(--gray);
+    margin-top:-10px;
+    margin-bottom:20px;
+    font-size:13px;
+}
+
+/* PRODOTTI */
+
+.products-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:17px;
+}
+
+.product-card{
+    padding:20px;
+    border-radius:13px;
+    border:1px solid rgba(212,175,55,.2);
+    background:linear-gradient(180deg,#202020,#131313);
+}
+
+.product-top,
+.product-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+}
+
+.product-top{
+    margin-bottom:20px;
+}
+
+.product-name{
+    font-size:18px;
+    font-weight:bold;
+}
+
+.product-price{
+    color:var(--gold-light);
+    font-weight:bold;
+    font-size:17px;
+}
+
+.quantity-box{
+    display:flex;
+    align-items:center;
+    gap:11px;
+}
+
+.qty-btn{
+    width:40px;
+    height:40px;
+    border-radius:8px;
+    border:1px solid rgba(212,175,55,.35);
+    background:#0d0d0d;
+    color:var(--gold);
+    font-size:21px;
+    cursor:pointer;
+}
+
+.qty{
+    min-width:34px;
+    text-align:center;
+    font-size:19px;
+    font-weight:bold;
+}
+
+.subtotal{
+    text-align:right;
+}
+
+.subtotal small{
+    display:block;
+    color:var(--gray);
+}
+
+.subtotal strong{
+    color:var(--gold);
+    font-size:18px;
+}
+
+/* OPERAZIONI */
+
+.invoice-list{
+    display:grid;
+    gap:12px;
+}
+
+.invoice-row{
+    padding:17px;
+    border-radius:11px;
+    border:1px solid rgba(212,175,55,.15);
+    background:#131313;
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:15px;
+    align-items:center;
+}
+
+.invoice-title{
+    font-weight:bold;
+    margin-bottom:6px;
+}
+
+.invoice-meta{
+    color:var(--gray);
+    font-size:12px;
+    line-height:1.6;
+}
+
+.invoice-amount{
+    text-align:right;
+    color:var(--gold-light);
+    font-weight:bold;
+    font-size:19px;
+}
+
+.delete-btn{
+    margin-top:8px;
+    padding:7px 11px;
+    border-radius:7px;
+    border:1px solid #67141c;
+    background:#250b0e;
+    color:#ff7782;
+    cursor:pointer;
+}
+
+.empty{
+    padding:35px;
+    text-align:center;
+    color:var(--gray);
+}
+
+/* CLASSIFICA */
+
+.ranking-row{
+    display:grid;
+    grid-template-columns:70px 1fr auto auto;
+    gap:15px;
+    align-items:center;
+    padding:16px;
+    border-bottom:1px solid rgba(212,175,55,.12);
+}
+
+.ranking-row:last-child{
+    border-bottom:none;
+}
+
+.ranking-position{
+    color:var(--gold);
+    font-size:22px;
+    font-weight:bold;
+}
+
+.ranking-name{
+    font-weight:bold;
+}
+
+.ranking-count{
+    color:var(--gray);
+}
+
+.ranking-money{
+    color:var(--gold-light);
+    font-weight:bold;
+}
+
+/* STATISTICHE */
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.stat-box{
+    padding:20px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:#131313;
+}
+
+.stat-box h3{
+    color:var(--gold);
+    margin-bottom:18px;
+}
+
+.stat-row{
+    margin-bottom:15px;
+}
+
+.stat-row-top{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:7px;
+    font-size:13px;
+}
+
+.progress{
+    height:10px;
+    background:#292929;
+    border-radius:999px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    background:linear-gradient(90deg,var(--red),var(--gold));
+    border-radius:999px;
+}
+
+/* DRAWER */
+
+.invoice-drawer{
+    position:fixed;
+    width:410px;
+    max-width:92vw;
+    top:0;
+    right:-430px;
+    bottom:0;
+    z-index:1000;
+    background:linear-gradient(180deg,#161616,#090909);
+    border-left:1px solid rgba(212,175,55,.35);
+    box-shadow:-20px 0 50px rgba(0,0,0,.7);
+    display:flex;
+    flex-direction:column;
+    transition:.3s;
+}
+
+.invoice-drawer.open{
+    right:0;
+}
+
+.drawer-overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:950;
+    background:rgba(0,0,0,.6);
+}
+
+.drawer-overlay.show{
+    display:block;
+}
+
+.drawer-header{
+    padding:21px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid var(--border);
+}
+
+.drawer-header h2{
+    color:var(--gold);
+}
+
+.drawer-close{
+    width:38px;
+    height:38px;
+    background:#111;
+    color:white;
+    border:1px solid var(--border);
+    border-radius:8px;
+    cursor:pointer;
+    font-size:22px;
+}
+
+.drawer-content{
+    flex:1;
+    overflow:auto;
+    padding:20px;
+}
+
+.drawer-item{
+    padding:15px;
+    margin-bottom:11px;
+    border:1px solid rgba(212,175,55,.15);
+    border-radius:10px;
+    background:#141414;
+}
+
+.drawer-item-top,
+.drawer-item-bottom{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+}
+
+.drawer-item-top strong:last-child{
+    color:var(--gold-light);
+}
+
+.drawer-item-bottom{
+    margin-top:7px;
+    color:var(--gray);
+    font-size:12px;
+}
+
+.drawer-footer{
+    padding:20px;
+    border-top:1px solid var(--border);
+}
+
+.drawer-total-label{
+    color:var(--gray);
+    font-size:11px;
+    text-transform:uppercase;
+}
+
+.drawer-total{
+    margin-top:4px;
+    font-size:33px;
+    color:var(--gold-light);
+    font-weight:bold;
+}
+
+.save-btn{
+    width:100%;
+    padding:14px;
+    margin-top:17px;
+    border-radius:9px;
+    border:1px solid rgba(212,175,55,.3);
+    background:linear-gradient(90deg,var(--red-dark),var(--red));
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.save-btn:disabled{
+    opacity:.45;
+    cursor:not-allowed;
+}
+
+.invoice-floating{
+    position:fixed;
+    right:22px;
+    bottom:22px;
+    z-index:900;
+    padding:14px 19px;
+    border-radius:999px;
+    border:1px solid rgba(212,175,55,.4);
+    background:linear-gradient(90deg,var(--red-dark),var(--red));
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.invoice-badge{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    min-width:23px;
+    height:23px;
+    padding:0 6px;
+    border-radius:50%;
+    margin-left:7px;
+    background:var(--gold);
+    color:#000;
+}
+
+.message{
+    display:none;
+    margin-top:10px;
+    padding:10px;
+    border-radius:8px;
+    text-align:center;
+    color:var(--green);
+    background:rgba(62,219,139,.1);
+}
+
+@media(max-width:1000px){
+    .cards{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .stats-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:760px){
+    .sidebar{
+        width:210px;
+    }
+
+    .main{
+        margin-left:210px;
+        padding:20px;
+    }
+
+    .products-grid{
+        grid-template-columns:1fr;
+    }
+}
+</style>
 </head>
 
 <body>
 
+<!-- LOGIN -->
+
 <div id="loginPage">
 
-  <div class="login-box">
+    <div class="login-box">
 
-    <div class="brand">
-      <div class="brand-icon">♛</div>
-      <h1>ARMERIA</h1>
-      <p>GESTIONALE FATTURE</p>
+        <div class="logo">♛</div>
+
+        <h1 class="login-title">ARMERIA</h1>
+        <div class="login-subtitle">GESTIONALE AZIENDALE</div>
+
+        <div class="input-group">
+            <label>Username</label>
+            <input
+                id="username"
+                type="text"
+                placeholder="Inserisci username"
+                autocomplete="username"
+            >
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+            <input
+                id="password"
+                type="password"
+                placeholder="Inserisci password"
+                autocomplete="current-password"
+            >
+        </div>
+
+        <button
+            id="loginButton"
+            class="main-btn"
+            onclick="login()"
+        >
+            ACCEDI
+        </button>
+
+        <div
+            id="loginError"
+            class="error-message"
+        ></div>
+
     </div>
-
-    <div class="input-group">
-      <label>Email o username</label>
-      <input
-        id="username"
-        type="text"
-        placeholder="Inserisci email o username"
-      >
-    </div>
-
-    <div class="input-group">
-      <label>Password</label>
-      <input
-        id="password"
-        type="password"
-        placeholder="Inserisci password"
-      >
-    </div>
-
-    <button
-      id="loginBtn"
-      class="login-btn"
-      onclick="login()"
-    >
-      ACCEDI
-    </button>
-
-    <div
-      id="loginError"
-      class="login-error"
-    ></div>
-
-  </div>
 
 </div>
 
+<!-- APP -->
+
 <div id="app">
 
-  <aside class="sidebar">
+    <aside class="sidebar">
 
-    <div class="sidebar-brand">
-      <div class="sidebar-icon">♛</div>
-      <h2>ARMERIA</h2>
-      <p>Gestionale aziendale</p>
-    </div>
-
-    <div
-      class="menu-item active"
-      onclick="showPage('dashboard', this)"
-    >
-      🏠 Dashboard
-    </div>
-
-    <div
-      class="menu-item"
-      onclick="showPage('fatture', this)"
-    >
-      💰 Nuova fattura
-    </div>
-
-    <div
-      class="menu-item"
-      onclick="showPage('operazioni', this)"
-    >
-      🧾 Operazioni
-    </div>
-
-    <div
-      id="adminMenu"
-      class="menu-item admin-only"
-      onclick="showPage('admin', this)"
-    >
-      👑 Pannello Admin
-    </div>
-
-    <div class="sidebar-bottom">
-
-      <div class="user-box">
-        <strong id="currentUsername">Utente</strong>
-        <span id="currentRole">Dipendente</span>
-      </div>
-
-      <button
-        class="logout-btn"
-        onclick="logout()"
-      >
-        Esci
-      </button>
-
-    </div>
-
-  </aside>
-
-  <main class="main">
-
-    <!-- DASHBOARD -->
-
-    <section
-      id="dashboard"
-      class="page active"
-    >
-
-      <div class="topbar">
-        <h1>Dashboard</h1>
-        <p>Panoramica del fatturato</p>
-      </div>
-
-      <div class="cards">
-
-        <div class="card">
-          <div class="card-title">Fatturato totale</div>
-          <div
-            id="dashboardTotal"
-            class="card-value"
-          >
-            $0
-          </div>
+        <div class="side-brand">
+            <div class="side-logo">♛</div>
+            <h2>ARMERIA</h2>
+            <p>Gestionale aziendale</p>
         </div>
 
-        <div class="card">
-          <div class="card-title">Fatturato oggi</div>
-          <div
-            id="dashboardToday"
-            class="card-value"
-          >
-            $0
-          </div>
+        <div class="menu-item active" onclick="showPage('dashboard',this)">
+            🏠 Dashboard
         </div>
 
-        <div class="card">
-          <div class="card-title">Fatture</div>
-          <div
-            id="dashboardInvoices"
-            class="card-value"
-          >
-            0
-          </div>
+        <div class="menu-item" onclick="showPage('newInvoice',this)">
+            💰 Nuova fattura
         </div>
 
-        <div class="card">
-          <div class="card-title">Ultima fattura</div>
-          <div
-            id="dashboardLast"
-            class="card-value"
-          >
-            $0
-          </div>
+        <div class="menu-item" onclick="showPage('operations',this)">
+            🧾 Operazioni
         </div>
 
-      </div>
-
-      <div class="section">
-
-        <h2>Ultime operazioni</h2>
-
-        <div
-          id="latestInvoices"
-          class="invoice-list"
-        ></div>
-
-      </div>
-
-    </section>
-
-    <!-- NUOVA FATTURA -->
-
-    <section
-      id="fatture"
-      class="page"
-    >
-
-      <div class="topbar">
-        <h1>Nuova fattura</h1>
-        <p>Seleziona prodotti e servizi venduti</p>
-      </div>
-
-      <div class="section">
-
-        <h2>⚔️ Armi bianche</h2>
-
-        <div class="section-subtitle">
-          Seleziona la quantità venduta
+        <div class="menu-item" onclick="showPage('ranking',this)">
+            🏆 Classifica
         </div>
 
-        <div class="products-grid">
+        <div class="menu-item" onclick="showPage('statistics',this)">
+            📊 Statistiche
+        </div>
 
-          <div class="product-card">
-            <div class="product-top">
-              <div class="product-name">Machete</div>
-              <div class="product-price">$7.000</div>
+        <div id="adminMenu" class="menu-item" onclick="showPage('admin',this)">
+            👑 Pannello Admin
+        </div>
+
+        <div class="sidebar-bottom">
+
+            <div class="user-card">
+                <strong id="sidebarUsername">Utente</strong>
+                <span id="sidebarRole">Dipendente</span>
             </div>
 
-            <div class="quantity-area">
+            <button class="logout-btn" onclick="logout()">
+                ESCI
+            </button>
 
-              <div class="quantity-controls">
+        </div>
 
-                <button
-                  class="qty-btn"
-                  onclick="changeQuantity('machete',-1)"
-                >
-                  −
-                </button>
+    </aside>
 
-                <div
-                  id="qty-machete"
-                  class="qty-number"
-                >
-                  0
+    <main class="main">
+
+        <!-- DASHBOARD -->
+
+        <section id="dashboard" class="page active">
+
+            <div class="topbar">
+                <h1>Dashboard</h1>
+                <p>Panoramica del fatturato</p>
+            </div>
+
+            <div class="cards">
+
+                <div class="card">
+                    <div class="card-label">Fatturato totale</div>
+                    <div id="dashboardTotal" class="card-value">$0</div>
                 </div>
 
-                <button
-                  class="qty-btn"
-                  onclick="changeQuantity('machete',1)"
-                >
-                  +
-                </button>
-
-              </div>
-
-              <div class="product-subtotal">
-                <span>Totale</span>
-                <strong id="total-machete">$0</strong>
-              </div>
-
-            </div>
-          </div>
-
-          <div class="product-card">
-
-            <div class="product-top">
-              <div class="product-name">Mazza da baseball</div>
-              <div class="product-price">$2.500</div>
-            </div>
-
-            <div class="quantity-area">
-
-              <div class="quantity-controls">
-
-                <button
-                  class="qty-btn"
-                  onclick="changeQuantity('mazza',-1)"
-                >
-                  −
-                </button>
-
-                <div
-                  id="qty-mazza"
-                  class="qty-number"
-                >
-                  0
+                <div class="card">
+                    <div class="card-label">Fatturato oggi</div>
+                    <div id="dashboardToday" class="card-value">$0</div>
                 </div>
 
-                <button
-                  class="qty-btn"
-                  onclick="changeQuantity('mazza',1)"
-                >
-                  +
-                </button>
-
-              </div>
-
-              <div class="product-subtotal">
-                <span>Totale</span>
-                <strong id="total-mazza">$0</strong>
-              </div>
-
-            </div>
-          </div>
-
-          <div class="product-card">
-
-            <div class="product-top">
-              <div class="product-name">Coltello</div>
-              <div class="product-price">$4.500</div>
-            </div>
-
-            <div class="quantity-area">
-
-              <div class="quantity-controls">
-
-                <button
-                  class="qty-btn"
-                  onclick="changeQuantity('coltello',-1)"
-                >
-                  −
-                </button>
-
-                <div
-                  id="qty-coltello"
-                  class="qty-number"
-                >
-                  0
+                <div class="card">
+                    <div class="card-label">Fatture</div>
+                    <div id="dashboardCount" class="card-value">0</div>
                 </div>
 
-                <button
-                  class="qty-btn"
-                  onclick="changeQuantity('coltello',1)"
-                >
-                  +
-                </button>
-
-              </div>
-
-              <div class="product-subtotal">
-                <span>Totale</span>
-                <strong id="total-coltello">$0</strong>
-              </div>
-
-            </div>
-          </div>
-
-          <div class="product-card">
-
-            <div class="product-top">
-              <div class="product-name">Tirapugni</div>
-              <div class="product-price">$2.000</div>
-            </div>
-
-            <div class="quantity-area">
-
-              <div class="quantity-controls">
-
-                <button
-                  class="qty-btn"
-                  onclick="changeQuantity('tirapugni',-1)"
-                >
-                  −
-                </button>
-
-                <div
-                  id="qty-tirapugni"
-                  class="qty-number"
-                >
-                  0
+                <div class="card">
+                    <div class="card-label">Ultima fattura</div>
+                    <div id="dashboardLast" class="card-value">$0</div>
                 </div>
 
-                <button
-                  class="qty-btn"
-                  onclick="changeQuantity('tirapugni',1)"
-                >
-                  +
-                </button>
+            </div>
 
-              </div>
+            <div class="section">
+                <h2>Ultime operazioni</h2>
+                <div id="dashboardOperations" class="invoice-list"></div>
+            </div>
 
-              <div class="product-subtotal">
-                <span>Totale</span>
-                <strong id="total-tirapugni">$0</strong>
-              </div>
+        </section>
+
+        <!-- NUOVA FATTURA -->
+
+        <section id="newInvoice" class="page">
+
+            <div class="topbar">
+                <h1>Nuova fattura</h1>
+                <p>Seleziona prodotti e servizi</p>
+            </div>
+
+            <div class="section">
+
+                <h2>⚔️ Armi bianche</h2>
+
+                <div class="products-grid">
+
+                    <div class="product-card">
+                        <div class="product-top">
+                            <div class="product-name">Machete</div>
+                            <div class="product-price">$7.000</div>
+                        </div>
+                        <div class="product-bottom">
+                            <div class="quantity-box">
+                                <button class="qty-btn" onclick="changeQuantity('machete',-1)">−</button>
+                                <div id="qty-machete" class="qty">0</div>
+                                <button class="qty-btn" onclick="changeQuantity('machete',1)">+</button>
+                            </div>
+                            <div class="subtotal">
+                                <small>Totale</small>
+                                <strong id="total-machete">$0</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-top">
+                            <div class="product-name">Mazza da baseball</div>
+                            <div class="product-price">$2.500</div>
+                        </div>
+                        <div class="product-bottom">
+                            <div class="quantity-box">
+                                <button class="qty-btn" onclick="changeQuantity('mazza',-1)">−</button>
+                                <div id="qty-mazza" class="qty">0</div>
+                                <button class="qty-btn" onclick="changeQuantity('mazza',1)">+</button>
+                            </div>
+                            <div class="subtotal">
+                                <small>Totale</small>
+                                <strong id="total-mazza">$0</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-top">
+                            <div class="product-name">Coltello</div>
+                            <div class="product-price">$4.500</div>
+                        </div>
+                        <div class="product-bottom">
+                            <div class="quantity-box">
+                                <button class="qty-btn" onclick="changeQuantity('coltello',-1)">−</button>
+                                <div id="qty-coltello" class="qty">0</div>
+                                <button class="qty-btn" onclick="changeQuantity('coltello',1)">+</button>
+                            </div>
+                            <div class="subtotal">
+                                <small>Totale</small>
+                                <strong id="total-coltello">$0</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-top">
+                            <div class="product-name">Tirapugni</div>
+                            <div class="product-price">$2.000</div>
+                        </div>
+                        <div class="product-bottom">
+                            <div class="quantity-box">
+                                <button class="qty-btn" onclick="changeQuantity('tirapugni',-1)">−</button>
+                                <div id="qty-tirapugni" class="qty">0</div>
+                                <button class="qty-btn" onclick="changeQuantity('tirapugni',1)">+</button>
+                            </div>
+                            <div class="subtotal">
+                                <small>Totale</small>
+                                <strong id="total-tirapugni">$0</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
 
             </div>
-          </div>
+
+            <div class="section">
+
+                <h2>📜 Porto d'armi</h2>
+
+                <div class="products-grid">
+
+                    <div class="product-card">
+                        <div class="product-top">
+                            <div class="product-name">Test balistico</div>
+                            <div class="product-price">$15.000</div>
+                        </div>
+                        <div class="product-bottom">
+                            <div class="quantity-box">
+                                <button class="qty-btn" onclick="changeQuantity('testBalistico',-1)">−</button>
+                                <div id="qty-testBalistico" class="qty">0</div>
+                                <button class="qty-btn" onclick="changeQuantity('testBalistico',1)">+</button>
+                            </div>
+                            <div class="subtotal">
+                                <small>Totale</small>
+                                <strong id="total-testBalistico">$0</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-top">
+                            <div class="product-name">Rinnovo porto d'armi</div>
+                            <div class="product-price">$7.500</div>
+                        </div>
+                        <div class="product-bottom">
+                            <div class="quantity-box">
+                                <button class="qty-btn" onclick="changeQuantity('rinnovoPorto',-1)">−</button>
+                                <div id="qty-rinnovoPorto" class="qty">0</div>
+                                <button class="qty-btn" onclick="changeQuantity('rinnovoPorto',1)">+</button>
+                            </div>
+                            <div class="subtotal">
+                                <small>Totale</small>
+                                <strong id="total-rinnovoPorto">$0</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- OPERAZIONI -->
+
+        <section id="operations" class="page">
+
+            <div class="topbar">
+                <h1>Operazioni</h1>
+                <p id="operationsSubtitle">Storico fatture</p>
+            </div>
+
+            <div class="section">
+                <div id="operationsList" class="invoice-list"></div>
+            </div>
+
+        </section>
+
+        <!-- CLASSIFICA -->
+
+        <section id="ranking" class="page">
+
+            <div class="topbar">
+                <h1>Classifica</h1>
+                <p>Classifica dei dipendenti per fatturato</p>
+            </div>
+
+            <div class="section">
+                <div id="rankingList"></div>
+            </div>
+
+        </section>
+
+        <!-- STATISTICHE -->
+
+        <section id="statistics" class="page">
+
+            <div class="topbar">
+                <h1>Statistiche</h1>
+                <p>Analisi del fatturato e delle vendite</p>
+            </div>
+
+            <div class="cards">
+
+                <div class="card">
+                    <div class="card-label">Media fattura</div>
+                    <div id="averageInvoice" class="card-value">$0</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-label">Miglior fattura</div>
+                    <div id="bestInvoice" class="card-value">$0</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-label">Fatture oggi</div>
+                    <div id="todayInvoiceCount" class="card-value">0</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-label">Articoli venduti</div>
+                    <div id="itemsSold" class="card-value">0</div>
+                </div>
+
+            </div>
+
+            <div class="section">
+
+                <h2>Prodotti più venduti</h2>
+
+                <div id="productStatistics"></div>
+
+            </div>
+
+        </section>
+
+        <!-- ADMIN -->
+
+        <section id="admin" class="page">
+
+            <div class="topbar">
+                <h1>Pannello Admin</h1>
+                <p>Controllo generale dell'Armeria</p>
+            </div>
+
+            <div class="cards">
+
+                <div class="card">
+                    <div class="card-label">Fatturato aziendale</div>
+                    <div id="adminTotal" class="card-value">$0</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-label">Fatture totali</div>
+                    <div id="adminCount" class="card-value">0</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-label">Dipendenti</div>
+                    <div id="adminEmployees" class="card-value">0</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-label">Media fattura</div>
+                    <div id="adminAverage" class="card-value">$0</div>
+                </div>
+
+            </div>
+
+            <div class="section">
+                <h2>Tutte le fatture</h2>
+                <div id="adminInvoicesList" class="invoice-list"></div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <button class="invoice-floating" onclick="openDrawer()">
+        🧾 Fattura
+        <span id="invoiceBadge" class="invoice-badge">0</span>
+    </button>
+
+    <div id="drawerOverlay" class="drawer-overlay" onclick="closeDrawer()"></div>
+
+    <aside id="invoiceDrawer" class="invoice-drawer">
+
+        <div class="drawer-header">
+            <h2>🧾 Fattura</h2>
+            <button class="drawer-close" onclick="closeDrawer()">×</button>
+        </div>
+
+        <div id="drawerContent" class="drawer-content"></div>
+
+        <div class="drawer-footer">
+
+            <div class="drawer-total-label">Totale fattura</div>
+            <div id="drawerTotal" class="drawer-total">$0</div>
+
+            <button
+                id="saveInvoiceButton"
+                class="save-btn"
+                onclick="saveInvoice()"
+                disabled
+            >
+                SALVA FATTURA
+            </button>
+
+            <div id="saveMessage" class="message">
+                Fattura salvata correttamente.
+            </div>
 
         </div>
 
-      </div>
-
-      <!-- PORTO D'ARMI -->
-
-      <div class="section">
-
-        <h2>📜 Porto d'armi</h2>
-
-        <div class="section-subtitle">
-          Test balistico e rinnovo
-        </div>
-
-        <div class="products-grid">
-
-          <div class="product-card">
-
-            <div class="product-top">
-              <div class="product-name">Test balistico</div>
-              <div class="product-price">$15.000</div>
-            </div>
-
-            <div class="quantity-area">
-
-              <div class="quantity-controls">
-
-                <button
-                  class="qty-btn"
-                  onclick="changeQuantity('testBalistico',-1)"
-                >
-                  −
-                </button>
-
-                <div
-                  id="qty-testBalistico"
-                  class="qty-number"
-                >
-                  0
-                </div>
-
-                <button
-                  class="qty-btn"
-                  onclick="changeQuantity('testBalistico',1)"
-                >
-                  +
-                </button>
-
-              </div>
-
-              <div class="product-subtotal">
-                <span>Totale</span>
-                <strong id="total-testBalistico">$0</strong>
-              </div>
-
-            </div>
-          </div>
-
-          <div class="product-card">
-
-            <div class="product-top">
-              <div class="product-name">Rinnovo porto d'armi</div>
-              <div class="product-price">$7.500</div>
-            </div>
-
-            <div class="quantity-area">
-
-              <div class="quantity-controls">
-
-                <button
-                  class="qty-btn"
-                  onclick="changeQuantity('rinnovoPorto',-1)"
-                >
-                  −
-                </button>
-
-                <div
-                  id="qty-rinnovoPorto"
-                  class="qty-number"
-                >
-                  0
-                </div>
-
-                <button
-                  class="qty-btn"
-                  onclick="changeQuantity('rinnovoPorto',1)"
-                >
-                  +
-                </button>
-
-              </div>
-
-              <div class="product-subtotal">
-                <span>Totale</span>
-                <strong id="total-rinnovoPorto">$0</strong>
-              </div>
-
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-    <!-- OPERAZIONI -->
-
-    <section
-      id="operazioni"
-      class="page"
-    >
-
-      <div class="topbar">
-        <h1>Operazioni</h1>
-        <p id="operationsSubtitle">Le tue fatture</p>
-      </div>
-
-      <div class="section">
-
-        <div
-          id="operationsList"
-          class="invoice-list"
-        ></div>
-
-      </div>
-
-    </section>
-
-    <!-- ADMIN -->
-
-    <section
-      id="admin"
-      class="page"
-    >
-
-      <div class="topbar">
-        <h1>Pannello Admin</h1>
-        <p>Fatturato generale dell'Armeria</p>
-      </div>
-
-      <div class="cards">
-
-        <div class="card">
-          <div class="card-title">Fatturato aziendale</div>
-          <div
-            id="adminTotal"
-            class="card-value"
-          >
-            $0
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Fatture totali</div>
-          <div
-            id="adminInvoices"
-            class="card-value"
-          >
-            0
-          </div>
-        </div>
-
-      </div>
-
-    </section>
-
-  </main>
-
-  <!-- BOTTONE FATTURA -->
-
-  <button
-    class="open-cart-btn"
-    onclick="openInvoiceDrawer()"
-  >
-    🧾 Fattura
-    <span
-      id="cartCount"
-      class="cart-count"
-    >
-      0
-    </span>
-  </button>
-
-  <div
-    id="drawerOverlay"
-    class="drawer-overlay"
-    onclick="closeInvoiceDrawer()"
-  ></div>
-
-  <!-- DRAWER -->
-
-  <aside
-    id="invoiceDrawer"
-    class="invoice-drawer"
-  >
-
-    <div class="drawer-header">
-
-      <h2>🧾 Fattura</h2>
-
-      <button
-        class="close-drawer"
-        onclick="closeInvoiceDrawer()"
-      >
-        ×
-      </button>
-
-    </div>
-
-    <div
-      id="drawerContent"
-      class="drawer-content"
-    ></div>
-
-    <div class="drawer-footer">
-
-      <div class="drawer-total-label">
-        Totale fattura
-      </div>
-
-      <div
-        id="drawerTotal"
-        class="drawer-total"
-      >
-        $0
-      </div>
-
-      <button
-        id="saveInvoiceBtn"
-        class="save-btn"
-        onclick="saveInvoice()"
-        disabled
-      >
-        SALVA FATTURA
-      </button>
-
-      <div
-        id="saveSuccess"
-        class="success-message"
-      >
-        Fattura salvata correttamente.
-      </div>
-
-    </div>
-
-  </aside>
+    </aside>
 
 </div>
 
 <script>
 
-  /* ================================
-     SUPABASE
-  ================================= */
+/* =====================================================
+   SUPABASE
+===================================================== */
 
-  const SUPABASE_URL =
-    "https://qtkwurpjlefnuewbhgng.supabase.co";
+const SUPABASE_URL =
+"https://qtkwurpjlefnuewbhgng.supabase.co";
 
-  const SUPABASE_KEY =
-    "sb_publishable_aZ8POe8frINtsfpJrW1OYw_UPiKWFuG";
+const SUPABASE_KEY =
+"sb_publishable_aZ8POe8frINtsfpJrW1OYw_UPiKWFuG";
 
-  const supabaseClient =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
-
-
-  /* ================================
-     DATI UTENTE
-  ================================= */
-
-  let currentUser = null;
-  let currentProfile = null;
-  let invoices = [];
+const supabaseClient =
+supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
 
-  /* ================================
-     PRODOTTI
-  ================================= */
+/* =====================================================
+   VARIABILI
+===================================================== */
 
-  const products = {
+let currentUser = null;
+let currentProfile = null;
+let invoices = [];
+let profiles = [];
 
-    machete: {
-      name: "Machete",
-      price: 7000,
-      quantity: 0,
-      category: "Armi bianche"
+
+/* =====================================================
+   PRODOTTI
+===================================================== */
+
+const products = {
+
+    machete:{
+        name:"Machete",
+        price:7000,
+        quantity:0,
+        category:"Armi bianche"
     },
 
-    mazza: {
-      name: "Mazza da baseball",
-      price: 2500,
-      quantity: 0,
-      category: "Armi bianche"
+    mazza:{
+        name:"Mazza da baseball",
+        price:2500,
+        quantity:0,
+        category:"Armi bianche"
     },
 
-    coltello: {
-      name: "Coltello",
-      price: 4500,
-      quantity: 0,
-      category: "Armi bianche"
+    coltello:{
+        name:"Coltello",
+        price:4500,
+        quantity:0,
+        category:"Armi bianche"
     },
 
-    tirapugni: {
-      name: "Tirapugni",
-      price: 2000,
-      quantity: 0,
-      category: "Armi bianche"
+    tirapugni:{
+        name:"Tirapugni",
+        price:2000,
+        quantity:0,
+        category:"Armi bianche"
     },
 
-    testBalistico: {
-      name: "Test balistico",
-      price: 15000,
-      quantity: 0,
-      category: "Porto d'armi"
+    testBalistico:{
+        name:"Test balistico",
+        price:15000,
+        quantity:0,
+        category:"Porto d'armi"
     },
 
-    rinnovoPorto: {
-      name: "Rinnovo porto d'armi",
-      price: 7500,
-      quantity: 0,
-      category: "Porto d'armi"
+    rinnovoPorto:{
+        name:"Rinnovo porto d'armi",
+        price:7500,
+        quantity:0,
+        category:"Porto d'armi"
     }
 
-  };
+};
 
 
-  /* ================================
-     LOGIN
-  ================================= */
+/* =====================================================
+   LOGIN SOLO USERNAME + PASSWORD
+===================================================== */
 
-  async function login() {
+async function login(){
 
-    const usernameInput =
-      document
-        .getElementById("username")
-        .value
-        .trim();
+    const username =
+    document
+    .getElementById("username")
+    .value
+    .trim()
+    .toLowerCase();
 
     const password =
-      document
-        .getElementById("password")
-        .value;
+    document
+    .getElementById("password")
+    .value;
+
+    const loginButton =
+    document.getElementById("loginButton");
 
     const errorBox =
-      document
-        .getElementById("loginError");
+    document.getElementById("loginError");
+
 
     errorBox.style.display = "none";
 
 
-    if (!usernameInput || !password) {
+    if(!username || !password){
 
-      showLoginError(
-        "Inserisci username/email e password."
-      );
+        showLoginError(
+            "Inserisci username e password."
+        );
 
-      return;
-
+        return;
     }
 
 
     /*
-      Se viene inserita una email vera,
-      viene usata direttamente.
+        L'utente scrive solamente:
 
-      Se viene scritto solo lo username,
-      il sito prova username@armeria.local
+        admin
+        bianca
+        luca
+
+        Il sito usa internamente:
+
+        admin@armeria.local
+        bianca@armeria.local
+        luca@armeria.local
     */
 
     const email =
-      usernameInput.includes("@")
-        ? usernameInput
-        : usernameInput.toLowerCase() +
-          "@armeria.local";
+    username + "@armeria.local";
 
 
-    const {
-      data,
-      error
-    } =
-      await supabaseClient.auth
-        .signInWithPassword({
-          email,
-          password
-        });
+    loginButton.disabled = true;
+    loginButton.textContent = "ACCESSO...";
 
 
-    if (error) {
+    const {data,error} =
+    await supabaseClient.auth.signInWithPassword({
+        email:email,
+        password:password
+    });
 
-      showLoginError(
-        "Accesso non riuscito. Controlla username/email e password."
-      );
 
-      return;
+    loginButton.disabled = false;
+    loginButton.textContent = "ACCEDI";
 
+
+    if(error){
+
+        console.error(error);
+
+        showLoginError(
+            "Username o password non corretti."
+        );
+
+        return;
     }
 
 
-    currentUser =
-      data.user;
-
+    currentUser = data.user;
 
     await startApp();
 
-  }
+}
 
 
-  function showLoginError(message) {
+function showLoginError(message){
 
     const box =
-      document
-        .getElementById("loginError");
+    document.getElementById("loginError");
 
-    box.textContent =
-      message;
+    box.textContent = message;
+    box.style.display = "block";
 
-    box.style.display =
-      "block";
-
-  }
+}
 
 
-  /* ================================
-     AVVIA APP
-  ================================= */
+/* =====================================================
+   AVVIO APP
+===================================================== */
 
-  async function startApp() {
+async function startApp(){
 
-    if (!currentUser) {
-      return;
+    if(!currentUser){
+        return;
     }
 
 
-    const {
-      data: profile,
-      error
-    } =
-      await supabaseClient
-        .from("profiles")
-        .select("*")
-        .eq("id", currentUser.id)
-        .single();
+    const {data:profile,error} =
+    await supabaseClient
+    .from("profiles")
+    .select("id,username,role")
+    .eq("id",currentUser.id)
+    .single();
 
 
-    if (error) {
+    if(error){
 
-      console.error(
-        "Errore profilo:",
-        error
-      );
+        console.error(
+            "Errore profilo:",
+            error
+        );
 
+        await supabaseClient.auth.signOut();
+
+        showLoginError(
+            "Profilo utente non trovato."
+        );
+
+        return;
     }
 
 
-    currentProfile =
-      profile || {
-        username:
-          currentUser.email,
-        role:
-          "employee"
-      };
+    currentProfile = profile;
 
 
-    document
-      .getElementById(
-        "currentUsername"
-      )
-      .textContent =
-      currentProfile.username;
+    document.getElementById(
+        "sidebarUsername"
+    ).textContent =
+    currentProfile.username;
 
 
     const isAdmin =
-      currentProfile.role ===
-      "admin";
+    currentProfile.role === "admin";
 
 
-    document
-      .getElementById(
-        "currentRole"
-      )
-      .textContent =
-      isAdmin
-        ? "Amministratore"
-        : "Dipendente";
+    document.getElementById(
+        "sidebarRole"
+    ).textContent =
+    isAdmin
+    ? "Amministratore"
+    : "Dipendente";
 
 
-    document
-      .getElementById(
+    document.getElementById(
         "adminMenu"
-      )
-      .style.display =
-      isAdmin
-        ? "block"
-        : "none";
+    ).style.display =
+    isAdmin
+    ? "block"
+    : "none";
 
 
-    document
-      .getElementById(
+    document.getElementById(
         "operationsSubtitle"
-      )
-      .textContent =
-      isAdmin
-        ? "Tutte le fatture dell'Armeria"
-        : "Le tue fatture";
+    ).textContent =
+    isAdmin
+    ? "Tutte le fatture dell'Armeria"
+    : "Le tue fatture";
 
 
-    document
-      .getElementById(
+    document.getElementById(
         "loginPage"
-      )
-      .style.display =
-      "none";
+    ).style.display =
+    "none";
 
 
-    document
-      .getElementById(
+    document.getElementById(
         "app"
-      )
-      .style.display =
-      "block";
+    ).style.display =
+    "block";
 
+
+    await loadProfiles();
 
     await loadInvoices();
 
-  }
+}
 
 
-  /* ================================
-     LOGOUT
-  ================================= */
+/* =====================================================
+   PROFILI
+===================================================== */
 
-  async function logout() {
+async function loadProfiles(){
+
+    profiles = [];
+
+
+    if(!currentProfile){
+        return;
+    }
+
+
+    if(currentProfile.role !== "admin"){
+
+        profiles = [
+            currentProfile
+        ];
+
+        return;
+    }
+
+
+    const {data,error} =
+    await supabaseClient
+    .from("profiles")
+    .select("id,username,role");
+
+
+    if(error){
+
+        console.warn(
+            "Impossibile caricare tutti i profili:",
+            error
+        );
+
+        profiles = [
+            currentProfile
+        ];
+
+        return;
+    }
+
+
+    profiles = data || [];
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function logout(){
 
     await supabaseClient.auth.signOut();
 
     currentUser = null;
     currentProfile = null;
     invoices = [];
+    profiles = [];
 
-    closeInvoiceDrawer();
+    resetInvoice();
 
-    document
-      .getElementById("app")
-      .style.display = "none";
-
-    document
-      .getElementById("loginPage")
-      .style.display = "flex";
-
-  }
+    closeDrawer();
 
 
-  /* ================================
-     MENU
-  ================================= */
-
-  function showPage(
-    pageId,
-    element
-  ) {
-
-    document
-      .querySelectorAll(".page")
-      .forEach(page => {
-        page.classList.remove("active");
-      });
+    document.getElementById(
+        "app"
+    ).style.display = "none";
 
 
-    document
-      .getElementById(pageId)
-      .classList.add("active");
+    document.getElementById(
+        "loginPage"
+    ).style.display = "flex";
 
 
-    document
-      .querySelectorAll(".menu-item")
-      .forEach(item => {
-        item.classList.remove("active");
-      });
+    document.getElementById(
+        "password"
+    ).value = "";
+
+}
 
 
-    element.classList.add("active");
+/* =====================================================
+   MENU
+===================================================== */
+
+function showPage(pageId,menu){
+
+    document.querySelectorAll(
+        ".page"
+    ).forEach(page=>{
+
+        page.classList.remove(
+            "active"
+        );
+
+    });
 
 
-    if (
-      pageId === "dashboard" ||
-      pageId === "operazioni" ||
-      pageId === "admin"
-    ) {
+    document.getElementById(
+        pageId
+    ).classList.add(
+        "active"
+    );
 
-      loadInvoices();
+
+    document.querySelectorAll(
+        ".menu-item"
+    ).forEach(item=>{
+
+        item.classList.remove(
+            "active"
+        );
+
+    });
+
+
+    menu.classList.add(
+        "active"
+    );
+
+
+    if(
+        pageId === "dashboard" ||
+        pageId === "operations" ||
+        pageId === "ranking" ||
+        pageId === "statistics" ||
+        pageId === "admin"
+    ){
+
+        loadInvoices();
 
     }
 
-  }
+}
 
 
-  /* ================================
-     QUANTITÀ
-  ================================= */
+/* =====================================================
+   QUANTITÀ
+===================================================== */
 
-  function changeQuantity(
-    productId,
-    change
-  ) {
+function changeQuantity(id,change){
 
     const product =
-      products[productId];
-
-    product.quantity +=
-      change;
+    products[id];
 
 
-    if (
-      product.quantity < 0
-    ) {
+    product.quantity += change;
 
-      product.quantity = 0;
+
+    if(product.quantity < 0){
+
+        product.quantity = 0;
 
     }
 
@@ -1650,882 +1603,1123 @@
     updateInvoice();
 
 
-    if (
-      change > 0
-    ) {
+    if(change > 0){
 
-      openInvoiceDrawer();
+        openDrawer();
 
     }
 
-  }
+}
 
 
-  /* ================================
-     RIEPILOGO FATTURA
-  ================================= */
+/* =====================================================
+   AGGIORNA FATTURA
+===================================================== */
 
-  function updateInvoice() {
+function updateInvoice(){
 
-    let total =
-      0;
-
-    let totalQuantity =
-      0;
-
-    let html =
-      "";
+    let total = 0;
+    let quantity = 0;
+    let html = "";
 
 
-    Object
-      .keys(products)
-      .forEach(productId => {
+    Object.keys(products)
+    .forEach(id=>{
 
         const product =
-          products[productId];
+        products[id];
 
         const subtotal =
-          product.price *
-          product.quantity;
+        product.quantity *
+        product.price;
 
 
-        total +=
-          subtotal;
+        total += subtotal;
+        quantity += product.quantity;
 
 
-        totalQuantity +=
-          product.quantity;
+        document.getElementById(
+            "qty-" + id
+        ).textContent =
+        product.quantity;
 
 
-        document
-          .getElementById(
-            "qty-" +
-            productId
-          )
-          .textContent =
-          product.quantity;
+        document.getElementById(
+            "total-" + id
+        ).textContent =
+        money(subtotal);
 
 
-        document
-          .getElementById(
-            "total-" +
-            productId
-          )
-          .textContent =
-          formatMoney(
-            subtotal
-          );
+        if(product.quantity > 0){
 
-
-        if (
-          product.quantity > 0
-        ) {
-
-          html += `
+            html += `
 
             <div class="drawer-item">
 
-              <div class="drawer-item-top">
+                <div class="drawer-item-top">
 
-                <strong>
-                  ${product.name}
-                </strong>
+                    <strong>
+                        ${product.name}
+                    </strong>
 
-                <span class="drawer-item-total">
-                  ${formatMoney(subtotal)}
-                </span>
+                    <strong>
+                        ${money(subtotal)}
+                    </strong>
 
-              </div>
+                </div>
 
-              <div class="drawer-item-bottom">
+                <div class="drawer-item-bottom">
 
-                <span>
-                  ${product.category}
-                </span>
+                    <span>
+                        ${product.category}
+                    </span>
 
-                <span>
-                  ${product.quantity}
-                  ×
-                  ${formatMoney(product.price)}
-                </span>
+                    <span>
+                        ${product.quantity}
+                        ×
+                        ${money(product.price)}
+                    </span>
 
-              </div>
+                </div>
 
             </div>
 
-          `;
+            `;
 
         }
 
-      });
+    });
 
 
-    if (
-      totalQuantity === 0
-    ) {
+    if(quantity === 0){
 
-      html = `
-
-        <div class="empty">
-          Nessun articolo selezionato.
-        </div>
-
-      `;
+        html =
+        `<div class="empty">
+            Nessun prodotto selezionato.
+        </div>`;
 
     }
 
 
-    document
-      .getElementById(
+    document.getElementById(
         "drawerContent"
-      )
-      .innerHTML =
-      html;
+    ).innerHTML =
+    html;
 
 
-    document
-      .getElementById(
+    document.getElementById(
         "drawerTotal"
-      )
-      .textContent =
-      formatMoney(total);
+    ).textContent =
+    money(total);
 
 
-    document
-      .getElementById(
-        "cartCount"
-      )
-      .textContent =
-      totalQuantity;
+    document.getElementById(
+        "invoiceBadge"
+    ).textContent =
+    quantity;
 
 
-    document
-      .getElementById(
-        "saveInvoiceBtn"
-      )
-      .disabled =
-      total === 0;
+    document.getElementById(
+        "saveInvoiceButton"
+    ).disabled =
+    total === 0;
 
-  }
+}
 
 
-  /* ================================
-     SALVA FATTURA SU SUPABASE
-  ================================= */
+/* =====================================================
+   SALVA FATTURA
+===================================================== */
 
-  async function saveInvoice() {
+async function saveInvoice(){
 
-    if (!currentUser) {
-
-      alert(
-        "Devi effettuare l'accesso."
-      );
-
-      return;
-
+    if(!currentUser){
+        return;
     }
 
 
-    let total =
-      0;
+    let total = 0;
 
-    const selectedItems =
-      [];
+    const lines = [];
 
 
-    Object
-      .values(products)
-      .forEach(product => {
+    Object.values(products)
+    .forEach(product=>{
 
-        if (
-          product.quantity > 0
-        ) {
+        if(product.quantity > 0){
 
-          total +=
-            product.price *
-            product.quantity;
+            total +=
+            product.quantity *
+            product.price;
 
 
-          selectedItems.push(
-
-            product.quantity +
-            "x " +
-            product.name
-
-          );
+            lines.push(
+                product.quantity +
+                "x " +
+                product.name
+            );
 
         }
 
-      });
+    });
 
 
-    if (
-      total === 0
-    ) {
-
-      return;
-
+    if(total <= 0){
+        return;
     }
 
 
-    const description =
-      selectedItems.join(", ");
+    const button =
+    document.getElementById(
+        "saveInvoiceButton"
+    );
 
 
-    const saveButton =
-      document
-        .getElementById(
-          "saveInvoiceBtn"
+    button.disabled = true;
+    button.textContent =
+    "SALVATAGGIO...";
+
+
+    const {error} =
+    await supabaseClient
+    .from("Invoices")
+    .insert({
+
+        amount:total,
+
+        category:
+        lines.join(", "),
+
+        user_id:
+        currentUser.id
+
+    });
+
+
+    if(error){
+
+        console.error(error);
+
+        alert(
+            "Errore nel salvataggio della fattura:\n" +
+            error.message
         );
 
 
-    saveButton.disabled =
-      true;
-
-    saveButton.textContent =
-      "SALVATAGGIO...";
-
-
-    const {
-      error
-    } =
-      await supabaseClient
-        .from("Invoices")
-        .insert({
-
-          amount:
-            total,
-
-          category:
-            description,
-
-          user_id:
-            currentUser.id
-
-        });
-
-
-    if (error) {
-
-      console.error(error);
-
-      alert(
-        "Errore durante il salvataggio:\n" +
-        error.message
-      );
-
-
-      saveButton.disabled =
-        false;
-
-      saveButton.textContent =
+        button.disabled = false;
+        button.textContent =
         "SALVA FATTURA";
 
-      return;
+        return;
 
     }
 
 
-    Object
-      .values(products)
-      .forEach(product => {
+    resetInvoice();
 
-        product.quantity =
-          0;
-
-      });
+    button.textContent =
+    "SALVA FATTURA";
 
 
-    updateInvoice();
-
-
-    saveButton.textContent =
-      "SALVA FATTURA";
-
-
-    const success =
-      document
-        .getElementById(
-          "saveSuccess"
-        );
-
-
-    success.style.display =
-      "block";
-
-
-    setTimeout(
-      () => {
-
-        success.style.display =
-          "none";
-
-      },
-      2500
+    const message =
+    document.getElementById(
+        "saveMessage"
     );
+
+
+    message.style.display =
+    "block";
+
+
+    setTimeout(()=>{
+
+        message.style.display =
+        "none";
+
+        closeDrawer();
+
+    },1500);
 
 
     await loadInvoices();
 
-  }
+}
 
 
-  /* ================================
-     CARICA FATTURE
-  ================================= */
+/* =====================================================
+   RESET FATTURA
+===================================================== */
 
-  async function loadInvoices() {
+function resetInvoice(){
 
-    if (!currentUser) {
-      return;
+    Object.values(products)
+    .forEach(product=>{
+
+        product.quantity = 0;
+
+    });
+
+
+    updateInvoice();
+
+}
+
+
+/* =====================================================
+   CARICA FATTURE
+===================================================== */
+
+async function loadInvoices(){
+
+    if(!currentUser){
+        return;
     }
 
 
-    /*
-      La sicurezza è gestita da Supabase RLS.
+    const {data,error} =
+    await supabaseClient
+    .from("Invoices")
+    .select("*")
+    .order(
+        "created_at",
+        {ascending:false}
+    );
 
-      Dipendente:
-      vede solo le proprie.
 
-      Admin:
-      grazie alla policy admin,
-      vede tutte.
-    */
+    if(error){
 
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-        .from("Invoices")
-        .select("*")
-        .order(
-          "created_at",
-          {
-            ascending:
-              false
-          }
+        console.error(
+            "Errore caricamento fatture:",
+            error
         );
 
-
-    if (error) {
-
-      console.error(
-        "Errore fatture:",
-        error
-      );
-
-      return;
-
+        return;
     }
 
 
     invoices =
-      data || [];
+    data || [];
 
 
     updateDashboard();
-
     renderOperations();
+    renderRanking();
+    renderStatistics();
+    renderAdmin();
 
-  }
+}
 
 
-  /* ================================
-     DASHBOARD
-  ================================= */
+/* =====================================================
+   DASHBOARD
+===================================================== */
 
-  function updateDashboard() {
+function updateDashboard(){
 
     const total =
-      invoices.reduce(
-        (sum, invoice) =>
-          sum +
-          Number(
-            invoice.amount
-          ),
+    invoices.reduce(
+        (sum,item)=>
+        sum + Number(item.amount),
         0
-      );
+    );
 
 
     const today =
-      new Date()
-        .toDateString();
+    new Date().toDateString();
+
+
+    const todayInvoices =
+    invoices.filter(item=>
+        new Date(
+            item.created_at
+        ).toDateString() === today
+    );
 
 
     const todayTotal =
-      invoices
-        .filter(invoice => {
-
-          return new Date(
-            invoice.created_at
-          )
-          .toDateString() ===
-          today;
-
-        })
-        .reduce(
-          (sum, invoice) =>
-            sum +
-            Number(
-              invoice.amount
-            ),
-          0
-        );
+    todayInvoices.reduce(
+        (sum,item)=>
+        sum + Number(item.amount),
+        0
+    );
 
 
-    document
-      .getElementById(
+    document.getElementById(
         "dashboardTotal"
-      )
-      .textContent =
-      formatMoney(total);
+    ).textContent =
+    money(total);
 
 
-    document
-      .getElementById(
+    document.getElementById(
         "dashboardToday"
-      )
-      .textContent =
-      formatMoney(
-        todayTotal
-      );
+    ).textContent =
+    money(todayTotal);
 
 
-    document
-      .getElementById(
-        "dashboardInvoices"
-      )
-      .textContent =
-      invoices.length;
+    document.getElementById(
+        "dashboardCount"
+    ).textContent =
+    invoices.length;
 
 
-    document
-      .getElementById(
+    document.getElementById(
         "dashboardLast"
-      )
-      .textContent =
-      invoices.length > 0
-        ? formatMoney(
-            invoices[0].amount
-          )
-        : "$0";
-
-
-    if (
-      currentProfile &&
-      currentProfile.role ===
-      "admin"
-    ) {
-
-      document
-        .getElementById(
-          "adminTotal"
-        )
-        .textContent =
-        formatMoney(total);
-
-
-      document
-        .getElementById(
-          "adminInvoices"
-        )
-        .textContent =
-        invoices.length;
-
-    }
-
-
-    renderLatestInvoices();
-
-  }
-
-
-  /* ================================
-     ULTIME FATTURE
-  ================================= */
-
-  function renderLatestInvoices() {
-
-    const container =
-      document
-        .getElementById(
-          "latestInvoices"
-        );
+    ).textContent =
+    invoices.length
+    ? money(invoices[0].amount)
+    : "$0";
 
 
     const latest =
-      invoices.slice(
-        0,
-        5
-      );
+    invoices.slice(0,5);
 
-
-    if (
-      latest.length === 0
-    ) {
-
-      container.innerHTML =
-        `<div class="empty">
-          Nessuna fattura presente.
-        </div>`;
-
-      return;
-
-    }
-
-
-    container.innerHTML =
-      latest
-        .map(invoice =>
-          invoiceTemplate(
-            invoice,
-            false
-          )
-        )
-        .join("");
-
-  }
-
-
-  /* ================================
-     OPERAZIONI
-  ================================= */
-
-  function renderOperations() {
 
     const container =
-      document
-        .getElementById(
-          "operationsList"
-        );
+    document.getElementById(
+        "dashboardOperations"
+    );
 
 
-    if (
-      invoices.length === 0
-    ) {
+    if(latest.length === 0){
 
-      container.innerHTML =
+        container.innerHTML =
         `<div class="empty">
-          Nessuna fattura presente.
+            Nessuna operazione.
         </div>`;
 
-      return;
+        return;
 
     }
 
 
     container.innerHTML =
-      invoices
-        .map(invoice =>
-          invoiceTemplate(
+    latest.map(invoice=>
+        invoiceHTML(
+            invoice,
+            false
+        )
+    ).join("");
+
+}
+
+
+/* =====================================================
+   OPERAZIONI
+===================================================== */
+
+function renderOperations(){
+
+    const container =
+    document.getElementById(
+        "operationsList"
+    );
+
+
+    if(invoices.length === 0){
+
+        container.innerHTML =
+        `<div class="empty">
+            Nessuna fattura presente.
+        </div>`;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+    invoices.map(invoice=>
+        invoiceHTML(
             invoice,
             true
-          )
         )
-        .join("");
+    ).join("");
 
-  }
+}
 
 
-  function invoiceTemplate(
-    invoice,
-    allowDelete
-  ) {
+/* =====================================================
+   HTML FATTURA
+===================================================== */
+
+function invoiceHTML(invoice,showDelete){
 
     const date =
-      new Date(
+    new Date(
         invoice.created_at
-      )
-      .toLocaleString(
+    ).toLocaleString(
         "it-IT"
-      );
+    );
 
 
-    const isAdmin =
-      currentProfile &&
-      currentProfile.role ===
-      "admin";
+    const username =
+    getUsername(
+        invoice.user_id
+    );
+
+
+    const admin =
+    currentProfile &&
+    currentProfile.role ===
+    "admin";
 
 
     const deleteButton =
-      allowDelete &&
-      isAdmin
-        ? `
-          <button
+    admin && showDelete
+    ? `
+        <button
             class="delete-btn"
             onclick="deleteInvoice(${invoice.id})"
-          >
+        >
             Elimina
-          </button>
-        `
-        : "";
+        </button>
+    `
+    : "";
 
 
     return `
 
-      <div class="invoice-row">
+    <div class="invoice-row">
 
         <div>
 
-          <div class="invoice-category">
-            ${escapeHtml(
-              invoice.category
-            )}
-          </div>
+            <div class="invoice-title">
+                ${escapeHtml(
+                    invoice.category
+                )}
+            </div>
 
-          <div class="invoice-meta">
+            <div class="invoice-meta">
 
-            ${date}
+                ${date}
 
-            ${
-              isAdmin
-                ? " • ID dipendente: " +
-                  String(
-                    invoice.user_id
-                  )
-                  .substring(
-                    0,
-                    8
-                  )
-                : ""
-            }
+                ${
+                    admin
+                    ? `<br>Dipendente: ${escapeHtml(username)}`
+                    : ""
+                }
 
-          </div>
+            </div>
 
         </div>
 
-        <div class="invoice-right">
+        <div>
 
-          <div class="invoice-amount">
-            ${formatMoney(
-              invoice.amount
-            )}
-          </div>
+            <div class="invoice-amount">
+                ${money(invoice.amount)}
+            </div>
 
-          ${deleteButton}
+            ${deleteButton}
 
         </div>
 
-      </div>
+    </div>
 
     `;
 
-  }
+}
 
 
-  /* ================================
-     ELIMINA - SOLO ADMIN
-  ================================= */
+/* =====================================================
+   CANCELLA FATTURA SOLO ADMIN
+===================================================== */
 
-  async function deleteInvoice(
-    invoiceId
-  ) {
+async function deleteInvoice(id){
 
-    if (
-      !currentProfile ||
-      currentProfile.role !==
-      "admin"
-    ) {
-
-      return;
-
+    if(
+        !currentProfile ||
+        currentProfile.role !== "admin"
+    ){
+        return;
     }
 
 
-    const confirmed =
-      confirm(
-        "Vuoi davvero eliminare questa fattura?"
-      );
-
-
-    if (!confirmed) {
-      return;
+    if(
+        !confirm(
+            "Vuoi eliminare questa fattura?"
+        )
+    ){
+        return;
     }
 
 
-    const {
-      error
-    } =
-      await supabaseClient
-        .from("Invoices")
-        .delete()
-        .eq(
-          "id",
-          invoiceId
+    const {error} =
+    await supabaseClient
+    .from("Invoices")
+    .delete()
+    .eq("id",id);
+
+
+    if(error){
+
+        alert(
+            "Errore durante l'eliminazione:\n" +
+            error.message
         );
 
-
-    if (error) {
-
-      alert(
-        "Errore durante l'eliminazione:\n" +
-        error.message
-      );
-
-      return;
-
+        return;
     }
 
 
     await loadInvoices();
 
-  }
+}
 
 
-  /* ================================
-     DRAWER
-  ================================= */
+/* =====================================================
+   CLASSIFICA
+===================================================== */
 
-  function openInvoiceDrawer() {
+function renderRanking(){
 
-    document
-      .getElementById(
-        "invoiceDrawer"
-      )
-      .classList
-      .add("open");
-
-
-    document
-      .getElementById(
-        "drawerOverlay"
-      )
-      .classList
-      .add("show");
-
-  }
-
-
-  function closeInvoiceDrawer() {
-
-    document
-      .getElementById(
-        "invoiceDrawer"
-      )
-      .classList
-      .remove("open");
-
-
-    document
-      .getElementById(
-        "drawerOverlay"
-      )
-      .classList
-      .remove("show");
-
-  }
-
-
-  /* ================================
-     FORMATTA SOLDI
-  ================================= */
-
-  function formatMoney(
-    value
-  ) {
-
-    return "$" +
-      Number(value)
-        .toLocaleString(
-          "it-IT",
-          {
-            maximumFractionDigits:
-              0
-          }
-        );
-
-  }
-
-
-  /* ================================
-     SICUREZZA TESTO
-  ================================= */
-
-  function escapeHtml(
-    value
-  ) {
-
-    return String(value)
-      .replaceAll(
-        "&",
-        "&amp;"
-      )
-      .replaceAll(
-        "<",
-        "&lt;"
-      )
-      .replaceAll(
-        ">",
-        "&gt;"
-      )
-      .replaceAll(
-        '"',
-        "&quot;"
-      )
-      .replaceAll(
-        "'",
-        "&#039;"
-      );
-
-  }
-
-
-  /* ================================
-     ENTER LOGIN
-  ================================= */
-
-  document
-    .getElementById(
-      "password"
-    )
-    .addEventListener(
-      "keydown",
-      event => {
-
-        if (
-          event.key ===
-          "Enter"
-        ) {
-
-          login();
-
-        }
-
-      }
+    const container =
+    document.getElementById(
+        "rankingList"
     );
 
 
-  /* ================================
-     SESSIONE GIÀ APERTA
-  ================================= */
+    if(
+        !currentProfile ||
+        currentProfile.role !== "admin"
+    ){
 
-  async function checkSession() {
+        container.innerHTML =
+        `
+        <div class="empty">
+            La classifica completa è visibile
+            all'amministratore.
+        </div>
+        `;
 
-    const {
-      data
-    } =
-      await supabaseClient.auth
-        .getSession();
-
-
-    if (
-      data.session
-    ) {
-
-      currentUser =
-        data.session.user;
-
-      await startApp();
+        return;
 
     }
 
-  }
+
+    const ranking = {};
 
 
-  updateInvoice();
+    invoices.forEach(invoice=>{
 
-  checkSession();
+        const id =
+        invoice.user_id;
+
+
+        if(!ranking[id]){
+
+            ranking[id] = {
+                name:getUsername(id),
+                total:0,
+                count:0
+            };
+
+        }
+
+
+        ranking[id].total +=
+        Number(invoice.amount);
+
+
+        ranking[id].count += 1;
+
+    });
+
+
+    const sorted =
+    Object.values(ranking)
+    .sort(
+        (a,b)=>
+        b.total - a.total
+    );
+
+
+    if(sorted.length === 0){
+
+        container.innerHTML =
+        `<div class="empty">
+            Nessun dato disponibile.
+        </div>`;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+    sorted.map(
+        (item,index)=>`
+
+        <div class="ranking-row">
+
+            <div class="ranking-position">
+                #${index+1}
+            </div>
+
+            <div class="ranking-name">
+                ${escapeHtml(item.name)}
+            </div>
+
+            <div class="ranking-count">
+                ${item.count} fatture
+            </div>
+
+            <div class="ranking-money">
+                ${money(item.total)}
+            </div>
+
+        </div>
+
+        `
+    ).join("");
+
+}
+
+
+/* =====================================================
+   STATISTICHE
+===================================================== */
+
+function renderStatistics(){
+
+    const total =
+    invoices.reduce(
+        (sum,item)=>
+        sum + Number(item.amount),
+        0
+    );
+
+
+    const average =
+    invoices.length
+    ? total / invoices.length
+    : 0;
+
+
+    const best =
+    invoices.length
+    ? Math.max(
+        ...invoices.map(
+            item=>Number(item.amount)
+        )
+    )
+    : 0;
+
+
+    const today =
+    new Date().toDateString();
+
+
+    const todayCount =
+    invoices.filter(
+        item=>
+        new Date(
+            item.created_at
+        ).toDateString()
+        === today
+    ).length;
+
+
+    const productCount = {
+
+        "Machete":0,
+        "Mazza da baseball":0,
+        "Coltello":0,
+        "Tirapugni":0,
+        "Test balistico":0,
+        "Rinnovo porto d'armi":0
+
+    };
+
+
+    let totalItems = 0;
+
+
+    invoices.forEach(invoice=>{
+
+        Object.keys(
+            productCount
+        ).forEach(name=>{
+
+            const escaped =
+            name.replace(
+                /[.*+?^${}()|[\]\\]/g,
+                "\\$&"
+            );
+
+
+            const regex =
+            new RegExp(
+                `(\\d+)x ${escaped}`,
+                "i"
+            );
+
+
+            const match =
+            String(
+                invoice.category
+            ).match(regex);
+
+
+            if(match){
+
+                const quantity =
+                Number(match[1]);
+
+                productCount[name] +=
+                quantity;
+
+                totalItems +=
+                quantity;
+
+            }
+
+        });
+
+    });
+
+
+    document.getElementById(
+        "averageInvoice"
+    ).textContent =
+    money(average);
+
+
+    document.getElementById(
+        "bestInvoice"
+    ).textContent =
+    money(best);
+
+
+    document.getElementById(
+        "todayInvoiceCount"
+    ).textContent =
+    todayCount;
+
+
+    document.getElementById(
+        "itemsSold"
+    ).textContent =
+    totalItems;
+
+
+    const max =
+    Math.max(
+        ...Object.values(
+            productCount
+        ),
+        1
+    );
+
+
+    const container =
+    document.getElementById(
+        "productStatistics"
+    );
+
+
+    container.innerHTML =
+    Object.entries(
+        productCount
+    )
+    .sort(
+        (a,b)=>b[1]-a[1]
+    )
+    .map(([name,count])=>{
+
+        const percent =
+        (count/max)*100;
+
+        return `
+
+        <div class="stat-row">
+
+            <div class="stat-row-top">
+                <span>${name}</span>
+                <strong>${count}</strong>
+            </div>
+
+            <div class="progress">
+                <div
+                    class="progress-fill"
+                    style="width:${percent}%"
+                ></div>
+            </div>
+
+        </div>
+
+        `;
+
+    })
+    .join("");
+
+}
+
+
+/* =====================================================
+   ADMIN
+===================================================== */
+
+function renderAdmin(){
+
+    if(
+        !currentProfile ||
+        currentProfile.role !== "admin"
+    ){
+        return;
+    }
+
+
+    const total =
+    invoices.reduce(
+        (sum,item)=>
+        sum + Number(item.amount),
+        0
+    );
+
+
+    const average =
+    invoices.length
+    ? total / invoices.length
+    : 0;
+
+
+    const employeeProfiles =
+    profiles.filter(
+        profile=>
+        profile.role === "employee"
+    );
+
+
+    document.getElementById(
+        "adminTotal"
+    ).textContent =
+    money(total);
+
+
+    document.getElementById(
+        "adminCount"
+    ).textContent =
+    invoices.length;
+
+
+    document.getElementById(
+        "adminEmployees"
+    ).textContent =
+    employeeProfiles.length;
+
+
+    document.getElementById(
+        "adminAverage"
+    ).textContent =
+    money(average);
+
+
+    const container =
+    document.getElementById(
+        "adminInvoicesList"
+    );
+
+
+    if(invoices.length === 0){
+
+        container.innerHTML =
+        `<div class="empty">
+            Nessuna fattura presente.
+        </div>`;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+    invoices.map(
+        invoice=>
+        invoiceHTML(
+            invoice,
+            true
+        )
+    ).join("");
+
+}
+
+
+/* =====================================================
+   USERNAME DA ID
+===================================================== */
+
+function getUsername(userId){
+
+    const profile =
+    profiles.find(
+        profile=>
+        profile.id === userId
+    );
+
+
+    if(profile){
+
+        return profile.username;
+
+    }
+
+
+    if(
+        currentProfile &&
+        currentProfile.id === userId
+    ){
+
+        return currentProfile.username;
+
+    }
+
+
+    return "Dipendente";
+
+}
+
+
+/* =====================================================
+   DRAWER
+===================================================== */
+
+function openDrawer(){
+
+    document.getElementById(
+        "invoiceDrawer"
+    ).classList.add(
+        "open"
+    );
+
+
+    document.getElementById(
+        "drawerOverlay"
+    ).classList.add(
+        "show"
+    );
+
+}
+
+
+function closeDrawer(){
+
+    document.getElementById(
+        "invoiceDrawer"
+    ).classList.remove(
+        "open"
+    );
+
+
+    document.getElementById(
+        "drawerOverlay"
+    ).classList.remove(
+        "show"
+    );
+
+}
+
+
+/* =====================================================
+   SOLDI
+===================================================== */
+
+function money(value){
+
+    return "$" +
+    Number(value || 0)
+    .toLocaleString(
+        "it-IT",
+        {
+            maximumFractionDigits:0
+        }
+    );
+
+}
+
+
+/* =====================================================
+   SICUREZZA TESTO
+===================================================== */
+
+function escapeHtml(value){
+
+    return String(
+        value ?? ""
+    )
+    .replaceAll(
+        "&",
+        "&amp;"
+    )
+    .replaceAll(
+        "<",
+        "&lt;"
+    )
+    .replaceAll(
+        ">",
+        "&gt;"
+    )
+    .replaceAll(
+        '"',
+        "&quot;"
+    )
+    .replaceAll(
+        "'",
+        "&#039;"
+    );
+
+}
+
+
+/* =====================================================
+   ENTER PER LOGIN
+===================================================== */
+
+document.getElementById(
+    "password"
+)
+.addEventListener(
+    "keydown",
+    event=>{
+
+        if(event.key === "Enter"){
+            login();
+        }
+
+    }
+);
+
+
+/* =====================================================
+   SESSIONE ESISTENTE
+===================================================== */
+
+async function checkSession(){
+
+    const {
+        data:{
+            session
+        }
+    } =
+    await supabaseClient.auth
+    .getSession();
+
+
+    if(session){
+
+        currentUser =
+        session.user;
+
+        await startApp();
+
+    }
+
+}
+
+
+/* AVVIO */
+
+updateInvoice();
+checkSession();
 
 </script>
 
