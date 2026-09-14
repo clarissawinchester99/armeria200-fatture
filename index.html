@@ -35,7 +35,6 @@
     body {
       min-height: 100vh;
       color: var(--white);
-
       background:
         radial-gradient(
           circle at top right,
@@ -61,33 +60,20 @@
 
     #loginPage {
       min-height: 100vh;
-
       display: flex;
       justify-content: center;
       align-items: center;
-
       padding: 20px;
     }
 
     .login-box {
       width: 100%;
       max-width: 430px;
-
       padding: 42px;
-
       border-radius: 22px;
-
-      background:
-        linear-gradient(
-          180deg,
-          #191919,
-          #0e0e0e
-        );
-
+      background: linear-gradient(180deg, #191919, #0e0e0e);
       border: 1px solid var(--border);
-
-      box-shadow:
-        0 25px 80px rgba(0,0,0,.6);
+      box-shadow: 0 25px 80px rgba(0,0,0,.6);
     }
 
     .brand {
@@ -98,42 +84,28 @@
     .brand-icon {
       width: 90px;
       height: 90px;
-
       margin: 0 auto 18px;
-
       display: flex;
       align-items: center;
       justify-content: center;
-
       border-radius: 50%;
-
       border: 2px solid var(--gold);
-
       color: var(--gold);
-
       font-size: 38px;
-
       background: #0b0b0b;
-
-      box-shadow:
-        0 0 30px rgba(212,175,55,.12);
+      box-shadow: 0 0 30px rgba(212,175,55,.12);
     }
 
     .brand h1 {
       color: var(--gold);
-
       font-size: 32px;
-
       letter-spacing: 3px;
     }
 
     .brand p {
       margin-top: 8px;
-
       color: var(--gray);
-
       font-size: 13px;
-
       letter-spacing: 1.5px;
     }
 
@@ -143,73 +115,40 @@
 
     .input-group label {
       display: block;
-
       margin-bottom: 7px;
-
       color: var(--gold-light);
-
       font-size: 12px;
-
       font-weight: bold;
-
       text-transform: uppercase;
-
       letter-spacing: .8px;
     }
 
     .input-group input {
       width: 100%;
-
       padding: 14px;
-
       border-radius: 9px;
-
       border: 1px solid #343434;
-
       outline: none;
-
       background: #0c0c0c;
-
       color: white;
     }
 
     .input-group input:focus {
       border-color: var(--gold);
-
-      box-shadow:
-        0 0 0 3px rgba(212,175,55,.07);
+      box-shadow: 0 0 0 3px rgba(212,175,55,.07);
     }
 
     .login-btn {
       width: 100%;
-
       margin-top: 5px;
-
       padding: 14px;
-
       border-radius: 9px;
-
-      border:
-        1px solid rgba(212,175,55,.25);
-
-      background:
-        linear-gradient(
-          90deg,
-          var(--red-dark),
-          var(--red)
-        );
-
+      border: 1px solid rgba(212,175,55,.25);
+      background: linear-gradient(90deg, var(--red-dark), var(--red));
       color: white;
-
       font-weight: bold;
-
       cursor: pointer;
-
       letter-spacing: 1px;
-    }
-
-    .login-btn:hover {
-      filter: brightness(1.08);
     }
 
     /* =========================
@@ -223,118 +162,76 @@
 
     .sidebar {
       width: 255px;
-
       position: fixed;
-
       left: 0;
       top: 0;
       bottom: 0;
-
       padding: 24px 16px;
-
-      background:
-        linear-gradient(
-          180deg,
-          #111111,
-          #080808
-        );
-
-      border-right:
-        1px solid var(--border);
-
+      background: linear-gradient(180deg, #111111, #080808);
+      border-right: 1px solid var(--border);
       z-index: 10;
     }
 
     .sidebar-brand {
       text-align: center;
-
       padding-bottom: 22px;
-
       margin-bottom: 22px;
-
-      border-bottom:
-        1px solid var(--border);
+      border-bottom: 1px solid var(--border);
     }
 
     .sidebar-icon {
       width: 58px;
       height: 58px;
-
       margin: 0 auto 10px;
-
       display: flex;
       align-items: center;
       justify-content: center;
-
       border-radius: 50%;
-
-      border:
-        1px solid var(--gold);
-
+      border: 1px solid var(--gold);
       color: var(--gold);
-
       font-size: 24px;
     }
 
     .sidebar-brand h2 {
       color: var(--gold);
-
       font-size: 21px;
-
       letter-spacing: 2px;
     }
 
     .sidebar-brand p {
       margin-top: 5px;
-
       color: var(--gray);
-
       font-size: 10px;
-
       letter-spacing: 1px;
-
       text-transform: uppercase;
     }
 
     .menu-item {
       padding: 13px 14px;
-
       margin-bottom: 8px;
-
       border-radius: 9px;
-
-      border:
-        1px solid transparent;
-
+      border: 1px solid transparent;
       color: #dddddd;
-
       cursor: pointer;
-
       transition: .2s;
     }
 
     .menu-item:hover {
-      background:
-        rgba(178, 13, 28, .15);
+      background: rgba(178, 13, 28, .15);
     }
 
     .menu-item.active {
       color: var(--gold-light);
-
-      border-color:
-        rgba(212,175,55,.3);
-
-      background:
-        linear-gradient(
-          90deg,
-          rgba(178,13,28,.35),
-          rgba(212,175,55,.07)
-        );
+      border-color: rgba(212,175,55,.3);
+      background: linear-gradient(
+        90deg,
+        rgba(178,13,28,.35),
+        rgba(212,175,55,.07)
+      );
     }
 
     .sidebar-bottom {
       position: absolute;
-
       left: 16px;
       right: 16px;
       bottom: 24px;
@@ -342,16 +239,10 @@
 
     .user-box {
       padding: 12px;
-
       margin-bottom: 10px;
-
       text-align: center;
-
-      border:
-        1px solid var(--border);
-
+      border: 1px solid var(--border);
       border-radius: 9px;
-
       background: #151515;
     }
 
@@ -361,40 +252,26 @@
 
     .user-box span {
       display: block;
-
       margin-top: 4px;
-
       color: var(--gold);
-
       font-size: 10px;
-
       letter-spacing: .8px;
-
       text-transform: uppercase;
     }
 
     .logout-btn {
       width: 100%;
-
       padding: 11px;
-
       border-radius: 8px;
-
-      border:
-        1px solid #4b1119;
-
+      border: 1px solid #4b1119;
       background: #190b0e;
-
       color: #ff7580;
-
       font-weight: bold;
-
       cursor: pointer;
     }
 
     .main {
       margin-left: 255px;
-
       padding: 32px;
     }
 
@@ -412,15 +289,12 @@
 
     .topbar h1 {
       color: var(--gold);
-
       font-size: 30px;
-
       letter-spacing: 1px;
     }
 
     .topbar p {
       margin-top: 6px;
-
       color: var(--gray);
     }
 
@@ -430,103 +304,61 @@
 
     .cards {
       display: grid;
-
-      grid-template-columns:
-        repeat(4,1fr);
-
+      grid-template-columns: repeat(4,1fr);
       gap: 18px;
     }
 
     .card {
       position: relative;
-
       overflow: hidden;
-
       padding: 22px;
-
       border-radius: 14px;
-
-      border:
-        1px solid var(--border);
-
-      background:
-        linear-gradient(
-          180deg,
-          var(--panel),
-          #101010
-        );
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--panel), #101010);
     }
 
     .card::before {
       content: "";
-
       position: absolute;
-
       top: 0;
       left: 0;
       bottom: 0;
-
       width: 4px;
-
-      background:
-        linear-gradient(
-          var(--red),
-          var(--gold)
-        );
+      background: linear-gradient(var(--red), var(--gold));
     }
 
     .card-title {
       color: var(--gray);
-
       font-size: 12px;
-
       text-transform: uppercase;
-
       letter-spacing: .7px;
     }
 
     .card-value {
       margin-top: 10px;
-
       color: var(--gold-light);
-
       font-size: 28px;
-
       font-weight: bold;
     }
 
     .section {
       margin-top: 24px;
-
       padding: 24px;
-
       border-radius: 14px;
-
-      border:
-        1px solid var(--border);
-
-      background:
-        linear-gradient(
-          180deg,
-          #181818,
-          #101010
-        );
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, #181818, #101010);
     }
 
     .section h2 {
       margin-bottom: 20px;
-
       color: var(--gold);
-
       font-size: 20px;
     }
 
     .section-subtitle {
       margin-top: -12px;
       margin-bottom: 20px;
-
       color: var(--gray);
-
       font-size: 13px;
     }
 
@@ -536,119 +368,78 @@
 
     .products-grid {
       display: grid;
-
-      grid-template-columns:
-        repeat(2, 1fr);
-
+      grid-template-columns: repeat(2, 1fr);
       gap: 18px;
     }
 
     .product-card {
       padding: 20px;
-
       border-radius: 14px;
-
-      border:
-        1px solid rgba(212,175,55,.2);
-
-      background:
-        linear-gradient(
-          180deg,
-          #202020,
-          #151515
-        );
-
+      border: 1px solid rgba(212,175,55,.2);
+      background: linear-gradient(180deg, #202020, #151515);
       transition: .2s;
     }
 
     .product-card:hover {
       transform: translateY(-2px);
-
-      border-color:
-        rgba(212,175,55,.55);
+      border-color: rgba(212,175,55,.55);
     }
 
     .product-top {
       display: flex;
-
       justify-content: space-between;
-
       align-items: center;
-
       gap: 15px;
-
       margin-bottom: 20px;
     }
 
     .product-name {
       font-size: 19px;
-
       font-weight: bold;
     }
 
     .product-price {
       color: var(--gold-light);
-
       font-size: 17px;
-
       font-weight: bold;
-
       white-space: nowrap;
     }
 
     .quantity-area {
       display: flex;
-
       justify-content: space-between;
-
       align-items: center;
-
       gap: 15px;
     }
 
     .quantity-controls {
       display: flex;
-
       align-items: center;
-
       gap: 12px;
     }
 
     .qty-btn {
       width: 42px;
       height: 42px;
-
       border-radius: 9px;
-
-      border:
-        1px solid rgba(212,175,55,.35);
-
+      border: 1px solid rgba(212,175,55,.35);
       background: #0e0e0e;
-
       color: var(--gold);
-
       font-size: 23px;
-
       font-weight: bold;
-
       cursor: pointer;
-
       transition: .2s;
     }
 
     .qty-btn:hover {
       background: var(--red-dark);
-
       color: white;
     }
 
     .qty-number {
       min-width: 40px;
-
       text-align: center;
-
       font-size: 20px;
-
       font-weight: bold;
     }
 
@@ -658,72 +449,183 @@
 
     .product-subtotal span {
       display: block;
-
       color: var(--gray);
-
       font-size: 10px;
-
       text-transform: uppercase;
     }
 
     .product-subtotal strong {
       display: block;
-
       margin-top: 4px;
-
       color: var(--gold);
-
       font-size: 19px;
     }
 
     /* =========================
-       TOTALE
+       CARRELLO LATERALE
     ========================= */
 
-    .invoice-total-box {
-      margin-top: 25px;
+    .invoice-drawer {
+      position: fixed;
+      top: 0;
+      right: -430px;
 
-      padding: 24px;
+      width: 410px;
+      max-width: 92vw;
+      height: 100vh;
 
+      z-index: 1000;
+
+      background:
+        linear-gradient(
+          180deg,
+          #161616,
+          #0a0a0a
+        );
+
+      border-left:
+        1px solid rgba(212,175,55,.35);
+
+      box-shadow:
+        -20px 0 50px rgba(0,0,0,.65);
+
+      transition:
+        right .3s ease;
+
+      display: flex;
+      flex-direction: column;
+    }
+
+    .invoice-drawer.open {
+      right: 0;
+    }
+
+    .drawer-header {
+      padding: 22px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      border-bottom:
+        1px solid var(--border);
+    }
+
+    .drawer-header h2 {
+      color: var(--gold);
+      font-size: 21px;
+    }
+
+    .close-drawer {
+      width: 38px;
+      height: 38px;
+
+      border-radius: 8px;
+
+      border:
+        1px solid rgba(212,175,55,.3);
+
+      background: #111;
+
+      color: white;
+
+      font-size: 24px;
+
+      cursor: pointer;
+    }
+
+    .drawer-content {
+      flex: 1;
+
+      overflow-y: auto;
+
+      padding: 20px;
+    }
+
+    .empty-cart {
+      padding: 50px 10px;
+
+      text-align: center;
+
+      color: var(--gray);
+    }
+
+    .drawer-item {
+      margin-bottom: 12px;
+
+      padding: 15px;
+
+      border-radius: 10px;
+
+      border:
+        1px solid rgba(212,175,55,.15);
+
+      background: #141414;
+    }
+
+    .drawer-item-top {
       display: flex;
 
       justify-content: space-between;
 
-      align-items: center;
+      gap: 15px;
 
-      gap: 20px;
-
-      border-radius: 14px;
-
-      border:
-        1px solid rgba(212,175,55,.35);
-
-      background:
-        linear-gradient(
-          90deg,
-          rgba(178,13,28,.18),
-          rgba(212,175,55,.08)
-        );
+      margin-bottom: 7px;
     }
 
-    .invoice-total-label {
-      color: #dddddd;
-
-      font-size: 15px;
+    .drawer-item-name {
+      font-weight: bold;
     }
 
-    .invoice-total {
+    .drawer-item-total {
+      color: var(--gold-light);
+
+      font-weight: bold;
+    }
+
+    .drawer-item-bottom {
+      display: flex;
+
+      justify-content: space-between;
+
+      color: var(--gray);
+
+      font-size: 12px;
+    }
+
+    .drawer-footer {
+      padding: 22px;
+
+      border-top:
+        1px solid var(--border);
+
+      background: #0d0d0d;
+    }
+
+    .drawer-total-label {
+      color: var(--gray);
+
+      font-size: 12px;
+
+      text-transform: uppercase;
+    }
+
+    .drawer-total {
       margin-top: 5px;
 
       color: var(--gold-light);
 
-      font-size: 36px;
+      font-size: 34px;
 
       font-weight: bold;
     }
 
     .save-btn {
-      padding: 15px 27px;
+      width: 100%;
+
+      margin-top: 18px;
+
+      padding: 15px;
 
       border-radius: 9px;
 
@@ -746,99 +648,96 @@
 
     .save-btn:disabled {
       opacity: .4;
-
       cursor: not-allowed;
     }
 
     /* =========================
-       RIEPILOGO
+       BOTTONE FLOTTANTE
     ========================= */
 
-    .invoice-summary {
-      margin-top: 22px;
+    .open-cart-btn {
+      position: fixed;
 
-      padding: 20px;
+      right: 22px;
+      bottom: 22px;
 
-      border-radius: 12px;
+      z-index: 900;
 
-      background: #111;
+      padding: 15px 20px;
+
+      border-radius: 999px;
 
       border:
-        1px solid rgba(212,175,55,.15);
+        1px solid rgba(212,175,55,.45);
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--red-dark),
+          var(--red)
+        );
+
+      color: white;
+
+      font-weight: bold;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 10px 30px rgba(0,0,0,.5);
     }
 
-    .invoice-summary h3 {
-      color: var(--gold);
+    .cart-count {
+      display: inline-flex;
 
-      margin-bottom: 15px;
-    }
+      justify-content: center;
+      align-items: center;
 
-    .summary-row {
-      display: flex;
+      min-width: 24px;
+      height: 24px;
 
-      justify-content: space-between;
+      margin-left: 8px;
 
-      gap: 15px;
+      padding: 0 6px;
 
-      padding: 9px 0;
+      border-radius: 50%;
 
-      border-bottom:
-        1px solid #252525;
-    }
+      background: var(--gold);
 
-    .summary-row:last-child {
-      border-bottom: none;
-    }
+      color: black;
 
-    .summary-empty {
-      color: var(--gray);
+      font-size: 12px;
+
+      font-weight: bold;
     }
 
     /* =========================
-       TABELLE
+       OVERLAY
     ========================= */
 
-    .table-wrapper {
-      overflow-x: auto;
+    .drawer-overlay {
+      display: none;
+
+      position: fixed;
+      inset: 0;
+
+      z-index: 950;
+
+      background:
+        rgba(0,0,0,.55);
     }
 
-    table {
-      width: 100%;
-
-      border-collapse: collapse;
+    .drawer-overlay.show {
+      display: block;
     }
 
-    th {
-      padding: 13px;
-
-      text-align: left;
-
-      background: #111;
-
-      color: var(--gold-light);
-
-      font-size: 11px;
-
-      text-transform: uppercase;
-
-      letter-spacing: .7px;
-
-      border-bottom:
-        1px solid var(--border);
-    }
-
-    td {
-      padding: 13px;
-
-      border-bottom:
-        1px solid #292929;
-    }
+    /* =========================
+       GENERIC
+    ========================= */
 
     .coming {
       padding: 50px 20px;
-
       text-align: center;
-
       color: var(--gray);
     }
 
@@ -847,43 +746,33 @@
     ========================= */
 
     @media(max-width: 1000px) {
-
       .cards {
-        grid-template-columns:
-          repeat(2,1fr);
+        grid-template-columns: repeat(2,1fr);
       }
-
     }
 
     @media(max-width: 800px) {
-
       .products-grid {
         grid-template-columns: 1fr;
       }
-
     }
 
     @media(max-width: 700px) {
-
       .sidebar {
         width: 100%;
-
         position: relative;
       }
 
       .sidebar-bottom {
         position: relative;
-
         left: auto;
         right: auto;
         bottom: auto;
-
         margin-top: 25px;
       }
 
       .main {
         margin-left: 0;
-
         padding: 18px;
       }
 
@@ -891,534 +780,521 @@
         grid-template-columns: 1fr;
       }
 
-      .invoice-total-box {
-        flex-direction: column;
-
-        align-items: stretch;
+      .open-cart-btn {
+        right: 14px;
+        bottom: 14px;
       }
-
-      .save-btn {
-        width: 100%;
-      }
-
     }
   </style>
 </head>
 
 <body>
 
-  <!-- =========================
-       LOGIN
-  ========================= -->
+<!-- =========================
+     LOGIN
+========================= -->
 
-  <div id="loginPage">
+<div id="loginPage">
 
-    <div class="login-box">
+  <div class="login-box">
 
-      <div class="brand">
+    <div class="brand">
 
-        <div class="brand-icon">
-          ♛
-        </div>
-
-        <h1>ARMERIA</h1>
-
-        <p>GESTIONALE FATTURE</p>
-
+      <div class="brand-icon">
+        ♛
       </div>
 
-      <div class="input-group">
+      <h1>
+        ARMERIA
+      </h1>
 
-        <label>
-          Username
-        </label>
+      <p>
+        GESTIONALE FATTURE
+      </p>
 
-        <input
-          id="username"
-          type="text"
-          placeholder="Inserisci username"
-        >
+    </div>
 
+    <div class="input-group">
+
+      <label>
+        Username
+      </label>
+
+      <input
+        id="username"
+        type="text"
+        placeholder="Inserisci username"
+      >
+
+    </div>
+
+    <div class="input-group">
+
+      <label>
+        Password
+      </label>
+
+      <input
+        id="password"
+        type="password"
+        placeholder="Inserisci password"
+      >
+
+    </div>
+
+    <button
+      class="login-btn"
+      onclick="fakeLogin()"
+    >
+      ACCEDI
+    </button>
+
+  </div>
+
+</div>
+
+<!-- =========================
+     APP
+========================= -->
+
+<div id="app">
+
+  <aside class="sidebar">
+
+    <div class="sidebar-brand">
+
+      <div class="sidebar-icon">
+        ♛
       </div>
 
-      <div class="input-group">
+      <h2>
+        ARMERIA
+      </h2>
 
-        <label>
-          Password
-        </label>
+      <p>
+        Gestionale aziendale
+      </p>
 
-        <input
-          id="password"
-          type="password"
-          placeholder="Inserisci password"
-        >
+    </div>
+
+    <div
+      class="menu-item active"
+      onclick="showPage('dashboard', this)"
+    >
+      🏠 Dashboard
+    </div>
+
+    <div
+      class="menu-item"
+      onclick="showPage('fatture', this)"
+    >
+      💰 Nuova fattura
+    </div>
+
+    <div
+      class="menu-item"
+      onclick="showPage('operazioni', this)"
+    >
+      🧾 Operazioni
+    </div>
+
+    <div
+      class="menu-item"
+      onclick="showPage('classifica', this)"
+    >
+      🏆 Classifica
+    </div>
+
+    <div
+      class="menu-item"
+      onclick="showPage('statistiche', this)"
+    >
+      📊 Statistiche
+    </div>
+
+    <div
+      class="menu-item"
+      onclick="showPage('admin', this)"
+    >
+      👑 Pannello Admin
+    </div>
+
+    <div class="sidebar-bottom">
+
+      <div class="user-box">
+
+        <strong>
+          Admin
+        </strong>
+
+        <span>
+          Amministratore
+        </span>
 
       </div>
 
       <button
-        class="login-btn"
-        onclick="fakeLogin()"
+        class="logout-btn"
+        onclick="logout()"
       >
-        ACCEDI
+        Esci
       </button>
 
     </div>
 
-  </div>
+  </aside>
 
-  <!-- =========================
-       APP
-  ========================= -->
+  <main class="main">
 
-  <div id="app">
+    <!-- DASHBOARD -->
 
-    <aside class="sidebar">
+    <section
+      id="dashboard"
+      class="page active"
+    >
 
-      <div class="sidebar-brand">
+      <div class="topbar">
 
-        <div class="sidebar-icon">
-          ♛
-        </div>
-
-        <h2>ARMERIA</h2>
+        <h1>
+          Dashboard
+        </h1>
 
         <p>
-          Gestionale aziendale
+          Panoramica generale dell'Armeria
         </p>
 
       </div>
 
-      <div
-        class="menu-item active"
-        onclick="showPage('dashboard', this)"
-      >
-        🏠 Dashboard
-      </div>
+      <div class="cards">
 
-      <div
-        class="menu-item"
-        onclick="showPage('fatture', this)"
-      >
-        💰 Nuova fattura
-      </div>
+        <div class="card">
 
-      <div
-        class="menu-item"
-        onclick="showPage('operazioni', this)"
-      >
-        🧾 Operazioni
-      </div>
+          <div class="card-title">
+            Fatturato totale
+          </div>
 
-      <div
-        class="menu-item"
-        onclick="showPage('classifica', this)"
-      >
-        🏆 Classifica
-      </div>
-
-      <div
-        class="menu-item"
-        onclick="showPage('statistiche', this)"
-      >
-        📊 Statistiche
-      </div>
-
-      <div
-        class="menu-item"
-        onclick="showPage('admin', this)"
-      >
-        👑 Pannello Admin
-      </div>
-
-      <div class="sidebar-bottom">
-
-        <div class="user-box">
-
-          <strong>
-            Admin
-          </strong>
-
-          <span>
-            Amministratore
-          </span>
+          <div class="card-value">
+            $0
+          </div>
 
         </div>
 
-        <button
-          class="logout-btn"
-          onclick="logout()"
-        >
-          Esci
-        </button>
+        <div class="card">
+
+          <div class="card-title">
+            Fatturato oggi
+          </div>
+
+          <div class="card-value">
+            $0
+          </div>
+
+        </div>
+
+        <div class="card">
+
+          <div class="card-title">
+            Fatture
+          </div>
+
+          <div class="card-value">
+            0
+          </div>
+
+        </div>
+
+        <div class="card">
+
+          <div class="card-title">
+            Articoli venduti
+          </div>
+
+          <div class="card-value">
+            0
+          </div>
+
+        </div>
 
       </div>
 
-    </aside>
+      <div class="section">
 
-    <main class="main">
+        <h2>
+          Ultime operazioni
+        </h2>
 
-      <!-- =========================
-           DASHBOARD
-      ========================= -->
-
-      <section
-        id="dashboard"
-        class="page active"
-      >
-
-        <div class="topbar">
-
-          <h1>
-            Dashboard
-          </h1>
-
-          <p>
-            Panoramica generale dell'Armeria
-          </p>
-
+        <div class="coming">
+          Le operazioni verranno collegate a Supabase.
         </div>
 
-        <div class="cards">
+      </div>
 
-          <div class="card">
+    </section>
 
-            <div class="card-title">
-              Fatturato totale
-            </div>
+    <!-- =========================
+         NUOVA FATTURA
+    ========================= -->
 
-            <div
-              id="dashboardTotal"
-              class="card-value"
-            >
-              $0
-            </div>
+    <section
+      id="fatture"
+      class="page"
+    >
 
-          </div>
+      <div class="topbar">
 
-          <div class="card">
+        <h1>
+          Nuova fattura
+        </h1>
 
-            <div class="card-title">
-              Fatturato oggi
-            </div>
+        <p>
+          Seleziona prodotti e servizi venduti
+        </p>
 
-            <div class="card-value">
-              $0
-            </div>
+      </div>
 
-          </div>
+      <!-- ARMI BIANCHE -->
 
-          <div class="card">
+      <div class="section">
 
-            <div class="card-title">
-              Fatture
-            </div>
+        <h2>
+          ⚔️ Armi bianche
+        </h2>
 
-            <div
-              id="invoiceCount"
-              class="card-value"
-            >
-              0
-            </div>
-
-          </div>
-
-          <div class="card">
-
-            <div class="card-title">
-              Articoli venduti
-            </div>
-
-            <div
-              id="itemsSold"
-              class="card-value"
-            >
-              0
-            </div>
-
-          </div>
-
+        <div class="section-subtitle">
+          Seleziona la quantità venduta.
         </div>
 
-        <div class="section">
+        <div class="products-grid">
 
-          <h2>
-            Ultime operazioni
-          </h2>
+          <!-- MACHETE -->
 
-          <div class="coming">
-            Le operazioni verranno collegate a Supabase.
+          <div class="product-card">
+
+            <div class="product-top">
+
+              <div class="product-name">
+                Machete
+              </div>
+
+              <div class="product-price">
+                $7.000
+              </div>
+
+            </div>
+
+            <div class="quantity-area">
+
+              <div class="quantity-controls">
+
+                <button
+                  class="qty-btn"
+                  onclick="changeQuantity('machete', -1)"
+                >
+                  −
+                </button>
+
+                <div
+                  id="qty-machete"
+                  class="qty-number"
+                >
+                  0
+                </div>
+
+                <button
+                  class="qty-btn"
+                  onclick="changeQuantity('machete', 1)"
+                >
+                  +
+                </button>
+
+              </div>
+
+              <div class="product-subtotal">
+
+                <span>
+                  Totale
+                </span>
+
+                <strong id="total-machete">
+                  $0
+                </strong>
+
+              </div>
+
+            </div>
+
           </div>
 
-        </div>
+          <!-- MAZZA -->
 
-      </section>
+          <div class="product-card">
 
-      <!-- =========================
-           NUOVA FATTURA
-      ========================= -->
+            <div class="product-top">
 
-      <section
-        id="fatture"
-        class="page"
-      >
+              <div class="product-name">
+                Mazza da baseball
+              </div>
 
-        <div class="topbar">
+              <div class="product-price">
+                $2.500
+              </div>
 
-          <h1>
-            Nuova fattura
-          </h1>
+            </div>
 
-          <p>
-            Seleziona prodotti e servizi venduti
-          </p>
+            <div class="quantity-area">
 
-        </div>
+              <div class="quantity-controls">
 
-        <!-- ARMI BIANCHE -->
+                <button
+                  class="qty-btn"
+                  onclick="changeQuantity('mazza', -1)"
+                >
+                  −
+                </button>
 
-        <div class="section">
+                <div
+                  id="qty-mazza"
+                  class="qty-number"
+                >
+                  0
+                </div>
 
-          <h2>
-            ⚔️ Armi bianche
-          </h2>
+                <button
+                  class="qty-btn"
+                  onclick="changeQuantity('mazza', 1)"
+                >
+                  +
+                </button>
 
-          <div class="section-subtitle">
-            Seleziona la quantità venduta per ogni prodotto.
+              </div>
+
+              <div class="product-subtotal">
+
+                <span>
+                  Totale
+                </span>
+
+                <strong id="total-mazza">
+                  $0
+                </strong>
+
+              </div>
+
+            </div>
+
           </div>
 
-          <div class="products-grid">
+          <!-- COLTELLO -->
 
-            <!-- MACHETE -->
+          <div class="product-card">
 
-            <div class="product-card">
+            <div class="product-top">
 
-              <div class="product-top">
+              <div class="product-name">
+                Coltello
+              </div>
 
-                <div class="product-name">
-                  Machete
+              <div class="product-price">
+                $4.500
+              </div>
+
+            </div>
+
+            <div class="quantity-area">
+
+              <div class="quantity-controls">
+
+                <button
+                  class="qty-btn"
+                  onclick="changeQuantity('coltello', -1)"
+                >
+                  −
+                </button>
+
+                <div
+                  id="qty-coltello"
+                  class="qty-number"
+                >
+                  0
                 </div>
 
-                <div class="product-price">
-                  $7.000
-                </div>
+                <button
+                  class="qty-btn"
+                  onclick="changeQuantity('coltello', 1)"
+                >
+                  +
+                </button>
 
               </div>
 
-              <div class="quantity-area">
+              <div class="product-subtotal">
 
-                <div class="quantity-controls">
+                <span>
+                  Totale
+                </span>
 
-                  <button
-                    class="qty-btn"
-                    onclick="changeQuantity('machete', -1)"
-                  >
-                    −
-                  </button>
-
-                  <div
-                    id="qty-machete"
-                    class="qty-number"
-                  >
-                    0
-                  </div>
-
-                  <button
-                    class="qty-btn"
-                    onclick="changeQuantity('machete', 1)"
-                  >
-                    +
-                  </button>
-
-                </div>
-
-                <div class="product-subtotal">
-
-                  <span>
-                    Totale
-                  </span>
-
-                  <strong id="total-machete">
-                    $0
-                  </strong>
-
-                </div>
+                <strong id="total-coltello">
+                  $0
+                </strong>
 
               </div>
 
             </div>
 
-            <!-- MAZZA -->
+          </div>
 
-            <div class="product-card">
+          <!-- TIRAPUGNI -->
 
-              <div class="product-top">
+          <div class="product-card">
 
-                <div class="product-name">
-                  Mazza da baseball
-                </div>
+            <div class="product-top">
 
-                <div class="product-price">
-                  $2.500
-                </div>
-
+              <div class="product-name">
+                Tirapugni
               </div>
 
-              <div class="quantity-area">
-
-                <div class="quantity-controls">
-
-                  <button
-                    class="qty-btn"
-                    onclick="changeQuantity('mazza', -1)"
-                  >
-                    −
-                  </button>
-
-                  <div
-                    id="qty-mazza"
-                    class="qty-number"
-                  >
-                    0
-                  </div>
-
-                  <button
-                    class="qty-btn"
-                    onclick="changeQuantity('mazza', 1)"
-                  >
-                    +
-                  </button>
-
-                </div>
-
-                <div class="product-subtotal">
-
-                  <span>
-                    Totale
-                  </span>
-
-                  <strong id="total-mazza">
-                    $0
-                  </strong>
-
-                </div>
-
+              <div class="product-price">
+                $2.000
               </div>
 
             </div>
 
-            <!-- COLTELLO -->
+            <div class="quantity-area">
 
-            <div class="product-card">
+              <div class="quantity-controls">
 
-              <div class="product-top">
+                <button
+                  class="qty-btn"
+                  onclick="changeQuantity('tirapugni', -1)"
+                >
+                  −
+                </button>
 
-                <div class="product-name">
-                  Coltello
+                <div
+                  id="qty-tirapugni"
+                  class="qty-number"
+                >
+                  0
                 </div>
 
-                <div class="product-price">
-                  $4.500
-                </div>
+                <button
+                  class="qty-btn"
+                  onclick="changeQuantity('tirapugni', 1)"
+                >
+                  +
+                </button>
 
               </div>
 
-              <div class="quantity-area">
+              <div class="product-subtotal">
 
-                <div class="quantity-controls">
+                <span>
+                  Totale
+                </span>
 
-                  <button
-                    class="qty-btn"
-                    onclick="changeQuantity('coltello', -1)"
-                  >
-                    −
-                  </button>
-
-                  <div
-                    id="qty-coltello"
-                    class="qty-number"
-                  >
-                    0
-                  </div>
-
-                  <button
-                    class="qty-btn"
-                    onclick="changeQuantity('coltello', 1)"
-                  >
-                    +
-                  </button>
-
-                </div>
-
-                <div class="product-subtotal">
-
-                  <span>
-                    Totale
-                  </span>
-
-                  <strong id="total-coltello">
-                    $0
-                  </strong>
-
-                </div>
-
-              </div>
-
-            </div>
-
-            <!-- TIRAPUGNI -->
-
-            <div class="product-card">
-
-              <div class="product-top">
-
-                <div class="product-name">
-                  Tirapugni
-                </div>
-
-                <div class="product-price">
-                  $2.000
-                </div>
-
-              </div>
-
-              <div class="quantity-area">
-
-                <div class="quantity-controls">
-
-                  <button
-                    class="qty-btn"
-                    onclick="changeQuantity('tirapugni', -1)"
-                  >
-                    −
-                  </button>
-
-                  <div
-                    id="qty-tirapugni"
-                    class="qty-number"
-                  >
-                    0
-                  </div>
-
-                  <button
-                    class="qty-btn"
-                    onclick="changeQuantity('tirapugni', 1)"
-                  >
-                    +
-                  </button>
-
-                </div>
-
-                <div class="product-subtotal">
-
-                  <span>
-                    Totale
-                  </span>
-
-                  <strong id="total-tirapugni">
-                    $0
-                  </strong>
-
-                </div>
+                <strong id="total-tirapugni">
+                  $0
+                </strong>
 
               </div>
 
@@ -1428,133 +1304,74 @@
 
         </div>
 
-        <!-- PORTO D'ARMI -->
+      </div>
 
-        <div class="section">
+      <!-- PORTO D'ARMI -->
 
-          <h2>
-            📜 Porto d'armi
-          </h2>
+      <div class="section">
 
-          <div class="section-subtitle">
-            Servizi relativi al porto d'armi.
-          </div>
+        <h2>
+          📜 Porto d'armi
+        </h2>
 
-          <div class="products-grid">
+        <div class="section-subtitle">
+          Servizi relativi al porto d'armi.
+        </div>
 
-            <!-- TEST BALISTICO -->
+        <div class="products-grid">
 
-            <div class="product-card">
+          <!-- TEST BALISTICO -->
 
-              <div class="product-top">
+          <div class="product-card">
 
-                <div class="product-name">
-                  Test balistico
-                </div>
+            <div class="product-top">
 
-                <div class="product-price">
-                  $15.000
-                </div>
-
+              <div class="product-name">
+                Test balistico
               </div>
 
-              <div class="quantity-area">
-
-                <div class="quantity-controls">
-
-                  <button
-                    class="qty-btn"
-                    onclick="changeQuantity('testBalistico', -1)"
-                  >
-                    −
-                  </button>
-
-                  <div
-                    id="qty-testBalistico"
-                    class="qty-number"
-                  >
-                    0
-                  </div>
-
-                  <button
-                    class="qty-btn"
-                    onclick="changeQuantity('testBalistico', 1)"
-                  >
-                    +
-                  </button>
-
-                </div>
-
-                <div class="product-subtotal">
-
-                  <span>
-                    Totale
-                  </span>
-
-                  <strong id="total-testBalistico">
-                    $0
-                  </strong>
-
-                </div>
-
+              <div class="product-price">
+                $15.000
               </div>
 
             </div>
 
-            <!-- RINNOVO -->
+            <div class="quantity-area">
 
-            <div class="product-card">
+              <div class="quantity-controls">
 
-              <div class="product-top">
+                <button
+                  class="qty-btn"
+                  onclick="changeQuantity('testBalistico', -1)"
+                >
+                  −
+                </button>
 
-                <div class="product-name">
-                  Rinnovo porto d'armi
+                <div
+                  id="qty-testBalistico"
+                  class="qty-number"
+                >
+                  0
                 </div>
 
-                <div class="product-price">
-                  $7.500
-                </div>
+                <button
+                  class="qty-btn"
+                  onclick="changeQuantity('testBalistico', 1)"
+                >
+                  +
+                </button>
 
               </div>
 
-              <div class="quantity-area">
+              <div class="product-subtotal">
 
-                <div class="quantity-controls">
+                <span>
+                  Totale
+                </span>
 
-                  <button
-                    class="qty-btn"
-                    onclick="changeQuantity('rinnovoPorto', -1)"
-                  >
-                    −
-                  </button>
-
-                  <div
-                    id="qty-rinnovoPorto"
-                    class="qty-number"
-                  >
-                    0
-                  </div>
-
-                  <button
-                    class="qty-btn"
-                    onclick="changeQuantity('rinnovoPorto', 1)"
-                  >
-                    +
-                  </button>
-
-                </div>
-
-                <div class="product-subtotal">
-
-                  <span>
-                    Totale
-                  </span>
-
-                  <strong id="total-rinnovoPorto">
-                    $0
-                  </strong>
-
-                </div>
+                <strong id="total-testBalistico">
+                  $0
+                </strong>
 
               </div>
 
@@ -1562,573 +1379,747 @@
 
           </div>
 
-        </div>
+          <!-- RINNOVO -->
 
-        <!-- TOTALE -->
+          <div class="product-card">
 
-        <div class="invoice-total-box">
+            <div class="product-top">
 
-          <div>
+              <div class="product-name">
+                Rinnovo porto d'armi
+              </div>
 
-            <div class="invoice-total-label">
-              Totale fattura
+              <div class="product-price">
+                $7.500
+              </div>
+
             </div>
 
-            <div
-              id="invoiceTotal"
-              class="invoice-total"
-            >
-              $0
-            </div>
+            <div class="quantity-area">
 
-          </div>
+              <div class="quantity-controls">
 
-          <button
-            id="saveInvoiceBtn"
-            class="save-btn"
-            onclick="saveInvoice()"
-            disabled
-          >
-            SALVA FATTURA
-          </button>
+                <button
+                  class="qty-btn"
+                  onclick="changeQuantity('rinnovoPorto', -1)"
+                >
+                  −
+                </button>
 
-        </div>
+                <div
+                  id="qty-rinnovoPorto"
+                  class="qty-number"
+                >
+                  0
+                </div>
 
-        <!-- RIEPILOGO -->
+                <button
+                  class="qty-btn"
+                  onclick="changeQuantity('rinnovoPorto', 1)"
+                >
+                  +
+                </button>
 
-        <div class="invoice-summary">
+              </div>
 
-          <h3>
-            Riepilogo fattura
-          </h3>
+              <div class="product-subtotal">
 
-          <div id="summaryContent">
+                <span>
+                  Totale
+                </span>
 
-            <div class="summary-empty">
-              Nessun prodotto selezionato.
-            </div>
+                <strong id="total-rinnovoPorto">
+                  $0
+                </strong>
 
-          </div>
+              </div>
 
-        </div>
-
-      </section>
-
-      <!-- OPERAZIONI -->
-
-      <section
-        id="operazioni"
-        class="page"
-      >
-
-        <div class="topbar">
-
-          <h1>
-            Operazioni
-          </h1>
-
-          <p>
-            Storico completo delle fatture
-          </p>
-
-        </div>
-
-        <div class="section">
-
-          <div class="coming">
-            Le operazioni verranno caricate dal database.
-          </div>
-
-        </div>
-
-      </section>
-
-      <!-- CLASSIFICA -->
-
-      <section
-        id="classifica"
-        class="page"
-      >
-
-        <div class="topbar">
-
-          <h1>
-            Classifica
-          </h1>
-
-          <p>
-            Classifica dipendenti per fatturato
-          </p>
-
-        </div>
-
-        <div class="section">
-
-          <div class="coming">
-            La classifica verrà collegata a Supabase.
-          </div>
-
-        </div>
-
-      </section>
-
-      <!-- STATISTICHE -->
-
-      <section
-        id="statistiche"
-        class="page"
-      >
-
-        <div class="topbar">
-
-          <h1>
-            Statistiche
-          </h1>
-
-          <p>
-            Analisi delle vendite
-          </p>
-
-        </div>
-
-        <div class="section">
-
-          <div class="coming">
-            I grafici verranno aggiunti dopo il collegamento al database.
-          </div>
-
-        </div>
-
-      </section>
-
-      <!-- ADMIN -->
-
-      <section
-        id="admin"
-        class="page"
-      >
-
-        <div class="topbar">
-
-          <h1>
-            Pannello Admin
-          </h1>
-
-          <p>
-            Controllo generale dell'Armeria
-          </p>
-
-        </div>
-
-        <div class="cards">
-
-          <div class="card">
-
-            <div class="card-title">
-              Fatturato aziendale
-            </div>
-
-            <div class="card-value">
-              $0
-            </div>
-
-          </div>
-
-          <div class="card">
-
-            <div class="card-title">
-              Fatture
-            </div>
-
-            <div class="card-value">
-              0
-            </div>
-
-          </div>
-
-          <div class="card">
-
-            <div class="card-title">
-              Dipendenti
-            </div>
-
-            <div class="card-value">
-              0
-            </div>
-
-          </div>
-
-          <div class="card">
-
-            <div class="card-title">
-              Articoli venduti
-            </div>
-
-            <div class="card-value">
-              0
             </div>
 
           </div>
 
         </div>
 
-      </section>
+      </div>
 
-    </main>
+    </section>
 
+    <!-- OPERAZIONI -->
+
+    <section
+      id="operazioni"
+      class="page"
+    >
+
+      <div class="topbar">
+        <h1>Operazioni</h1>
+        <p>Storico completo delle fatture</p>
+      </div>
+
+      <div class="section">
+
+        <div class="coming">
+          Le operazioni verranno caricate dal database.
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- CLASSIFICA -->
+
+    <section
+      id="classifica"
+      class="page"
+    >
+
+      <div class="topbar">
+        <h1>Classifica</h1>
+        <p>Classifica dipendenti per fatturato</p>
+      </div>
+
+      <div class="section">
+
+        <div class="coming">
+          La classifica verrà collegata a Supabase.
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- STATISTICHE -->
+
+    <section
+      id="statistiche"
+      class="page"
+    >
+
+      <div class="topbar">
+        <h1>Statistiche</h1>
+        <p>Analisi delle vendite</p>
+      </div>
+
+      <div class="section">
+
+        <div class="coming">
+          I grafici verranno aggiunti successivamente.
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ADMIN -->
+
+    <section
+      id="admin"
+      class="page"
+    >
+
+      <div class="topbar">
+        <h1>Pannello Admin</h1>
+        <p>Controllo generale dell'Armeria</p>
+      </div>
+
+      <div class="cards">
+
+        <div class="card">
+          <div class="card-title">
+            Fatturato aziendale
+          </div>
+          <div class="card-value">
+            $0
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            Fatture
+          </div>
+          <div class="card-value">
+            0
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            Dipendenti
+          </div>
+          <div class="card-value">
+            0
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            Articoli venduti
+          </div>
+          <div class="card-value">
+            0
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- =========================
+       BOTTONE FATTURA
+  ========================= -->
+
+  <button
+    class="open-cart-btn"
+    onclick="openInvoiceDrawer()"
+  >
+    🧾 Fattura
+
+    <span
+      id="cartCount"
+      class="cart-count"
+    >
+      0
+    </span>
+
+  </button>
+
+  <!-- OVERLAY -->
+
+  <div
+    id="drawerOverlay"
+    class="drawer-overlay"
+    onclick="closeInvoiceDrawer()"
+  >
   </div>
 
-  <script>
+  <!-- =========================
+       TENDINA FATTURA
+  ========================= -->
 
-    /* =========================
-       PRODOTTI
-    ========================= */
+  <aside
+    id="invoiceDrawer"
+    class="invoice-drawer"
+  >
 
-    const products = {
+    <div class="drawer-header">
 
-      machete: {
-        name: "Machete",
-        price: 7000,
-        quantity: 0,
-        category: "Armi bianche"
-      },
+      <h2>
+        🧾 Fattura
+      </h2>
 
-      mazza: {
-        name: "Mazza da baseball",
-        price: 2500,
-        quantity: 0,
-        category: "Armi bianche"
-      },
+      <button
+        class="close-drawer"
+        onclick="closeInvoiceDrawer()"
+      >
+        ×
+      </button>
 
-      coltello: {
-        name: "Coltello",
-        price: 4500,
-        quantity: 0,
-        category: "Armi bianche"
-      },
+    </div>
 
-      tirapugni: {
-        name: "Tirapugni",
-        price: 2000,
-        quantity: 0,
-        category: "Armi bianche"
-      },
+    <div
+      id="drawerContent"
+      class="drawer-content"
+    >
 
-      testBalistico: {
-        name: "Test balistico",
-        price: 15000,
-        quantity: 0,
-        category: "Porto d'armi"
-      },
+      <div class="empty-cart">
+        Nessun articolo selezionato.
+      </div>
 
-      rinnovoPorto: {
-        name: "Rinnovo porto d'armi",
-        price: 7500,
-        quantity: 0,
-        category: "Porto d'armi"
-      }
+    </div>
 
-    };
+    <div class="drawer-footer">
+
+      <div class="drawer-total-label">
+        Totale fattura
+      </div>
+
+      <div
+        id="drawerTotal"
+        class="drawer-total"
+      >
+        $0
+      </div>
+
+      <button
+        id="saveInvoiceBtn"
+        class="save-btn"
+        onclick="saveInvoice()"
+        disabled
+      >
+        SALVA FATTURA
+      </button>
+
+    </div>
+
+  </aside>
+
+</div>
+
+<script>
+
+  /* =========================
+     PRODOTTI
+  ========================= */
+
+  const products = {
+
+    machete: {
+      name: "Machete",
+      price: 7000,
+      quantity: 0,
+      category: "Armi bianche"
+    },
+
+    mazza: {
+      name: "Mazza da baseball",
+      price: 2500,
+      quantity: 0,
+      category: "Armi bianche"
+    },
+
+    coltello: {
+      name: "Coltello",
+      price: 4500,
+      quantity: 0,
+      category: "Armi bianche"
+    },
+
+    tirapugni: {
+      name: "Tirapugni",
+      price: 2000,
+      quantity: 0,
+      category: "Armi bianche"
+    },
+
+    testBalistico: {
+      name: "Test balistico",
+      price: 15000,
+      quantity: 0,
+      category: "Porto d'armi"
+    },
+
+    rinnovoPorto: {
+      name: "Rinnovo porto d'armi",
+      price: 7500,
+      quantity: 0,
+      category: "Porto d'armi"
+    }
+
+  };
 
 
-    /* =========================
-       LOGIN DEMO
-    ========================= */
+  /* =========================
+     LOGIN
+  ========================= */
 
-    function fakeLogin() {
+  function fakeLogin() {
 
-      document
-        .getElementById("loginPage")
-        .style.display = "none";
+    document
+      .getElementById("loginPage")
+      .style.display = "none";
 
-      document
-        .getElementById("app")
-        .style.display = "block";
+    document
+      .getElementById("app")
+      .style.display = "block";
+
+  }
+
+
+  function logout() {
+
+    closeInvoiceDrawer();
+
+    document
+      .getElementById("app")
+      .style.display = "none";
+
+    document
+      .getElementById("loginPage")
+      .style.display = "flex";
+
+  }
+
+
+  /* =========================
+     MENU
+  ========================= */
+
+  function showPage(pageId, element) {
+
+    document
+      .querySelectorAll(".page")
+      .forEach(page => {
+
+        page.classList.remove("active");
+
+      });
+
+    document
+      .getElementById(pageId)
+      .classList.add("active");
+
+
+    document
+      .querySelectorAll(".menu-item")
+      .forEach(item => {
+
+        item.classList.remove("active");
+
+      });
+
+    element.classList.add("active");
+
+  }
+
+
+  /* =========================
+     QUANTITÀ
+  ========================= */
+
+  function changeQuantity(
+    productId,
+    change
+  ) {
+
+    const product =
+      products[productId];
+
+    const oldQuantity =
+      product.quantity;
+
+    product.quantity += change;
+
+
+    if (product.quantity < 0) {
+
+      product.quantity = 0;
 
     }
 
 
-    function logout() {
+    updateInvoice();
 
-      document
-        .getElementById("app")
-        .style.display = "none";
 
-      document
-        .getElementById("loginPage")
-        .style.display = "flex";
+    /*
+      Se aggiungo un prodotto,
+      la tendina si apre automaticamente.
+    */
+
+    if (
+      change > 0 &&
+      oldQuantity === 0
+    ) {
+
+      openInvoiceDrawer();
+
+    }
+
+  }
+
+
+  /* =========================
+     AGGIORNA FATTURA
+  ========================= */
+
+  function updateInvoice() {
+
+    let invoiceTotal = 0;
+
+    let totalQuantity = 0;
+
+    let drawerHtml = "";
+
+
+    Object
+      .keys(products)
+      .forEach(productId => {
+
+        const product =
+          products[productId];
+
+        const subtotal =
+          product.price *
+          product.quantity;
+
+
+        invoiceTotal += subtotal;
+
+        totalQuantity +=
+          product.quantity;
+
+
+        document
+          .getElementById(
+            "qty-" + productId
+          )
+          .textContent =
+          product.quantity;
+
+
+        document
+          .getElementById(
+            "total-" + productId
+          )
+          .textContent =
+          formatMoney(subtotal);
+
+
+        if (product.quantity > 0) {
+
+          drawerHtml += `
+
+            <div class="drawer-item">
+
+              <div class="drawer-item-top">
+
+                <div class="drawer-item-name">
+                  ${product.name}
+                </div>
+
+                <div class="drawer-item-total">
+                  ${formatMoney(subtotal)}
+                </div>
+
+              </div>
+
+              <div class="drawer-item-bottom">
+
+                <span>
+                  ${product.category}
+                </span>
+
+                <span>
+                  ${product.quantity} x
+                  ${formatMoney(product.price)}
+                </span>
+
+              </div>
+
+            </div>
+
+          `;
+
+        }
+
+      });
+
+
+    if (totalQuantity === 0) {
+
+      drawerHtml = `
+
+        <div class="empty-cart">
+          Nessun articolo selezionato.
+        </div>
+
+      `;
 
     }
 
 
-    /* =========================
-       MENU
-    ========================= */
-
-    function showPage(pageId, element) {
-
-      document
-        .querySelectorAll(".page")
-        .forEach(page => {
-
-          page.classList.remove("active");
-
-        });
-
-      document
-        .getElementById(pageId)
-        .classList.add("active");
-
-      document
-        .querySelectorAll(".menu-item")
-        .forEach(item => {
-
-          item.classList.remove("active");
-
-        });
-
-      element.classList.add("active");
-
-    }
+    document
+      .getElementById(
+        "drawerContent"
+      )
+      .innerHTML =
+      drawerHtml;
 
 
-    /* =========================
-       QUANTITÀ
-    ========================= */
-
-    function changeQuantity(productId, change) {
-
-      const product =
-        products[productId];
-
-      product.quantity += change;
-
-      if (product.quantity < 0) {
-
-        product.quantity = 0;
-
-      }
-
-      updateInvoice();
-
-    }
+    document
+      .getElementById(
+        "drawerTotal"
+      )
+      .textContent =
+      formatMoney(invoiceTotal);
 
 
-    /* =========================
-       AGGIORNA FATTURA
-    ========================= */
+    document
+      .getElementById(
+        "cartCount"
+      )
+      .textContent =
+      totalQuantity;
 
-    function updateInvoice() {
 
-      let invoiceTotal = 0;
+    document
+      .getElementById(
+        "saveInvoiceBtn"
+      )
+      .disabled =
+      invoiceTotal === 0;
 
-      Object
-        .keys(products)
-        .forEach(productId => {
+  }
 
-          const product =
-            products[productId];
+
+  /* =========================
+     APRI TENDINA
+  ========================= */
+
+  function openInvoiceDrawer() {
+
+    document
+      .getElementById(
+        "invoiceDrawer"
+      )
+      .classList
+      .add("open");
+
+
+    document
+      .getElementById(
+        "drawerOverlay"
+      )
+      .classList
+      .add("show");
+
+  }
+
+
+  /* =========================
+     CHIUDI TENDINA
+  ========================= */
+
+  function closeInvoiceDrawer() {
+
+    document
+      .getElementById(
+        "invoiceDrawer"
+      )
+      .classList
+      .remove("open");
+
+
+    document
+      .getElementById(
+        "drawerOverlay"
+      )
+      .classList
+      .remove("show");
+
+  }
+
+
+  /* =========================
+     SALVA FATTURA DEMO
+  ========================= */
+
+  function saveInvoice() {
+
+    let invoiceTotal = 0;
+
+    let invoiceItems = [];
+
+
+    Object
+      .values(products)
+      .forEach(product => {
+
+        if (
+          product.quantity > 0
+        ) {
 
           const subtotal =
             product.price *
             product.quantity;
 
-          invoiceTotal += subtotal;
 
-          document
-            .getElementById(
-              "qty-" + productId
-            )
-            .textContent =
-            product.quantity;
-
-          document
-            .getElementById(
-              "total-" + productId
-            )
-            .textContent =
-            formatMoney(subtotal);
-
-        });
-
-      document
-        .getElementById(
-          "invoiceTotal"
-        )
-        .textContent =
-        formatMoney(invoiceTotal);
-
-      document
-        .getElementById(
-          "saveInvoiceBtn"
-        )
-        .disabled =
-        invoiceTotal === 0;
-
-      updateSummary();
-
-    }
+          invoiceTotal +=
+            subtotal;
 
 
-    /* =========================
-       RIEPILOGO
-    ========================= */
+          invoiceItems.push(
 
-    function updateSummary() {
+            product.quantity +
+            "x " +
+            product.name +
+            " - " +
+            formatMoney(subtotal)
 
-      const container =
-        document
-        .getElementById(
-          "summaryContent"
-        );
-
-      let html = "";
-
-      let hasItems = false;
-
-      Object
-        .values(products)
-        .forEach(product => {
-
-          if (product.quantity > 0) {
-
-            hasItems = true;
-
-            const subtotal =
-              product.price *
-              product.quantity;
-
-            html += `
-              <div class="summary-row">
-
-                <div>
-                  ${product.quantity}x ${product.name}
-                </div>
-
-                <strong>
-                  ${formatMoney(subtotal)}
-                </strong>
-
-              </div>
-            `;
-
-          }
-
-        });
-
-      if (!hasItems) {
-
-        html = `
-          <div class="summary-empty">
-            Nessun prodotto selezionato.
-          </div>
-        `;
-
-      }
-
-      container.innerHTML = html;
-
-    }
-
-
-    /* =========================
-       SALVA FATTURA DEMO
-    ========================= */
-
-    function saveInvoice() {
-
-      let invoiceTotal = 0;
-
-      let invoiceItems = [];
-
-      Object
-        .values(products)
-        .forEach(product => {
-
-          if (product.quantity > 0) {
-
-            const subtotal =
-              product.price *
-              product.quantity;
-
-            invoiceTotal += subtotal;
-
-            invoiceItems.push(
-
-              product.quantity +
-              "x " +
-              product.name +
-              " - " +
-              formatMoney(subtotal)
-
-            );
-
-          }
-
-        });
-
-      if (invoiceTotal === 0) {
-
-        return;
-
-      }
-
-      alert(
-        "FATTURA\n\n" +
-        invoiceItems.join("\n") +
-        "\n\nTOTALE: " +
-        formatMoney(invoiceTotal)
-      );
-
-    }
-
-
-    /* =========================
-       FORMATO SOLDI
-    ========================= */
-
-    function formatMoney(value) {
-
-      return "$" +
-
-        Number(value)
-          .toLocaleString(
-            "it-IT",
-            {
-              maximumFractionDigits: 0
-            }
           );
 
+        }
+
+      });
+
+
+    if (
+      invoiceTotal === 0
+    ) {
+
+      return;
+
     }
 
 
-    /* =========================
-       INVIO LOGIN CON ENTER
-    ========================= */
+    alert(
 
-    document
-      .getElementById("password")
-      .addEventListener(
-        "keydown",
-        event => {
+      "FATTURA\n\n" +
 
-          if (event.key === "Enter") {
+      invoiceItems.join("\n") +
 
-            fakeLogin();
+      "\n\nTOTALE: " +
 
+      formatMoney(
+        invoiceTotal
+      )
+
+    );
+
+  }
+
+
+  /* =========================
+     FORMATO SOLDI
+  ========================= */
+
+  function formatMoney(value) {
+
+    return "$" +
+
+      Number(value)
+        .toLocaleString(
+          "it-IT",
+          {
+            maximumFractionDigits: 0
           }
+        );
+
+  }
+
+
+  /* =========================
+     LOGIN CON INVIO
+  ========================= */
+
+  document
+    .getElementById(
+      "password"
+    )
+    .addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key === "Enter"
+        ) {
+
+          fakeLogin();
 
         }
-      );
+
+      }
+    );
 
 
-    /* =========================
-       AVVIO
-    ========================= */
+  /* =========================
+     AVVIO
+  ========================= */
 
-    updateInvoice();
+  updateInvoice();
 
-  </script>
+</script>
 
 </body>
 </html>
