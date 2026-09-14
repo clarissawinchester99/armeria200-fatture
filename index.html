@@ -43,8 +43,6 @@ button,input{
     font:inherit;
 }
 
-/* LOGIN */
-
 #loginPage{
     min-height:100vh;
     display:flex;
@@ -137,8 +135,6 @@ button,input{
     background:rgba(178,13,28,.17);
     color:#ff8994;
 }
-
-/* APP */
 
 #app{
     display:none;
@@ -265,8 +261,6 @@ button,input{
     margin-top:5px;
 }
 
-/* CARDS */
-
 .cards{
     display:grid;
     grid-template-columns:repeat(4,1fr);
@@ -305,8 +299,6 @@ button,input{
     color:var(--gold);
     margin-bottom:18px;
 }
-
-/* PRODOTTI */
 
 .products-grid{
     display:grid;
@@ -362,8 +354,6 @@ button,input{
     color:var(--gold);
 }
 
-/* FATTURE */
-
 .invoice-list{
     display:grid;
     gap:12px;
@@ -376,6 +366,7 @@ button,input{
     background:#111;
     display:grid;
     grid-template-columns:1fr auto;
+    gap:15px;
 }
 
 .invoice-title{
@@ -405,8 +396,6 @@ button,input{
     cursor:pointer;
 }
 
-/* FATTURATO DIPENDENTI */
-
 .employee-grid{
     display:grid;
     grid-template-columns:repeat(3,1fr);
@@ -432,6 +421,13 @@ button,input{
     text-transform:capitalize;
 }
 
+.employee-grade{
+    margin-top:6px;
+    color:var(--gold);
+    font-size:13px;
+    text-transform:capitalize;
+}
+
 .employee-details{
     margin-top:15px;
     color:var(--gray);
@@ -445,7 +441,79 @@ button,input{
     font-weight:bold;
 }
 
-/* CLASSIFICA */
+.salary-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.salary-card{
+    padding:20px;
+    border-radius:13px;
+    border:1px solid rgba(212,175,55,.22);
+    background:linear-gradient(180deg,#191919,#0d0d0d);
+}
+
+.salary-header{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    align-items:center;
+}
+
+.salary-name{
+    font-size:20px;
+    font-weight:bold;
+    text-transform:capitalize;
+}
+
+.salary-grade{
+    color:var(--gold);
+    font-size:12px;
+    text-transform:capitalize;
+}
+
+.salary-info{
+    margin-top:16px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.salary-box{
+    padding:12px;
+    background:#101010;
+    border-radius:8px;
+    border:1px solid rgba(212,175,55,.12);
+}
+
+.salary-box small{
+    display:block;
+    color:var(--gray);
+    margin-bottom:5px;
+}
+
+.salary-box strong{
+    color:var(--gold-light);
+}
+
+.salary-result{
+    margin-top:17px;
+    padding-top:15px;
+    border-top:1px solid rgba(212,175,55,.15);
+}
+
+.salary-result small{
+    display:block;
+    color:var(--gray);
+}
+
+.salary-result strong{
+    display:block;
+    margin-top:5px;
+    color:#42d98b;
+    font-size:27px;
+}
 
 .ranking-row{
     display:grid;
@@ -459,8 +527,6 @@ button,input{
     color:var(--gold);
     font-weight:bold;
 }
-
-/* DRAWER */
 
 .invoice-drawer{
     position:fixed;
@@ -562,18 +628,17 @@ button,input{
 
 @media(max-width:1000px){
     .cards,
-    .employee-grid{
+    .employee-grid,
+    .salary-grid{
         grid-template-columns:repeat(2,1fr);
     }
 }
-
 </style>
 </head>
 
 <body>
 
 <div id="loginPage">
-
 <div class="login-box">
 
 <div class="logo">♛</div>
@@ -598,9 +663,7 @@ ACCEDI
 <div id="loginError" class="error-message"></div>
 
 </div>
-
 </div>
-
 
 <div id="app">
 
@@ -652,8 +715,6 @@ ACCEDI
 
 <main class="main">
 
-<!-- DASHBOARD -->
-
 <section id="dashboard" class="page active">
 
 <div class="topbar">
@@ -693,8 +754,6 @@ ACCEDI
 </section>
 
 
-<!-- NUOVA FATTURA -->
-
 <section id="newInvoice" class="page">
 
 <div class="topbar">
@@ -703,25 +762,17 @@ ACCEDI
 </div>
 
 <div class="section">
-
 <h2>⚔️ Armi bianche</h2>
-
 <div id="weaponsProducts" class="products-grid"></div>
-
 </div>
 
 <div class="section">
-
 <h2>📜 Porto d'armi</h2>
-
 <div id="licenseProducts" class="products-grid"></div>
-
 </div>
 
 </section>
 
-
-<!-- OPERAZIONI -->
 
 <section id="operations" class="page">
 
@@ -737,8 +788,6 @@ ACCEDI
 </section>
 
 
-<!-- CLASSIFICA -->
-
 <section id="ranking" class="page">
 
 <div class="topbar">
@@ -752,8 +801,6 @@ ACCEDI
 
 </section>
 
-
-<!-- STATISTICHE -->
 
 <section id="statistics" class="page">
 
@@ -789,15 +836,12 @@ ACCEDI
 </section>
 
 
-<!-- ADMIN -->
-
 <section id="admin" class="page">
 
 <div class="topbar">
 <h1>Pannello Admin</h1>
 <p>Gestione completa Armeria 200</p>
 </div>
-
 
 <div class="cards">
 
@@ -824,13 +868,20 @@ ACCEDI
 </div>
 
 
-<!-- NUOVA SEZIONE -->
-
 <div class="section">
 
 <h2>💰 Fatturato per dipendente</h2>
 
 <div id="employeeRevenue" class="employee-grid"></div>
+
+</div>
+
+
+<div class="section">
+
+<h2>💵 Stipendi</h2>
+
+<div id="salaryList" class="salary-grid"></div>
 
 </div>
 
@@ -905,6 +956,23 @@ let currentUser = null;
 let currentProfile = null;
 let invoices = [];
 let profiles = [];
+
+
+/* PERCENTUALI STIPENDI */
+
+const salaryPercentages = {
+
+"dipendente":20,
+
+"armaiolo":25,
+
+"vice-direttore":30,
+
+"direttore":40,
+
+"proprietario":45
+
+};
 
 
 /* PRODOTTI */
@@ -1001,7 +1069,7 @@ async function startApp(){
 const {data,error} =
 await supabaseClient
 .from("profiles")
-.select("*")
+.select("id,username,role,grade")
 .eq("id",currentUser.id)
 .single();
 
@@ -1019,9 +1087,7 @@ document.getElementById("sidebarUsername").textContent=
 currentProfile.username;
 
 document.getElementById("sidebarRole").textContent=
-currentProfile.role==="admin"
-?"Amministratore"
-:"Dipendente";
+currentProfile.grade || currentProfile.role;
 
 document.getElementById("adminMenu").style.display=
 currentProfile.role==="admin"
@@ -1055,7 +1121,7 @@ return;
 const {data,error} =
 await supabaseClient
 .from("profiles")
-.select("id,username,role");
+.select("id,username,role,grade");
 
 if(error){
 
@@ -1244,7 +1310,7 @@ document.getElementById("invoiceBadge").textContent=quantity;
 }
 
 
-/* SALVA */
+/* SALVA FATTURA */
 
 async function saveInvoice(){
 
@@ -1441,28 +1507,23 @@ return "Dipendente";
 }
 
 
-/* =====================================================
-   FATTURATO PER DIPENDENTE
-===================================================== */
+/* FATTURATO PER DIPENDENTE */
 
-function renderEmployeeRevenue(){
-
-if(currentProfile.role !== "admin"){
-return;
-}
+function getEmployeeRevenueData(){
 
 const revenue={};
 
-
-/* CREA TUTTI I DIPENDENTI */
-
 profiles.forEach(profile=>{
-
-if(profile.role==="employee"){
 
 revenue[profile.id]={
 
+id:profile.id,
+
 username:profile.username,
+
+role:profile.role,
+
+grade:profile.grade || "dipendente",
 
 total:0,
 
@@ -1470,35 +1531,24 @@ count:0
 
 };
 
-}
-
 });
 
-
-/* AGGIUNGE LE FATTURE */
 
 invoices.forEach(invoice=>{
 
 const userId=invoice.user_id;
 
-const profile=
-profiles.find(p=>p.id===userId);
-
-if(!profile){
-return;
-}
-
-/* non conteggiamo admin nella lista dipendenti */
-
-if(profile.role==="admin"){
-return;
-}
-
 if(!revenue[userId]){
 
 revenue[userId]={
 
-username:profile.username,
+id:userId,
+
+username:getUsername(userId),
+
+role:"employee",
+
+grade:"dipendente",
 
 total:0,
 
@@ -1516,14 +1566,23 @@ revenue[userId].count += 1;
 });
 
 
-const employees=
-Object.values(revenue)
+return Object.values(revenue)
 .sort((a,b)=>b.total-a.total);
 
+}
+
+
+function renderEmployeeRevenue(){
+
+if(currentProfile.role !== "admin"){
+return;
+}
+
+const employees=
+getEmployeeRevenueData();
 
 const container=
 document.getElementById("employeeRevenue");
-
 
 if(!employees.length){
 
@@ -1536,7 +1595,6 @@ Nessun dipendente trovato.
 return;
 
 }
-
 
 container.innerHTML=
 employees.map((employee,index)=>`
@@ -1551,16 +1609,16 @@ employees.map((employee,index)=>`
 ${employee.username}
 </div>
 
+<div class="employee-grade">
+${formatGrade(employee.grade)}
+</div>
+
 <div class="employee-details">
 
 Fatture:
 <strong>
 ${employee.count}
 </strong>
-
-<br>
-
-Fatturato:
 
 </div>
 
@@ -1573,6 +1631,125 @@ ${money(employee.total)}
 </div>
 
 `).join("");
+
+}
+
+
+/* STIPENDI */
+
+function renderSalaries(){
+
+if(currentProfile.role !== "admin"){
+return;
+}
+
+const employees=
+getEmployeeRevenueData();
+
+const container=
+document.getElementById("salaryList");
+
+if(!employees.length){
+
+container.innerHTML=`
+<div class="empty">
+Nessun dipendente trovato.
+</div>
+`;
+
+return;
+
+}
+
+container.innerHTML=
+employees.map(employee=>{
+
+const grade =
+employee.grade || "dipendente";
+
+const percentage =
+salaryPercentages[grade] || 20;
+
+const salary =
+employee.total * percentage / 100;
+
+return `
+
+<div class="salary-card">
+
+<div class="salary-header">
+
+<div>
+
+<div class="salary-name">
+${employee.username}
+</div>
+
+<div class="salary-grade">
+${formatGrade(grade)}
+</div>
+
+</div>
+
+<div style="color:#d4af37;font-weight:bold">
+${percentage}%
+</div>
+
+</div>
+
+
+<div class="salary-info">
+
+<div class="salary-box">
+
+<small>Fatture</small>
+
+<strong>
+${employee.count}
+</strong>
+
+</div>
+
+
+<div class="salary-box">
+
+<small>Fatturato</small>
+
+<strong>
+${money(employee.total)}
+</strong>
+
+</div>
+
+
+<div class="salary-box">
+
+<small>Percentuale</small>
+
+<strong>
+${percentage}%
+</strong>
+
+</div>
+
+</div>
+
+
+<div class="salary-result">
+
+<small>STIPENDIO DA PAGARE</small>
+
+<strong>
+${money(salary)}
+</strong>
+
+</div>
+
+</div>
+
+`;
+
+}).join("");
 
 }
 
@@ -1735,10 +1912,9 @@ invoices.length
 ?invoices.map(i=>invoiceHTML(i,true)).join("")
 :`<div class="empty">Nessuna fattura</div>`;
 
-
-/* NUOVA SEZIONE */
-
 renderEmployeeRevenue();
+
+renderSalaries();
 
 }
 
@@ -1770,6 +1946,29 @@ return;
 }
 
 await loadInvoices();
+
+}
+
+
+/* FORMATTA GRADO */
+
+function formatGrade(grade){
+
+const names={
+
+"dipendente":"Dipendente",
+
+"armaiolo":"Armaiolo",
+
+"vice-direttore":"Vice-direttore",
+
+"direttore":"Direttore",
+
+"proprietario":"Proprietario"
+
+};
+
+return names[grade] || grade;
 
 }
 
@@ -1822,6 +2021,7 @@ document.getElementById("drawerOverlay")
 updateDrawer();
 
 }
+
 
 function closeDrawer(){
 
