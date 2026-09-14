@@ -887,6 +887,16 @@ tbody tr:hover{background:rgba(201,155,54,.018)}
 .cart-checkout{border-radius:4px;letter-spacing:1px}.cart-clear{width:100%;margin-top:8px;padding:10px;border:1px solid rgba(201,155,54,.15);background:transparent;color:#857b70;font-size:10px}
 @media(max-width:900px){.product-grid{grid-template-columns:1fr}}@media(max-width:600px){.invoice-catalog-header{align-items:flex-start;flex-direction:column}.cart-open-button{width:100%}.product-card{align-items:flex-start;flex-direction:column}}
 
+
+.cart-open-button.cart-pulse{
+  animation:cartPulse .45s ease;
+}
+@keyframes cartPulse{
+  0%{transform:scale(1)}
+  45%{transform:scale(1.045);border-color:rgba(240,208,138,.8);box-shadow:0 0 22px rgba(201,155,54,.16)}
+  100%{transform:scale(1)}
+}
+
 </style>
 </head>
 <body>
@@ -1033,6 +1043,27 @@ tbody tr:hover{background:rgba(201,155,54,.018)}
           <div class="product-card"><div class="product-info"><div class="product-type">ARMA DA FUOCO</div><h4>Pistola Combat</h4><div class="product-price">$18.000</div></div><div class="qty-control"><button onclick="changeCartItem('Pistola Combat',18000,-1)">−</button><span id="qty-Pistola-Combat">0</span><button onclick="changeCartItem('Pistola Combat',18000,1)">+</button></div></div>
           <div class="product-card"><div class="product-info"><div class="product-type">ARMA DA FUOCO</div><h4>Glock</h4><div class="product-price">$30.000</div></div><div class="qty-control"><button onclick="changeCartItem('Glock',30000,-1)">−</button><span id="qty-Glock">0</span><button onclick="changeCartItem('Glock',30000,1)">+</button></div></div>
           <div class="product-card"><div class="product-info"><div class="product-type">ARMA DA FUOCO</div><h4>SNS</h4><div class="product-price">$36.000</div></div><div class="qty-control"><button onclick="changeCartItem('SNS',36000,-1)">−</button><span id="qty-SNS">0</span><button onclick="changeCartItem('SNS',36000,1)">+</button></div></div>
+        </div>
+      </div>
+
+      <div class="catalog-section">
+        <div class="catalog-section-title">
+          <span class="catalog-index">04</span>
+          <div><h3>Accessori</h3><p>Equipaggiamento</p></div>
+        </div>
+        <div class="product-grid">
+          <div class="product-card">
+            <div class="product-info">
+              <div class="product-type">ACCESSORIO</div>
+              <h4>Fondina</h4>
+              <div class="product-price">$1.500</div>
+            </div>
+            <div class="qty-control">
+              <button onclick="changeCartItem('Fondina',1500,-1)">−</button>
+              <span id="qty-Fondina">0</span>
+              <button onclick="changeCartItem('Fondina',1500,1)">+</button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1203,14 +1234,25 @@ function changeCartItem(name,price,delta){
   invoiceCart[name].quantity+=delta;
   if(invoiceCart[name].quantity<=0) delete invoiceCart[name];
   renderCart();
-  if(delta>0) openCart();
+
+  // Il carrello non si apre automaticamente.
+  // Si apre solo cliccando sul pulsante CARRELLO.
+  if(delta>0){
+    const btn=document.querySelector(".cart-open-button");
+    if(btn){
+      btn.classList.remove("cart-pulse");
+      void btn.offsetWidth;
+      btn.classList.add("cart-pulse");
+      setTimeout(()=>btn.classList.remove("cart-pulse"),450);
+    }
+  }
 }
 function renderCart(){
   const items=Object.values(invoiceCart);
   document.getElementById("cartCountBadge").textContent=cartItemCount();
   document.getElementById("cartTotal").textContent=money(cartGrandTotal());
 
-  ["Machete","Mazza da baseball","Coltello","Tirapugni","Test balistico","Rinnovo porto d'armi","Pistola Combat","Glock","SNS"].forEach(name=>{
+  ["Machete","Mazza da baseball","Coltello","Tirapugni","Test balistico","Rinnovo porto d'armi","Pistola Combat","Glock","SNS","Fondina"].forEach(name=>{
     const el=document.getElementById(productId(name));
     if(el) el.textContent=invoiceCart[name]?.quantity||0;
   });
