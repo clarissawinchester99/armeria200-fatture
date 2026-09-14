@@ -861,6 +861,32 @@ tbody tr:hover{background:rgba(201,155,54,.018)}
   transform:rotate(-45deg);
 }
 
+
+/* NUOVA FATTURA — CATALOGO + CARRELLO LATERALE */
+.invoice-catalog-panel{padding:22px}
+.invoice-catalog-header{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(201,155,54,.18)}
+.catalog-kicker{color:var(--red3);font-size:9px;letter-spacing:2.2px;margin-bottom:5px}
+.cart-open-button{display:flex;align-items:center;gap:10px;min-width:132px;justify-content:center;height:42px;border:1px solid rgba(201,155,54,.32);background:linear-gradient(180deg,#17120c,#0e0b08);color:#f1dca8;font-size:10px;letter-spacing:1.1px}
+.cart-open-button span{min-width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(180deg,#c51d27,#8c0b11);color:white;font-weight:800}
+.catalog-section{margin-top:18px;padding:18px;border:1px solid rgba(201,155,54,.15);background:linear-gradient(120deg,rgba(135,7,12,.07),transparent 45%),#0a0a0a}
+.catalog-section-title{display:flex;align-items:center;gap:13px;margin-bottom:16px}
+.catalog-section-title h3{color:#f0d8a2;font-size:18px}.catalog-section-title p{color:#776e64;font-size:9px;margin-top:3px;text-transform:uppercase;letter-spacing:1px}
+.catalog-index{width:38px;height:38px;display:grid;place-items:center;border:1px solid rgba(201,155,54,.35);color:var(--gold);font-size:9px;background:rgba(201,155,54,.035)}
+.product-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.product-card{min-height:105px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px;border:1px solid rgba(201,155,54,.13);background:linear-gradient(135deg,rgba(201,155,54,.025),transparent 55%),#0d0d0d;transition:.18s ease}
+.product-card:hover{border-color:rgba(201,155,54,.32);background:linear-gradient(135deg,rgba(147,8,14,.10),transparent 58%),#0e0e0e}
+.product-type{color:#786e61;font-size:8px;letter-spacing:1.4px;margin-bottom:5px}.product-info h4{color:#eee4d2;font-size:15px}.product-price{margin-top:7px;color:#e8c45d;font-size:17px;font-weight:800}
+.qty-control{display:grid;grid-template-columns:34px 38px 34px;height:36px;border:1px solid rgba(201,155,54,.22);background:#070707}.qty-control button{border:0;background:rgba(201,155,54,.05);color:#f2d785;font-size:20px;line-height:1}.qty-control button:hover{background:linear-gradient(180deg,#b71920,#78070b);color:#fff}.qty-control span{display:grid;place-items:center;border-left:1px solid rgba(201,155,54,.12);border-right:1px solid rgba(201,155,54,.12);color:#fff;font-size:12px;font-weight:800}
+.cart-overlay{position:fixed;inset:0;z-index:79;background:rgba(0,0,0,.58);backdrop-filter:blur(2px);opacity:0;visibility:hidden;transition:.22s ease}.cart-overlay.open{opacity:1;visibility:visible}
+.cart-drawer{position:fixed;z-index:80;top:0;right:0;width:min(410px,92vw);height:100vh;display:flex;flex-direction:column;background:linear-gradient(180deg,rgba(137,7,13,.13),transparent 27%),#090909;border-left:1px solid rgba(201,155,54,.35);box-shadow:-28px 0 70px rgba(0,0,0,.65);transform:translateX(105%);transition:transform .27s cubic-bezier(.2,.8,.2,1)}
+.cart-drawer.open{transform:translateX(0)}.cart-drawer-head{min-height:104px;padding:25px 22px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(201,155,54,.18)}.cart-drawer-head h3{color:#f0d8a2;font-size:25px}
+.cart-close{width:40px;height:40px;border:1px solid rgba(201,155,54,.20);background:#0e0e0e;color:#d6bf85;font-size:25px}.cart-items{flex:1;overflow:auto;padding:14px 20px}.cart-empty{color:#776f65;padding:28px 10px;text-align:center;font-size:11px}
+.cart-item{display:grid;grid-template-columns:1fr auto;gap:13px;padding:14px 0;border-bottom:1px solid rgba(201,155,54,.12)}.cart-item-name{color:#eee3d0;font-size:13px;font-weight:700}.cart-item-meta{color:#80766b;font-size:9px;margin-top:4px}.cart-item-total{color:#e8c45d;font-size:13px;font-weight:800;text-align:right}
+.cart-item-actions{display:flex;gap:5px;justify-content:flex-end;margin-top:7px}.cart-item-actions button{width:25px;height:25px;border:1px solid rgba(201,155,54,.18);background:#111;color:#e7cb80}
+.cart-summary{padding:20px;border-top:1px solid rgba(201,155,54,.18);background:#070707}.cart-total-row{display:flex;justify-content:space-between;align-items:flex-end;gap:15px;margin-bottom:16px;color:#9a9186;font-size:11px;text-transform:uppercase;letter-spacing:.7px}.cart-total-row strong{color:#f0cf70;font-size:28px;letter-spacing:0}
+.cart-checkout{border-radius:4px;letter-spacing:1px}.cart-clear{width:100%;margin-top:8px;padding:10px;border:1px solid rgba(201,155,54,.15);background:transparent;color:#857b70;font-size:10px}
+@media(max-width:900px){.product-grid{grid-template-columns:1fr}}@media(max-width:600px){.invoice-catalog-header{align-items:flex-start;flex-direction:column}.cart-open-button{width:100%}.product-card{align-items:flex-start;flex-direction:column}}
+
 </style>
 </head>
 <body>
@@ -960,29 +986,74 @@ tbody tr:hover{background:rgba(201,155,54,.018)}
     </div>
   </section>
 
+  
   <section id="page-invoice" class="hidden">
-    <div class="panel"><div class="box">
-      <div class="boxhead"><div style="display:flex;align-items:center;gap:13px"><div class="seal">A</div><div><h3>Nuova fattura</h3><div class="ps" style="margin:3px 0 0">Armeria 200 · Registro vendite</div></div></div></div>
-      <div class="formgrid">
-        <div class="field"><label>PRODOTTO / SERVIZIO</label>
-          <select id="invoiceProduct" onchange="updateInvoicePrice()">
-            <option value="">Seleziona</option>
-            <option value="Machete" data-price="7000">Machete — $7.000</option>
-            <option value="Mazza da baseball" data-price="2500">Mazza da baseball — $2.500</option>
-            <option value="Coltello" data-price="4500">Coltello — $4.500</option>
-            <option value="Tirapugni" data-price="2000">Tirapugni — $2.000</option>
-            <option value="Test balistico" data-price="15000">Test balistico — $15.000</option>
-            <option value="Rinnovo porto d'armi" data-price="7500">Rinnovo porto d'armi — $7.500</option>
-          </select>
+    <div class="panel invoice-catalog-panel">
+      <div class="invoice-catalog-header">
+        <div>
+          <div class="catalog-kicker">CATALOGO VENDITA</div>
+          <h2>Nuova fattura</h2>
+          <div class="ps">Seleziona gli articoli da aggiungere al carrello.</div>
         </div>
-        <div class="field"><label>QUANTITÀ</label><input id="invoiceQuantity" type="number" min="1" step="1" value="1" oninput="updateInvoicePrice()"></div>
-        <div class="field"><label>TOTALE</label><input id="invoiceTotalPreview" value="$0" readonly></div>
-        <div class="full"><button class="save" onclick="saveInvoice()">Registra fattura</button><div id="invoiceMessage" class="msg"></div></div>
+        <button class="cart-open-button" onclick="openCart()">
+          CARRELLO <span id="cartCountBadge">0</span>
+        </button>
       </div>
-    </div></div>
+
+      <div class="catalog-section">
+        <div class="catalog-section-title">
+          <span class="catalog-index">01</span>
+          <div><h3>Armi bianche</h3><p>Articoli da mischia</p></div>
+        </div>
+        <div class="product-grid">
+          <div class="product-card"><div class="product-info"><div class="product-type">ARMA BIANCA</div><h4>Machete</h4><div class="product-price">$7.000</div></div><div class="qty-control"><button onclick="changeCartItem('Machete',7000,-1)">−</button><span id="qty-Machete">0</span><button onclick="changeCartItem('Machete',7000,1)">+</button></div></div>
+          <div class="product-card"><div class="product-info"><div class="product-type">ARMA BIANCA</div><h4>Mazza da baseball</h4><div class="product-price">$2.500</div></div><div class="qty-control"><button onclick="changeCartItem('Mazza da baseball',2500,-1)">−</button><span id="qty-Mazza-da-baseball">0</span><button onclick="changeCartItem('Mazza da baseball',2500,1)">+</button></div></div>
+          <div class="product-card"><div class="product-info"><div class="product-type">ARMA BIANCA</div><h4>Coltello</h4><div class="product-price">$4.500</div></div><div class="qty-control"><button onclick="changeCartItem('Coltello',4500,-1)">−</button><span id="qty-Coltello">0</span><button onclick="changeCartItem('Coltello',4500,1)">+</button></div></div>
+          <div class="product-card"><div class="product-info"><div class="product-type">ARMA BIANCA</div><h4>Tirapugni</h4><div class="product-price">$2.000</div></div><div class="qty-control"><button onclick="changeCartItem('Tirapugni',2000,-1)">−</button><span id="qty-Tirapugni">0</span><button onclick="changeCartItem('Tirapugni',2000,1)">+</button></div></div>
+        </div>
+      </div>
+
+      <div class="catalog-section">
+        <div class="catalog-section-title">
+          <span class="catalog-index">02</span>
+          <div><h3>Porto d'armi</h3><p>Pratiche e servizi</p></div>
+        </div>
+        <div class="product-grid">
+          <div class="product-card"><div class="product-info"><div class="product-type">PORTO D'ARMI</div><h4>Test balistico</h4><div class="product-price">$15.000</div></div><div class="qty-control"><button onclick="changeCartItem('Test balistico',15000,-1)">−</button><span id="qty-Test-balistico">0</span><button onclick="changeCartItem('Test balistico',15000,1)">+</button></div></div>
+          <div class="product-card"><div class="product-info"><div class="product-type">PORTO D'ARMI</div><h4>Rinnovo porto d'armi</h4><div class="product-price">$7.500</div></div><div class="qty-control"><button onclick="changeCartItem(&quot;Rinnovo porto d'armi&quot;,7500,-1)">−</button><span id="qty-Rinnovo-porto-darmi">0</span><button onclick="changeCartItem(&quot;Rinnovo porto d'armi&quot;,7500,1)">+</button></div></div>
+        </div>
+      </div>
+
+      <div class="catalog-section">
+        <div class="catalog-section-title">
+          <span class="catalog-index">03</span>
+          <div><h3>Armi da fuoco</h3><p>Catalogo pistole</p></div>
+        </div>
+        <div class="product-grid">
+          <div class="product-card"><div class="product-info"><div class="product-type">ARMA DA FUOCO</div><h4>Pistola Combat</h4><div class="product-price">$18.000</div></div><div class="qty-control"><button onclick="changeCartItem('Pistola Combat',18000,-1)">−</button><span id="qty-Pistola-Combat">0</span><button onclick="changeCartItem('Pistola Combat',18000,1)">+</button></div></div>
+          <div class="product-card"><div class="product-info"><div class="product-type">ARMA DA FUOCO</div><h4>Glock</h4><div class="product-price">$30.000</div></div><div class="qty-control"><button onclick="changeCartItem('Glock',30000,-1)">−</button><span id="qty-Glock">0</span><button onclick="changeCartItem('Glock',30000,1)">+</button></div></div>
+          <div class="product-card"><div class="product-info"><div class="product-type">ARMA DA FUOCO</div><h4>SNS</h4><div class="product-price">$36.000</div></div><div class="qty-control"><button onclick="changeCartItem('SNS',36000,-1)">−</button><span id="qty-SNS">0</span><button onclick="changeCartItem('SNS',36000,1)">+</button></div></div>
+        </div>
+      </div>
+
+      <div id="invoiceMessage" class="msg"></div>
+    </div>
   </section>
 
-  <section id="page-history" class="hidden">
+  <div id="cartOverlay" class="cart-overlay" onclick="closeCart()"></div>
+  <aside id="cartDrawer" class="cart-drawer">
+    <div class="cart-drawer-head">
+      <div><div class="catalog-kicker">NUOVA FATTURA</div><h3>Carrello</h3></div>
+      <button class="cart-close" onclick="closeCart()">×</button>
+    </div>
+    <div id="cartItems" class="cart-items"><div class="cart-empty">Nessun articolo nel carrello.</div></div>
+    <div class="cart-summary">
+      <div class="cart-total-row"><span>Totale fattura</span><strong id="cartTotal">$0</strong></div>
+      <button class="primary cart-checkout" onclick="saveCartInvoice()">REGISTRA FATTURA</button>
+      <button class="cart-clear" onclick="clearCart()">Svuota carrello</button>
+    </div>
+  </aside>
+<section id="page-history" class="hidden">
     <div class="panel"><h2>Le mie fatture</h2><div class="ps">Storico personale completo</div>
       <div class="tablewrap"><table><thead><tr><th>Data</th><th>Descrizione</th><th>Importo</th></tr></thead><tbody id="myInvoicesTable"></tbody></table></div>
     </div>
@@ -1110,20 +1181,91 @@ async function loadAdminData(){
  renderAdmin();renderEmployees();renderSalaries();renderImportOrders()
 }
 
-function updateInvoicePrice(){
- const o=invoiceProduct.options[invoiceProduct.selectedIndex],p=Number(o?.dataset?.price||0),q=Number(invoiceQuantity.value||1);
- invoiceTotalPreview.value=money(p*q)
-}
 
-async function saveInvoice(){
- const o=invoiceProduct.options[invoiceProduct.selectedIndex],product=invoiceProduct.value,p=Number(o?.dataset?.price||0),q=Number(invoiceQuantity.value),total=p*q;
- invoiceMessage.textContent="";invoiceMessage.className="msg";
- if(!product){invoiceMessage.textContent="Seleziona un prodotto o servizio.";invoiceMessage.className="msg error";return}
- if(!Number.isInteger(q)||q<=0){invoiceMessage.textContent="Inserisci una quantità valida.";invoiceMessage.className="msg error";return}
- const {error}=await db.from("Invoices").insert({amount:total,category:`${q}x ${product}`,user_id:currentUser.id});
- if(error){invoiceMessage.textContent="Errore durante il salvataggio.";invoiceMessage.className="msg error";console.error(error);return}
- invoiceProduct.value="";invoiceQuantity.value="1";invoiceTotalPreview.value="$0";
- invoiceMessage.textContent="Fattura registrata correttamente.";invoiceMessage.className="msg success";await refreshData()
+const invoiceCart = {};
+
+function productId(name){
+  return "qty-" + name.replaceAll(" ","-").replaceAll("'","").replaceAll("’","");
+}
+function cartItemCount(){return Object.values(invoiceCart).reduce((sum,item)=>sum+item.quantity,0)}
+function cartGrandTotal(){return Object.values(invoiceCart).reduce((sum,item)=>sum+(item.price*item.quantity),0)}
+
+function openCart(){
+  document.getElementById("cartDrawer").classList.add("open");
+  document.getElementById("cartOverlay").classList.add("open");
+}
+function closeCart(){
+  document.getElementById("cartDrawer").classList.remove("open");
+  document.getElementById("cartOverlay").classList.remove("open");
+}
+function changeCartItem(name,price,delta){
+  if(!invoiceCart[name]) invoiceCart[name]={name,price,quantity:0};
+  invoiceCart[name].quantity+=delta;
+  if(invoiceCart[name].quantity<=0) delete invoiceCart[name];
+  renderCart();
+  if(delta>0) openCart();
+}
+function renderCart(){
+  const items=Object.values(invoiceCart);
+  document.getElementById("cartCountBadge").textContent=cartItemCount();
+  document.getElementById("cartTotal").textContent=money(cartGrandTotal());
+
+  ["Machete","Mazza da baseball","Coltello","Tirapugni","Test balistico","Rinnovo porto d'armi","Pistola Combat","Glock","SNS"].forEach(name=>{
+    const el=document.getElementById(productId(name));
+    if(el) el.textContent=invoiceCart[name]?.quantity||0;
+  });
+
+  const container=document.getElementById("cartItems");
+  if(!items.length){
+    container.innerHTML='<div class="cart-empty">Nessun articolo nel carrello.</div>';
+    return;
+  }
+
+  container.innerHTML=items.map(item=>{
+    const safeName=item.name.replaceAll("\\","\\\\").replaceAll("'","\\'");
+    return `<div class="cart-item">
+      <div>
+        <div class="cart-item-name">${esc(item.name)}</div>
+        <div class="cart-item-meta">${item.quantity} × ${money(item.price)}</div>
+      </div>
+      <div>
+        <div class="cart-item-total">${money(item.price*item.quantity)}</div>
+        <div class="cart-item-actions">
+          <button onclick="changeCartItem('${safeName}',${item.price},-1)">−</button>
+          <button onclick="changeCartItem('${safeName}',${item.price},1)">+</button>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+}
+function clearCart(){
+  Object.keys(invoiceCart).forEach(key=>delete invoiceCart[key]);
+  renderCart();
+}
+async function saveCartInvoice(){
+  const items=Object.values(invoiceCart),message=document.getElementById("invoiceMessage");
+  message.textContent="";message.className="msg";
+  if(!items.length){
+    message.textContent="Aggiungi almeno un articolo al carrello.";
+    message.className="msg error";
+    closeCart();
+    return;
+  }
+  const total=cartGrandTotal();
+  const category=items.map(item=>`${item.quantity}x ${item.name}`).join(", ");
+  const {error}=await db.from("Invoices").insert({amount:total,category,user_id:currentUser.id});
+  if(error){
+    console.error(error);
+    message.textContent="Errore durante il salvataggio della fattura.";
+    message.className="msg error";
+    closeCart();
+    return;
+  }
+  clearCart();
+  closeCart();
+  message.textContent="Fattura registrata correttamente.";
+  message.className="msg success";
+  await refreshData();
 }
 
 function renderDashboard(){
@@ -1197,7 +1339,7 @@ function showPage(page){
 
 async function checkSession(){const {data:{session}}=await db.auth.getSession();if(session){currentUser=session.user;await loadApplication()}}
 loginPassword.addEventListener("keydown",e=>{if(e.key==="Enter")login()});
-updateInvoicePrice();updateImportPreview();checkSession();
+renderCart();updateImportPreview();checkSession();
 </script>
 </body>
 </html>
