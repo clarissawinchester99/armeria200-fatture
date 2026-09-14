@@ -1173,9 +1173,23 @@ const importPrices={"MANICO":350,"LAMA":1050,"ACCIAIO":105,"IMPUGNATURA":700,"CA
 function money(v){return "$"+Number(v||0).toLocaleString("it-IT",{maximumFractionDigits:2})}
 function formatDate(d){return d?new Date(d).toLocaleString("it-IT",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"}):"-"}
 function prettyGrade(g){return String(g||"dipendente").replaceAll("-"," ")}
+function normalizeGrade(value){
+  return String(value||"")
+    .trim()
+    .toLowerCase()
+    .replaceAll("_","-")
+    .replaceAll(" ","-")
+    .replaceAll("–","-")
+    .replaceAll("—","-");
+}
+
 function canManageImport(){
-  const g=String(currentProfile?.grade||"").toLowerCase();
-  return currentProfile?.role==="admin" || ["vice-direttore","direttore","proprietario"].includes(g);
+  const g=normalizeGrade(currentProfile?.grade);
+  return currentProfile?.role==="admin"
+    || g==="vice-direttore"
+    || g==="vicedirettore"
+    || g==="direttore"
+    || g==="proprietario";
 }
 
 function esc(t){const d=document.createElement("div");d.textContent=t??"";return d.innerHTML}
@@ -1199,9 +1213,10 @@ async function loadApplication(){
  if(error||!data){alert("Profilo utente non trovato.");await db.auth.signOut();return}
  currentProfile=data;loginPage.classList.add("hidden");app.classList.remove("hidden");
  currentUsername.textContent=data.username;currentGrade.textContent=prettyGrade(data.grade);
- adminMenu.classList.toggle("hidden",data.role!=="admin");
- importMenu.classList.toggle("hidden",!canManageImport());
- await refreshData();showPage("dashboard")
+ document.getElementById("adminMenu").classList.toggle("hidden",data.role!=="admin");
+ document.getElementById("importMenu").classList.toggle("hidden",!canManageImport());
+ await refreshData();
+ showPage("dashboard")
 }
 
 async function refreshData(){
@@ -1391,7 +1406,7 @@ async function saveImportOrder(){
 function renderImportOrders(){
  const gross=allInvoices.reduce((s,x)=>s+Number(x.amount||0),0),imp=importOrders.reduce((s,x)=>s+Number(x.total_price||0),0),bal=gross-imp;
  importPageTotal.textContent=money(imp);importPageBalance.textContent=money(bal);importPageBalance.style.color=bal<0?"var(--danger)":"";
- importOrdersTable.innerHTML=importOrders.length?importOrders.map(x=>{const p=allProfiles.find(y=>y.id===x.user_id);return `<tr><td>${formatDate(x.created_at)}</td><td><span class="badge">${esc(x.kit_type)}</span></td><td>${Number(x.quantity||0)}</td><td>${money(x.unit_price)}</td><td class="amount">${money(x.total_price)}</td><td>${esc(p?.username||"Admin")}</td><td><button class="del" onclick="deleteImportOrder(${Number(x.id)})">Elimina</button></td></tr>`}).join(""):`<tr><td colspan="7" class="empty">Nessun ordine Import registrato.</td></tr>`
+ importOrdersTable.innerHTML=importOrders.length?importOrders.map(x=>{const p=allProfiles.find(y=>y.id===x.user_id);return `<tr><td>${formatDate(x.created_at)}</td><td><span class="badge">${esc(x.kit_type)}</span></td><td>${Number(x.quantity||0)}</td><td>${money(x.unit_price)}</td><td class="amount">${money(x.total_price)}</td><td>${esc(p?.username||"Admin")}</td><td>${currentProfile?.role==="admin"?`<button class="del" onclick="deleteImportOrder(${Number(x.id)})">Elimina</button>`:"—"}</td></tr>`}).join(""):`<tr><td colspan="7" class="empty">Nessun ordine Import registrato.</td></tr>`
 }
 
 async function deleteImportOrder(id){
@@ -1400,23 +1415,53 @@ async function deleteImportOrder(id){
 }
 
 function showPage(page){
- // Le pagine amministrative restano riservate all'admin.
- if(["admin","employees","salary"].includes(page) && currentProfile?.role!=="admin"){
-   page="dashboard";
- }
+  if(["admin","employees","salary"].includes(page) && currentProfile?.role!=="admin"){
+    page="dashboard";
+  }
 
- // La pagina Import è disponibile anche a vice-direttore, direttore e proprietario.
- if(page==="import" && !canManageImport()){
-   page="dashboard";
- }
+  if(page==="import"){
+    if(!canManageImport()){
+      page="dashboard";
+    }else{
+      // forza l'apertura della sezione Import per i gradi autorizzati
+      document.getElementById("importMenu").classList.remove("hidden");
+    }
+  }
 
- ["dashboard","invoice","history","admin","employees","salary","import"].forEach(x=>document.getElementById("page-"+x)?.classList.add("hidden"));
- document.getElementById("page-"+page)?.classList.remove("hidden");
- document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));
- const map={dashboard:"navDashboard",invoice:"navInvoice",history:"navHistory",admin:"navAdmin",employees:"navEmployees",salary:"navSalary",import:"navImport"};
- document.getElementById(map[page])?.classList.add("active");
- const titles={dashboard:"Dashboard",invoice:"Nuova fattura",history:"Le mie fatture",admin:"Pannello Admin",employees:"Fatturato dipendenti",salary:"Stipendi",import:"Ordine Import"};
- pageTitle.textContent=titles[page]||"Armeria 200"
+  ["dashboard","invoice","history","admin","employees","salary","import"].forEach(x=>{
+    const el=document.getElementById("page-"+x);
+    if(el) el.classList.add("hidden");
+  });
+
+  const target=document.getElementById("page-"+page);
+  if(target) target.classList.remove("hidden");
+
+  document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));
+
+  const map={
+    dashboard:"navDashboard",
+    invoice:"navInvoice",
+    history:"navHistory",
+    admin:"navAdmin",
+    employees:"navEmployees",
+    salary:"navSalary",
+    import:"navImport"
+  };
+
+  const active=document.getElementById(map[page]);
+  if(active) active.classList.add("active");
+
+  const titles={
+    dashboard:"Dashboard",
+    invoice:"Nuova fattura",
+    history:"Le mie fatture",
+    admin:"Pannello Admin",
+    employees:"Fatturato dipendenti",
+    salary:"Stipendi",
+    import:"Ordine Import"
+  };
+
+  document.getElementById("pageTitle").textContent=titles[page]||"Armeria 200";
 }
 
 async function checkSession(){const {data:{session}}=await db.auth.getSession();if(session){currentUser=session.user;await loadApplication()}}
